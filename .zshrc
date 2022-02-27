@@ -61,6 +61,11 @@ function fzh() {
 zle -N fzh
 bindkey '^r' fzh
 
+function fbr() {
+    branch=$(git branch -vv | fzf --no-sort +m)
+    git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
 
 # --- Alias ---
 
