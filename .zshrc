@@ -50,6 +50,10 @@ fi
  
 zplug load
 
+# --- fzf ---
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
 # --- Alias ---
 
 alias ..2='cd ../..'
