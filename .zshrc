@@ -39,6 +39,7 @@ source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
  
 if ! zplug check --verbose; then
     printf "install?[y/N]: "
