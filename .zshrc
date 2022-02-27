@@ -54,6 +54,14 @@ zplug load
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
+function fzh() {
+    BUFFER=$(history -n -r 1 | fzf --no-sort +m)
+    CURSOR=$#BUFFER
+}
+zle -N fzh
+bindkey '^r' fzh
+
+
 # --- Alias ---
 
 alias ..2='cd ../..'
