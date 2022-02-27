@@ -54,6 +54,7 @@ zplug load
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
+# fzh (fzf history)
 function fzh() {
     BUFFER=$(history -n -r 1 | fzf --no-sort +m)
     CURSOR=$#BUFFER
@@ -61,11 +62,28 @@ function fzh() {
 zle -N fzh
 bindkey '^r' fzh
 
+# fbr (fzf git branch, can checkout)
 function fbr() {
     branch=$(git branch -vv | fzf --no-sort +m)
     git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
+# fgl (fzf git log, and echo its hash)
+function fgl() {
+  git log -n1000 --graph --color=always \
+    --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |\
+    fzf -m --ansi --no-sort --tiebreak=index --preview \
+    'f() {
+      set -- $(echo "$@" | grep -o "[a-f0-9]\{7\}" | head -1);
+      if [ $1 ]; then
+        git show --color $1
+      else
+        echo "blank"
+      fi
+    }; f {}' |\
+    grep -o "[a-f0-9]\{7\}" |
+    tr '\n' ' '
+}
 
 # --- Alias ---
 
