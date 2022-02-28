@@ -2,7 +2,6 @@
 
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
-echo $DOTPATH >> ~/.zshrc.local
 
 # tarball URL
 tarball="https://github.com/utouto97/dotfiles/archive/main.tar.gz"
@@ -23,4 +22,4 @@ if [ ! -d $DOTPATH ]; then
   mv -f dotfiles-main "$DOTPATH"
 fi
 
-./deploy.sh
+DOTPATH=$DOTPATH ./deploy.sh

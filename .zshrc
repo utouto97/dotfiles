@@ -63,13 +63,13 @@ zle -N fzh
 bindkey '^r' fzh
 
 # fbr (fzf git branch, can checkout)
-function fbr() {
+function fzf-git-branch() {
     branch=$(git branch -vv | fzf --no-sort +m)
     [ -n "$branch" ] && git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
 # fgl (fzf git log, and echo its hash)
-function fgl() {
+function fzf-git-log() {
   git log -n1000 --graph --color=always \
     --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |\
     fzf -m --ansi --no-sort --tiebreak=index --preview \
@@ -120,8 +120,10 @@ alias ga='git add'
 alias gs='git status'
 alias gc='git commit'
 alias gd='git diff'
-alias gb='git branch'
+#alias gb='git branch'
+alias gb='fzf-git-branch'
 alias gco='git checkout'
+alias gl='fzf-git-log'
 
 # load .zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
