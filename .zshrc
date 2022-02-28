@@ -85,6 +85,7 @@ function fgl() {
     tr '\n' ' '
 }
 
+# あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
 function fzf-file-search() {
   name=$(ls -a | fzf --no-sort +m --ansi --preview '\
     if [ -d {} ]; then
