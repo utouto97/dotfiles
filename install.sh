@@ -30,6 +30,10 @@ if [ "$(uname)" = "Darwin" ]; then
 ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 
+cat vscode/extensions | while read line
+do
+  code --install-extension $line
+done
 
 # elif ["$(uname)" == "Linux"]; then
 # Linux
