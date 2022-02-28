@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# デフォルトは ~/.dotfiles
+: ${DOTPATH:=~/.dotfiles}
+
 # DOTPATH に移動
 cd "$DOTPATH"
 if [ $? -ne 0 ]; then
