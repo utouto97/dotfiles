@@ -23,6 +23,7 @@ if [ $? -ne 0 ]; then
   die "not found: $DOTPATH"
 fi
 
+# シンボリックリンクをはる
 for f in .??*
 do
   [ "$f" == ".git" ] && continue

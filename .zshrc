@@ -111,7 +111,6 @@ function fzf-file-search() {
 alias f='(fzf-file-search)'
 
 # --- Alias ---
-
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
