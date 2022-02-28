@@ -26,6 +26,11 @@ fi
 if [ "$(uname)" = "Darwin" ]; then
 # MacOS
 
+# VSCode
+ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+
+
 # elif ["$(uname)" == "Linux"]; then
 # Linux
     # if [[ "$(uname -r)" == *microsoft* ]]; then

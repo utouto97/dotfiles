@@ -1,0 +1,30 @@
+{
+    "editor.tabSize": 2,
+    "editor.wordWrap": "on",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.fontSize": 12,
+    "editor.lineHeight": 12,
+    "files.insertFinalNewline": true,
+    "workbench.colorTheme": "Default Dark+",
+    "editor.minimap.enabled": false,
+    "vim.easymotion": true,
+    "vim.hlsearch": true,
+    "vim.leader": "<Space>",
+    "vim.useSystemClipboard": true,
+    "vim.vimrc.enable": true,
+    "vim.vimrc.path": "~/.vimrc",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "F"
+            ],
+            "after": [
+                "<Leader>",
+                "<Leader>",
+                "s"
+            ]
+        }
+    ],
+    "editor.renderWhitespace": "all"
+}
