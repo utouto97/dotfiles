@@ -1,13 +1,17 @@
 {
+    "workbench.colorTheme": "Default Dark+",
+    // editor
     "editor.tabSize": 2,
     "editor.wordWrap": "on",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.fontSize": 12,
     "editor.lineHeight": 12,
-    "files.insertFinalNewline": true,
-    "workbench.colorTheme": "Default Dark+",
     "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "all",
+    // files
+    "files.insertFinalNewline": true,
+    // vscodevim
     "vim.easymotion": true,
     "vim.hlsearch": true,
     "vim.leader": "<Space>",
@@ -26,5 +30,4 @@
             ]
         }
     ],
-    "editor.renderWhitespace": "all"
 }
