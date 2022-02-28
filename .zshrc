@@ -65,7 +65,7 @@ bindkey '^r' fzh
 # fbr (fzf git branch, can checkout)
 function fbr() {
     branch=$(git branch -vv | fzf --no-sort +m)
-    git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+    [ -n "$branch" ] && git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
 
 # fgl (fzf git log, and echo its hash)
@@ -95,7 +95,7 @@ function fzf-file-search() {
   ')
   while [ -d $name ]
   do
-    [ -z $name ] && return
+    [ -z "$name" ] && return
     cd $name
     name=$(ls -a | fzf --no-sort +m --ansi --preview '\
       if [ -d {} ]; then
