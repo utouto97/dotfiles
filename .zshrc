@@ -85,6 +85,30 @@ function fgl() {
     tr '\n' ' '
 }
 
+function fzf-file-search() {
+  name=$(ls -a | fzf --no-sort +m --ansi --preview '\
+    if [ -d {} ]; then
+      (cd {} && ls -a)
+    else
+      head -20 {}
+    fi
+  ')
+  while [ -d $name ]
+  do
+    [ -z $name ] && return
+    cd $name
+    name=$(ls -a | fzf --no-sort +m --ansi --preview '\
+      if [ -d {} ]; then
+        (cd {} && ls -a)
+      else
+        head -20 {}
+      fi
+    ')
+  done
+  $EDITOR $name
+}
+alias f='(fzf-file-search)'
+
 # --- Alias ---
 
 alias ..2='cd ../..'
