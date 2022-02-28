@@ -22,4 +22,15 @@ if [ ! -d $DOTPATH ]; then
   mv -f dotfiles-main "$DOTPATH"
 fi
 
+# --- 環境ごとのセットアップ
+if [ "$(uname)" = "Darwin" ]; then
+# MacOS
+
+# elif ["$(uname)" == "Linux"]; then
+# Linux
+    # if [[ "$(uname -r)" == *microsoft* ]]; then
+    # WSL
+    # fi
+fi
+
 DOTPATH=$DOTPATH ./deploy.sh
