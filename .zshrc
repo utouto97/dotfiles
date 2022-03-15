@@ -131,7 +131,7 @@ alias gco='git checkout'
 alias gl='fzf-git-log'
 
 # nvm
-if type "nvm -v" >/dev/null 2>&1; then
+if type "nvm" >/dev/null 2>&1; then
   alias nv='nvm use $(cat .node-version)'
 fi
 
