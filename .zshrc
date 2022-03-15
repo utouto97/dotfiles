@@ -87,6 +87,31 @@ function fzf-git-log() {
 }
 
 # あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
+function fd() {
+  name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
+    if [ -d {} ]; then
+      (cd {} && ls -a)
+    else
+      head -20 {}
+    fi
+  ')
+  while [ -d $name ]
+  do
+    [ -z "$name" ] && return
+    [ "$name" = "." ] && return
+
+    cd $name
+    name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
+      if [ -d {} ]; then
+        (cd {} && ls -a)
+      else
+        head -20 {}
+      fi
+    ')
+  done
+}
+
+# あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
 function fzf-file-search() {
   name=$(ls -a | fzf --no-sort +m --ansi --preview '\
     if [ -d {} ]; then
