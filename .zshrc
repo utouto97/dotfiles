@@ -115,6 +115,10 @@ alias f='(fzf-file-search)'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
+# ls
+alias ls='ls -l'
+alias la='ls -la'
+
 # git
 alias g='git'
 alias ga='git add'
