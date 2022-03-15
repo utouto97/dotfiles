@@ -130,6 +130,10 @@ alias gb='fzf-git-branch'
 alias gco='git checkout'
 alias gl='fzf-git-log'
 
+# docker & docker-compose
+alias d='docker'
+alias dc='docker-compose'
+
 # nvm
 if type "nvm" >/dev/null 2>&1; then
   alias nv='nvm use $(cat .node-version)'
