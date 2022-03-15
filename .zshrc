@@ -1,6 +1,7 @@
 export LANG=ja_JP.UTF-8
 setopt print_eight_bit
 
+EDITOR=code
 
 # --- Settings for each OS ---
 if [ "$(uname)" = "Darwin" ]; then
@@ -124,6 +125,11 @@ alias gd='git diff'
 alias gb='fzf-git-branch'
 alias gco='git checkout'
 alias gl='fzf-git-log'
+
+# nvm
+if type "nvm -v" >/dev/null 2>&1; then
+  alias nv='nvm use $(cat .node-version)'
+fi
 
 # load .zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
