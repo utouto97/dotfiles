@@ -62,14 +62,14 @@ export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window rig
 function fuzzy-file-finder() {
   BASE=.
   [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m)
 }
 
 # fuzzy directory finder
 function fuzzy-dir-finder() {
   BASE=.
   [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m)
 }
 
 # fuzzy系便利コマンド
@@ -111,7 +111,7 @@ function fn() {
   [ -z "$1" ] && return
   dir=$(fuzzy-dir-finder)
   [ -z "$dir" ] && return
-  echo "$dir/$1" | xargs $EDITOR
+  $EDITOR "$dir/$1"
 }
 # ディレクトリ移動
 function fd() {
@@ -123,32 +123,16 @@ alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
 # メモ管理 (fzfを利用)
 MEMO=~/.memo
 function memo() {
-  if [ -z "$1" ]; then
-    (
-      cd $MEMO
-      name=$(ls -1A | fzf --no-sort +m --ansi --preview '\
-        if [ -d {} ]; then
-          (cd {} && ls -A)
-        else
-          head -20 {}
-        fi
-      ')
-      while [ -d $name ]
-      do
-        [ -z "$name" ] && return
-        cd $name
-        name=$(ls -1A | fzf --no-sort +m --ansi --preview '\
-          if [ -d {} ]; then
-            (cd {} && ls -A)
-          else
-            head -20 {}
-          fi
-        ')
-      done
-      $EDITOR $name
-    )
-  else
-    $EDITOR $1
+  if [ -z "$1" ]; then # 既存ファイル
+    name=$(find $MEMO -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" |\
+      sed "s|$MEMO/||" | fzf --no-sort +m)
+    [ -z "$name" ] && return
+    $EDITOR $name
+  else # 新規作成
+    dir=$(find $MEMO -type d -maxdepth 6 2>/dev/null | grep -v "\.git" |\
+      grep -v "^$MEMO$" | sed "s|$MEMO/||" | fzf --no-sort +m)
+    [ -z "$dir" ] && return
+    $EDITOR "$dir/$1"
   fi
 }
 
