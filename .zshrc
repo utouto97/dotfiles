@@ -56,7 +56,7 @@ zplug load
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50%'
 
 # fzh (fzf history)
 function fzh() {
@@ -89,43 +89,26 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
-# あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
+# fuzzy file finder
+function fuzzy-file-finder() {
+  BASE=.
+  [ -n "$1" ] && BASE=$1
+  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+}
+
+# fuzzy directory finder
+function fuzzy-dir-finder() {
+  BASE=.
+  [ -n "$1" ] && BASE=$1
+  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+}
+
+alias fop='(){ fuzzy-file-finder $1 | xargs code }'
 function fd() {
-  startdir=$(pwd)
-
-  [ -n "$1" ] && cd $1
-
-  name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
-    if [ -d {} ]; then
-      (cd {} && ls -A)
-    else
-      head -20 {}
-    fi
-  ')
-  while [ -d $name ]
-  do
-    [ -z "$name" ] && break
-    [ "$name" = "." ] && break
-
-    cd $name
-    name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
-      if [ -d {} ]; then
-        (cd {} && ls -A)
-      else
-        head -20 {}
-      fi
-    ')
-  done
-  current=$(pwd)
-  cd $startdir
-  cd $current
+  dir=$(fuzzy-dir-finder $1)
+  [ -n "$dir" ] && cd $dir
 }
-
-# fuzzy open
-function fop() {
-  name=$(find . -type f | fzf --no-sort +m --ansi)
-  [ -n "$name" ] && $EDITOR $name
-}
+alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
 
 # メモ管理 (fzfを利用)
 MEMO=~/.memo
