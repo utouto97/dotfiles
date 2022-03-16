@@ -103,7 +103,7 @@ function fuzzy-dir-finder() {
   echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
 }
 
-alias fop='(){ fuzzy-file-finder $1 | xargs code }'
+alias fo='(){ fuzzy-file-finder $1 | xargs code }'
 function fd() {
   dir=$(fuzzy-dir-finder $1)
   [ -n "$dir" ] && cd $dir
