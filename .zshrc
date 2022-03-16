@@ -22,6 +22,9 @@ alias ls='ls -G'
     # fi
 fi
 
+# load .zshrc.local
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 # --- Prompt settings ---
 setopt PROMPT_SUBST
 source ~/.git-prompt.sh
@@ -163,6 +166,3 @@ alias dc='docker-compose'
 if type "nvm" >/dev/null 2>&1; then
   alias nv='nvm use $(cat .node-version)'
 fi
-
-# load .zshrc.local
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
