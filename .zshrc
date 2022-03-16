@@ -94,7 +94,7 @@ function fd() {
   startdir=$(pwd)
   name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
     if [ -d {} ]; then
-      (cd {} && ls -a)
+      (cd {} && ls -A)
     else
       head -20 {}
     fi
@@ -107,7 +107,7 @@ function fd() {
     cd $name
     name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
       if [ -d {} ]; then
-        (cd {} && ls -a)
+        (cd {} && ls -A)
       else
         head -20 {}
       fi
@@ -118,32 +118,40 @@ function fd() {
   cd $current
 }
 
-# あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
-function fzf-file-search() {
-  name=$(ls -a | fzf --no-sort +m --ansi --preview '\
-    if [ -d {} ]; then
-      (cd {} && ls -a)
-    else
-      head -20 {}
-    fi
-  ')
-  while [ -d $name ]
-  do
-    [ -z "$name" ] && return
-    cd $name
-    name=$(ls -a | fzf --no-sort +m --ansi --preview '\
-      if [ -d {} ]; then
-        (cd {} && ls -a)
-      else
-        head -20 {}
-      fi
-    ')
-  done
-  $EDITOR $name
+# メモ管理 (fzfを利用)
+MEMO=~/.memo
+function memo() {
+  if [ -z "$1" ]; then
+    (
+      cd $MEMO
+      name=$(ls -1A | fzf --no-sort +m --ansi --preview '\
+        if [ -d {} ]; then
+          (cd {} && ls -A)
+        else
+          head -20 {}
+        fi
+      ')
+      while [ -d $name ]
+      do
+        [ -z "$name" ] && return
+        cd $name
+        name=$(ls -1A | fzf --no-sort +m --ansi --preview '\
+          if [ -d {} ]; then
+            (cd {} && ls -A)
+          else
+            head -20 {}
+          fi
+        ')
+      done
+      $EDITOR $name
+    )
+  else
+    $EDITOR $1
+  fi
 }
-alias f='(fzf-file-search)'
 
 # --- Alias ---
+alias ..='cd ..'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
