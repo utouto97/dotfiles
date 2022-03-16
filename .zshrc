@@ -91,6 +91,7 @@ function fzf-git-log() {
 
 # あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
 function fd() {
+  startdir=$(pwd)
   name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
     if [ -d {} ]; then
       (cd {} && ls -a)
@@ -100,8 +101,8 @@ function fd() {
   ')
   while [ -d $name ]
   do
-    [ -z "$name" ] && return
-    [ "$name" = "." ] && return
+    [ -z "$name" ] && break
+    [ "$name" = "." ] && break
 
     cd $name
     name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
@@ -112,6 +113,9 @@ function fd() {
       fi
     ')
   done
+  current=$(pwd)
+  cd $startdir
+  cd $current
 }
 
 # あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
