@@ -58,6 +58,21 @@ zplug load
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50%'
 
+# fuzzy file finder
+function fuzzy-file-finder() {
+  BASE=.
+  [ -n "$1" ] && BASE=$1
+  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+}
+
+# fuzzy directory finder
+function fuzzy-dir-finder() {
+  BASE=.
+  [ -n "$1" ] && BASE=$1
+  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
+}
+
+# fuzzy系便利コマンド
 # fzh (fzf history)
 function fzh() {
     BUFFER=$(history -n -r 1 | fzf --no-sort +m)
@@ -89,21 +104,16 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
-# fuzzy file finder
-function fuzzy-file-finder() {
-  BASE=.
-  [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
-}
-
-# fuzzy directory finder
-function fuzzy-dir-finder() {
-  BASE=.
-  [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m --ansi)
-}
-
+# ファイルオープン
 alias fo='(){ fuzzy-file-finder $1 | xargs code }'
+# 新規ファイル作成
+function fn() {
+  [ -z "$1" ] && return
+  dir=$(fuzzy-dir-finder)
+  [ -z "$dir" ] && return
+  echo "$dir/$1" | xargs $EDITOR
+}
+# ディレクトリ移動
 function fd() {
   dir=$(fuzzy-dir-finder $1)
   [ -n "$dir" ] && cd $dir
