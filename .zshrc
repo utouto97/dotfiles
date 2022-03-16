@@ -92,6 +92,9 @@ function fzf-git-log() {
 # あいまい検索を利用したファイル検索 (ファイルを選択すると$EDITORで開く)
 function fd() {
   startdir=$(pwd)
+
+  [ -n "$1" ] && cd $1
+
   name=$(find . -type d -maxdepth 1 | sed 's!^.*/!!' | sed 's/^.$/.\n../' | fzf --no-sort +m --ansi --preview '\
     if [ -d {} ]; then
       (cd {} && ls -A)
