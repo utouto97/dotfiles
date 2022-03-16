@@ -121,6 +121,12 @@ function fd() {
   cd $current
 }
 
+# fuzzy open
+function fop() {
+  name=$(find . -type f | fzf --no-sort +m --ansi)
+  [ -n "$name" ] && $EDITOR $name
+}
+
 # メモ管理 (fzfを利用)
 MEMO=~/.memo
 function memo() {
