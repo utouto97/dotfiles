@@ -132,7 +132,7 @@ function memo() {
     dir=$(find $MEMO -type d -maxdepth 6 2>/dev/null | grep -v "\.git" |\
       grep -v "^$MEMO$" | sed "s|$MEMO/||" | fzf --no-sort +m)
     [ -z "$dir" ] && return
-    $EDITOR "$dir/$1"
+    $EDITOR "$MEMO/$dir/$1"
   fi
 }
 
