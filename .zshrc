@@ -127,7 +127,7 @@ function memo() {
     name=$(find $MEMO -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" |\
       sed "s|$MEMO/||" | fzf --no-sort +m)
     [ -z "$name" ] && return
-    $EDITOR $name
+    $EDITOR "$MEMO/$name"
   else # 新規作成
     dir=$(find $MEMO -type d -maxdepth 6 2>/dev/null | grep -v "\.git" |\
       grep -v "^$MEMO$" | sed "s|$MEMO/||" | fzf --no-sort +m)
