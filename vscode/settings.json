@@ -16,8 +16,7 @@
     "vim.hlsearch": true,
     "vim.leader": "<Space>",
     "vim.useSystemClipboard": true,
-    "vim.vimrc.enable": true,
-    "vim.vimrc.path": "~/.vimrc",
+    "vim.vimrc.enable": false,
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [
@@ -27,6 +26,35 @@
                 "<Leader>",
                 "<Leader>",
                 "s"
+            ],
+        },
+        {
+            "before": [
+                "j"
+            ],
+            "after": [
+                "g",
+                "j",
+            ],
+        },
+        {
+            "before": [
+                "k"
+            ],
+            "after": [
+                "g",
+                "k",
+            ],
+        },
+    ],
+    "vim.insertModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "j",
+                "j"
+            ],
+            "after": [
+                "<Esc>"
             ]
         }
     ],
