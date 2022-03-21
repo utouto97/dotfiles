@@ -15,11 +15,14 @@ export CLICOLOR='1'
 export LSCOLORS=Cxfxcxdxbxegedabagacad
 alias ls='ls -G'
 
-# elif ["$(uname)" == "Linux"]; then 
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+
+elif [ "$(uname)" = "Linux" ]; then
 # Linux
-    # if [[ "$(uname -r)" == *microsoft* ]]; then
+    if [[ "$(uname -r)" = *microsoft* ]]; then
     # WSL
-    # fi
+      export ZPLUG_HOME=$HOME/.zplug
+    fi
 fi
 
 # load .zshrc.local
@@ -38,20 +41,19 @@ export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s"
 > '
 
 # --- Plugins (managed by zplug) ---
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
- 
+
 if ! zplug check --verbose; then
     printf "install?[y/N]: "
     if read -q; then
         echo; zplug install
     fi
 fi
- 
+
 zplug load
 
 # --- fzf ---
