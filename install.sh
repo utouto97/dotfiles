@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
@@ -35,11 +35,19 @@ do
   code --install-extension $line
 done
 
-# elif ["$(uname)" == "Linux"]; then
+elif [ "$(uname)" = "Linux" ]; then
 # Linux
-    # if [[ "$(uname -r)" == *microsoft* ]]; then
+    if [[ "$(uname -r)" = *microsoft* ]]; then
     # WSL
-    # fi
+      winuser=$(powershell.exe -c "Write-Host -NoNewLine ([Environment]::UserName)")
+      cp $DOTPATH/vscode/settings.json /mnt/c/Users/$winuser/AppData/Roaming/Code/User/settings.json
+      cp $DOTPATH/vscode/keybindings.json /mnt/c/Users/$winuser/AppData/Roaming/Code/User/keybindings.json
+
+      cat vscode/extensions | while read line
+      do
+        code --install-extension $line
+      done
+    fi
 fi
 
 DOTPATH=$DOTPATH ./deploy.sh

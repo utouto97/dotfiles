@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
@@ -12,7 +12,7 @@ fi
 # シンボリックリンクをはる
 for f in .??*
 do
-  [ "$f" == ".git" ] && continue
+  [ "$f" = ".git" ] && continue
 
   ln -snfv "$DOTPATH/$f" "$HOME/$f"
 done
