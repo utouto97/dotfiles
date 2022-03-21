@@ -104,15 +104,19 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
-# ファイルオープン
-alias fo='(){ fuzzy-file-finder $1 | xargs code }'
-# 新規ファイル作成
-function fn() {
-  [ -z "$1" ] && return
-  dir=$(fuzzy-dir-finder)
-  [ -z "$dir" ] && return
-  $EDITOR "$dir/$1"
+# ファイルオープン (ない場合は新規作成)
+function op() {
+  if [ -z "$1" ]; then # 既存ファイル
+    name=$(find . -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" | fzf --no-sort +m)
+    [ -z "$name" ] && return
+    $EDITOR "$name"
+  else # 新規作成
+    dir=$(find . -type d -maxdepth 6 2>/dev/null | grep -v "\.git" | fzf --no-sort +m)
+    [ -z "$dir" ] && return
+    $EDITOR "$dir/$1"
+  fi
 }
+
 # ディレクトリ移動
 function fd() {
   dir=$(fuzzy-dir-finder $1)
