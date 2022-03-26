@@ -161,10 +161,12 @@ alias gd='git diff'
 alias gb='fzf-git-branch'
 alias gco='git checkout'
 alias gl='fzf-git-log'
+alias ggr='git log --oneline --graph --decorate --all'
 
 # docker & docker-compose
 alias d='docker'
 alias dc='docker-compose'
+alias dce='docker-compose exec'
 
 # nvm
 if type "nvm" >/dev/null 2>&1; then
