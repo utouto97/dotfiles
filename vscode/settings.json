@@ -20,6 +20,15 @@
     "vim.normalModeKeyBindingsNonRecursive": [
         {
             "before": [
+                "<Leader>",
+                "<Leader>"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
                 "F"
             ],
             "after": [
