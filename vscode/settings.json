@@ -9,6 +9,9 @@
     "editor.lineHeight": 12,
     "editor.minimap.enabled": false,
     "editor.renderWhitespace": "all",
+    "[go]": {
+        "editor.defaultFormatter": "golang.go"
+    },
     // files
     "files.insertFinalNewline": true,
     // vscodevim
@@ -68,4 +71,5 @@
         }
     ],
     "markdown-checkbox.typeOfBulletPoint": "-",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
 }
