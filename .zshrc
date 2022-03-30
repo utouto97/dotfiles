@@ -77,8 +77,14 @@ function fuzzy-dir-finder() {
 # fuzzy系便利コマンド
 # fzh (fzf history)
 function fzh() {
-    BUFFER=$(history -n -r 1 | fzf --no-sort +m)
-    CURSOR=$#BUFFER
+  hist=$(history -n -r 1 | fzf --no-sort +m)
+
+  if [ -n "$hist" ]; then
+    BUFFER=$hist
+    zle accept-line
+  fi
+
+  zle reset-prompt
 }
 zle -N fzh
 bindkey '^r' fzh
@@ -132,6 +138,20 @@ function op() {
 }
 
 alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
+
+# ホームディレクトリ以下のディレクトリをfzfで検索->移動 (ctrl+tで起動)
+function fd-fzf() {
+  dir=$(fd -t d -H -E ".git" . $HOME | fzf --no-sort +m )
+
+  if [ -n "$dir" ]; then
+    BUFFER="cd $dir"
+    zle accept-line
+  fi
+
+  zle reset-prompt
+}
+zle -N fd-fzf
+bindkey "^g" fd-fzf
 
 # メモ管理 (fzfを利用)
 MEMO=~/.memo
