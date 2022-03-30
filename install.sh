@@ -35,6 +35,12 @@ do
   code --install-extension $line
 done
 
+# homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# fd
+brew install fd
+
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
     if [[ "$(uname -r)" = *microsoft* ]]; then
