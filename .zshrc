@@ -108,22 +108,29 @@ function fzf-git-log() {
 
 # ファイルオープン (ない場合は新規作成)
 function op() {
-  if [ -z "$1" ]; then # 既存ファイル
-    name=$(find . -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" | fzf --no-sort +m)
-    [ -z "$name" ] && return
-    $EDITOR "$name"
-  else # 新規作成
-    dir=$(find . -type d -maxdepth 6 2>/dev/null | grep -v "\.git" | fzf --no-sort +m)
-    [ -z "$dir" ] && return
-    $EDITOR "$dir/$1"
+  if type "fd" >/dev/null 2>&1; then
+    if [ -z "$1" ]; then # 既存ファイル
+      name=$(fd -t f -H -E ".git" 2>/dev/null | fzf --no-sort +m)
+      [ -z "$name" ] && return
+      $EDITOR "$name"
+    else # 新規作成
+      dir=$(fd -t d -H -E ".git" 2>/dev/null | fzf --no-sort +m)
+      [ -z "$dir" ] && return
+      $EDITOR "$dir/$1"
+    fi
+  else
+    if [ -z "$1" ]; then # 既存ファイル
+      name=$(find . -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" | fzf --no-sort +m)
+      [ -z "$name" ] && return
+      $EDITOR "$name"
+    else # 新規作成
+      dir=$(find . -type d -maxdepth 6 2>/dev/null | grep -v "\.git" | fzf --no-sort +m)
+      [ -z "$dir" ] && return
+      $EDITOR "$dir/$1"
+    fi
   fi
 }
 
-# ディレクトリ移動
-function fd() {
-  dir=$(fuzzy-dir-finder $1)
-  [ -n "$dir" ] && cd $dir
-}
 alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
 
 # メモ管理 (fzfを利用)
@@ -167,6 +174,9 @@ alias ggr='git log --oneline --graph --decorate --all'
 alias d='docker'
 alias dc='docker-compose'
 alias dce='docker-compose exec'
+alias dcp="docker-compose ps"
+alias dcu="docker-compose up -d --build"
+alias dcl="docker-compose logs"
 
 # nvm
 if type "nvm" >/dev/null 2>&1; then
