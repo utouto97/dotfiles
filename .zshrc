@@ -136,6 +136,8 @@ function op() {
     fi
   fi
 }
+zle -N op
+bindkey '^o' op
 
 alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
 
@@ -174,8 +176,8 @@ alias ..='cd ..'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
-# ls
-alias ls='ls -l'
+# ls (exaに置き換え)
+alias ls='exa -l --git'
 alias la='ls -la'
 
 # git

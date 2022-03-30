@@ -40,6 +40,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # fd
 brew install fd
+brew install exa
 
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
