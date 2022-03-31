@@ -206,6 +206,7 @@ alias dce='docker-compose exec'
 alias dcp="docker-compose ps"
 alias dcu="docker-compose up -d --build"
 alias dcl="docker-compose logs"
+alias dcr="docker-compose restart"
 
 # nvm
 if type "nvm" >/dev/null 2>&1; then
