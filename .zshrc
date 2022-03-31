@@ -22,6 +22,9 @@ elif [ "$(uname)" = "Linux" ]; then
     if [[ "$(uname -r)" = *microsoft* ]]; then
     # WSL
       export ZPLUG_HOME=$HOME/.zplug
+      if type "fdfind" >/dev/null 2>&1; then
+        alias fd='fdfind'
+      fi
     fi
 fi
 
@@ -177,7 +180,11 @@ alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
 # ls (exaに置き換え)
-alias ls='exa -l --git'
+
+alias ls='ls -l'
+if type "exa" >/dev/null 2>&1; then
+  alias ls='exa -l --git'
+fi
 alias la='ls -la'
 
 # git
