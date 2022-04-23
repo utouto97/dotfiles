@@ -119,7 +119,8 @@ function fzf-git-log() {
 function op() {
   if type "fd" >/dev/null 2>&1; then
     if [ -z "$1" ]; then # 既存ファイル
-      name=$(fd -t f -H -E ".git" 2>/dev/null | fzf --no-sort +m)
+      name=$(fd -t f -H -E ".git" 2>/dev/null | fzf --no-sort +m \
+        --preview 'head -20 {}')
       [ -z "$name" ] && return
       $EDITOR "$name"
     else # 新規作成
