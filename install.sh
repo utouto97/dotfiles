@@ -30,11 +30,6 @@ if [ "$(uname)" = "Darwin" ]; then
 ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 
-cat vscode/extensions | while read line
-do
-  code --install-extension $line
-done
-
 # homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
@@ -44,17 +39,19 @@ brew install exa
 
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
-    if [[ "$(uname -r)" = *microsoft* ]]; then
-    # WSL
-      winuser=$(powershell.exe -c "Write-Host -NoNewLine ([Environment]::UserName)")
-      cp $DOTPATH/vscode/settings.json /mnt/c/Users/$winuser/AppData/Roaming/Code/User/settings.json
-      cp $DOTPATH/vscode/keybindings.json /mnt/c/Users/$winuser/AppData/Roaming/Code/User/keybindings.json
 
-      cat vscode/extensions | while read line
-      do
-        code --install-extension $line
-      done
-    fi
+# apt等で次のツール類をインストールしておく
+# vscode, fd, exa
+
+ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
+ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
+
 fi
+
+# vscode extensions
+cat vscode/extensions | while read line
+do
+  code --install-extension $line
+done
 
 DOTPATH=$DOTPATH ./deploy.sh

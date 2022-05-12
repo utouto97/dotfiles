@@ -19,13 +19,7 @@ export ZPLUG_HOME=/opt/homebrew/opt/zplug
 
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
-    if [[ "$(uname -r)" = *microsoft* ]]; then
-    # WSL
-      export ZPLUG_HOME=$HOME/.zplug
-      if type "fdfind" >/dev/null 2>&1; then
-        alias fd='fdfind'
-      fi
-    fi
+    export ZPLUG_HOME=$HOME/.zplug
 fi
 
 # load .zshrc.local
