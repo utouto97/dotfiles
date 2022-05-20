@@ -61,7 +61,7 @@ zplug load
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50%'
+export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --ansi'
 
 # fuzzy file finder
 function fuzzy-file-finder() {
@@ -175,6 +175,12 @@ function memo() {
   fi
 }
 
+function fzf-git-search() {
+  if [ -n "$1" ]; then
+    git grep --color=always -i $1 | fzf --no-sort +m | awk '{print $1}' | sed -e "s/:$//" | xargs $EDITOR
+  fi
+}
+
 # --- Alias ---
 alias ..='cd ..'
 alias ..2='cd ../..'
@@ -199,15 +205,23 @@ alias gb='fzf-git-branch'
 alias gco='git checkout'
 alias gl='fzf-git-log'
 alias ggr='git log --oneline --graph --decorate --all'
+alias gf='git fetch'
+alias grb='git rebase'
+alias gst='git stash'
+alias gpp='git stash pop'
+alias ggs='fzf-git-search'
 
 # docker & docker-compose
 alias d='docker'
 alias dc='docker-compose'
 alias dce='docker-compose exec'
 alias dcp="docker-compose ps"
-alias dcu="docker-compose up -d --build"
+alias dcu="docker-compose up -d"
+alias dcub="docker-compose up -d --build"
 alias dcl="docker-compose logs"
-alias dcr="docker-compose restart"
+alias dcr="docker-compose run --rm"
+alias dcd="docker-compose down"
+alias dcrestart="docker-compose restart"
 
 # nvm
 if type "nvm" >/dev/null 2>&1; then
