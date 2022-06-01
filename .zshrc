@@ -153,28 +153,6 @@ function fd-fzf() {
 zle -N fd-fzf
 bindkey "^g" fd-fzf
 
-# メモ管理 (fzfを利用)
-MEMO=~/.memo
-function memo() {
-  if [ -z "$1" ]; then # 既存ファイル
-    name=$(find $MEMO -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" |\
-      sed "s|$MEMO/||" | fzf --no-sort +m)
-    [ -z "$name" ] && return
-    $EDITOR "$MEMO/$name"
-  else # 新規作成
-    dir=$(find $MEMO -type d -maxdepth 6 2>/dev/null | grep -v "\.git" |\
-      grep -v "^$MEMO$" | sed "s|$MEMO/||" | fzf --no-sort +m)
-    [ -z "$dir" ] && return
-    $EDITOR "$MEMO/$dir/$1"
-  fi
-}
-
-function fzf-git-search() {
-  if [ -n "$1" ]; then
-    git grep --color=always -i $1 | fzf --no-sort +m | awk '{print $1}' | sed -e "s/:$//" | xargs $EDITOR
-  fi
-}
-
 # --- Alias ---
 alias ..='cd ..'
 alias ..2='cd ../..'
