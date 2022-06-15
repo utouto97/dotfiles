@@ -37,12 +37,15 @@ GIT_PS1_SHOWUPSTREAM=auto
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
 > '
 
+export PMY_TRIGGER_KEY='^i'
+eval "$(pmy init)"
+
 # --- Plugins (managed by zplug) ---
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
-zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
+zplug "junegunn/fzf", from:gh-r, as:command
 
 if ! zplug check --verbose; then
     printf "install?[y/N]: "
@@ -85,12 +88,6 @@ function fzh() {
 }
 zle -N fzh
 bindkey '^r' fzh
-
-# fbr (fzf git branch, can checkout)
-function fzf-git-branch() {
-    branch=$(git branch -vv | fzf --no-sort +m)
-    [ -n "$branch" ] && git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-}
 
 # fgl (fzf git log, and echo its hash)
 function fzf-git-log() {
@@ -172,9 +169,10 @@ alias ga='git add'
 alias gs='git status'
 alias gc='git commit'
 alias gd='git diff'
-#alias gb='git branch'
-alias gb='fzf-git-branch'
-alias gco='git checkout'
+alias gb='git branch'
+alias gsw='git switch'
+alias grs="git restore"
+# alias gco='git checkout'
 alias gl='fzf-git-log'
 alias ggr='git log --oneline --graph --decorate --all'
 alias gf='git fetch'
