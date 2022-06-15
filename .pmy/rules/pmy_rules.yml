@@ -33,8 +33,8 @@
 # 汎用
 - regexp-left: ^(?P<body>.*?)(?P<path>~{0,1}([0-9A-Za-z_\-.]*/)+)?(?P<query>[0-9A-Za-z_\-.]*)$
   cmd-groups:
-    - stmt: \ls -AlFG <path> | tail -n +2 | grep "<query>"
-      after: awk '{print $9}'
-  fuzzy-finder-cmd: fzf -0 -1 -n9 -m --ansi --no-sort
+    - stmt: ls -1aF <path> | awk '{print $1}' | grep "<query>"
+      after: awk '{print $0}'
+  fuzzy-finder-cmd: fzf -0 -1 -m --ansi --no-sort
   buffer-left: <body><path>
   buffer-right: "[]"
