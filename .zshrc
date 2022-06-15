@@ -106,22 +106,6 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
-alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
-
-# ホームディレクトリ以下のディレクトリをfzfで検索->移動 (ctrl+tで起動)
-function fd-fzf() {
-  dir=$(fd -t d -H -E ".git" . $HOME | fzf --no-sort +m )
-
-  if [ -n "$dir" ]; then
-    BUFFER="cd $dir"
-    zle accept-line
-  fi
-
-  zle reset-prompt
-}
-zle -N fd-fzf
-bindkey "^g" fd-fzf
-
 # --- Alias ---
 alias ..='cd ..'
 alias ..2='cd ../..'
@@ -153,7 +137,6 @@ alias gf='git fetch'
 alias grb='git rebase'
 alias gst='git stash'
 alias gpp='git stash pop'
-alias ggs='fzf-git-search'
 
 # docker & docker-compose
 alias d='docker'
