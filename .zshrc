@@ -127,6 +127,7 @@ alias ga='git add'
 alias gs='git status'
 alias gc='git commit'
 alias gd='git diff'
+alias gdc='git diff --cached'
 alias gb='git branch'
 alias gsw='git switch'
 alias grs="git restore"

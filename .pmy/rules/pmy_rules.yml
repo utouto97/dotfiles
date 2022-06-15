@@ -1,5 +1,5 @@
 # Editor関連
-- regexp-left: (?P<body>e) *(?P<query>.*)$
+- regexp-left: ^(?P<body>e) +(?P<query>.*)$
   cmd-groups:
     - stmt: fd -t f -H -E ".git" 2>/dev/null
       after: awk '{print $0}'
@@ -8,7 +8,21 @@
   buffer-right: "[]"
 
 # git関連 (alias版)
-- regexp-left: (?P<body>gsw) *(?P<query>.*)$
+- regexp-left: ^(?P<body>grb) +(?P<query>.*)$
+  cmd-groups:
+    - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
+      after: awk '{print $0}'
+  fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview='git log --oneline --graph --decorate --color -n20 {}'
+  buffer-left: "<body> "
+  buffer-right: "[]"
+- regexp-left: ^(?P<body>gsw) +(?P<query>.*)$
+  cmd-groups:
+    - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
+      after: awk '{print $0}' | sed -e "s|^origin/||"
+  fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview='git log --oneline --graph --decorate --color -n20 {}'
+  buffer-left: "<body> "
+  buffer-right: "[]"
+- regexp-left: ^(?P<body>(g(it)? push [^ ]+|gb -(d|D))) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" 2>/dev/null
       after: awk '{print $0}'
