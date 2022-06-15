@@ -106,34 +106,6 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
-# ファイルオープン (ない場合は新規作成)
-function op() {
-  if type "fd" >/dev/null 2>&1; then
-    if [ -z "$1" ]; then # 既存ファイル
-      name=$(fd -t f -H -E ".git" 2>/dev/null | fzf --no-sort +m \
-        --preview 'head -20 {}')
-      [ -z "$name" ] && return
-      $EDITOR "$name"
-    else # 新規作成
-      dir=$(fd -t d -H -E ".git" 2>/dev/null | fzf --no-sort +m)
-      [ -z "$dir" ] && return
-      $EDITOR "$dir/$1"
-    fi
-  else
-    if [ -z "$1" ]; then # 既存ファイル
-      name=$(find . -type f -maxdepth 6 2>/dev/null | grep -v "/\.git/" | fzf --no-sort +m)
-      [ -z "$name" ] && return
-      $EDITOR "$name"
-    else # 新規作成
-      dir=$(find . -type d -maxdepth 6 2>/dev/null | grep -v "\.git" | fzf --no-sort +m)
-      [ -z "$dir" ] && return
-      $EDITOR "$dir/$1"
-    fi
-  fi
-}
-zle -N op
-bindkey '^o' op
-
 alias gdf='(){ fuzzy-file-finder | xargs git diff $@ }' #git diff fuzzy
 
 # ホームディレクトリ以下のディレクトリをfzfで検索->移動 (ctrl+tで起動)
@@ -156,12 +128,14 @@ alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
 # ls (exaに置き換え)
-
 alias ls='ls -l'
 if type "exa" >/dev/null 2>&1; then
   alias ls='exa -l --git'
 fi
 alias la='ls -la'
+
+# e ($EDITOR)
+alias e="$EDITOR"
 
 # git
 alias g='git'
