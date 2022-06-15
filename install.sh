@@ -1,5 +1,12 @@
 #!/bin/zsh
 
+# apt等で次のツール類をインストールしておく
+# 共通
+#   pmy(with go) 
+# Linux
+#   vscode, fd, exa
+
+
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
 
@@ -39,9 +46,6 @@ brew install exa
 
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
-
-# apt等で次のツール類をインストールしておく
-# vscode, fd, exa
 
 ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
 ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
