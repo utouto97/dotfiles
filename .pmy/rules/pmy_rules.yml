@@ -1,14 +1,5 @@
-# Editor関連
-- regexp-left: ^(?P<body>e) +(?P<query>.*)$
-  cmd-groups:
-    - stmt: fd -t f -H -E ".git" 2>/dev/null
-      after: awk '{print $0}'
-  fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview 'head -20 {}'
-  buffer-left: "<body> "
-  buffer-right: "[]"
-
 # git関連 (alias版)
-- regexp-left: ^(?P<body>grb) +(?P<query>.*)$
+- regexp-left: ^(?P<body>(grb|g(it)? merge)) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
       after: awk '{print $0}'
@@ -30,11 +21,15 @@
   buffer-left: "<body> "
   buffer-right: "[]"
 
-# 汎用
+# ファイル検索
 - regexp-left: ^(?P<body>.*?)(?P<path>~{0,1}([0-9A-Za-z_\-.]*/)+)?(?P<query>[0-9A-Za-z_\-.]*)$
   cmd-groups:
-    - stmt: ls -1aF <path> | awk '{print $1}' | grep "<query>"
+    - tag: 📄file
+      stmt: fd -t f -d 5 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
       after: awk '{print $0}'
-  fuzzy-finder-cmd: fzf -0 -1 -m --ansi --no-sort
-  buffer-left: <body><path>
+    - tag: 📂dir
+      stmt: fd -t d -d 5 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
+      after: awk '{print $0 "/"}'
+  fuzzy-finder-cmd: fzf -0 -1 --ansi --preview 'if [ -d {} ]; then ls -la {}; else head -20 {}; fi'
+  buffer-left: "<body>"
   buffer-right: "[]"
