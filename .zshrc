@@ -20,6 +20,8 @@ export ZPLUG_HOME=/opt/homebrew/opt/zplug
 elif [ "$(uname)" = "Linux" ]; then
 # Linux
     export ZPLUG_HOME=$HOME/.zplug
+
+    alias fd='fdfind'
 fi
 
 # load .zshrc.local
@@ -35,7 +37,7 @@ GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUPSTREAM=auto
 
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
-> '
+'
 
 export PMY_TRIGGER_KEY='^i'
 eval "$(pmy init)"
@@ -130,14 +132,13 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
 alias gsw='git switch'
-alias grs="git restore"
+# alias grs="git restore"
 # alias gco='git checkout'
 alias gl='fzf-git-log'
 alias ggr='git log --oneline --graph --decorate --all'
+alias gp='git push origin'
 alias gf='git fetch'
 alias grb='git rebase'
-alias gst='git stash'
-alias gpp='git stash pop'
 
 # docker & docker-compose
 alias d='docker'
