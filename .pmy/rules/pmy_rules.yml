@@ -13,7 +13,7 @@
   fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview='git log --oneline --graph --decorate --color -n20 {}'
   buffer-left: "<body> "
   buffer-right: "[]"
-- regexp-left: ^(?P<body>(g(it)? push [^ ]+|gb -(d|D))) +(?P<query>.*)$
+- regexp-left: ^(?P<body>(g(it)? push [^ ]+|gp|gb -(d|D))) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" 2>/dev/null
       after: awk '{print $0}'
@@ -24,12 +24,8 @@
 # ファイル検索
 - regexp-left: ^(?P<body>.*?)(?P<path>~{0,1}([0-9A-Za-z_\-.]*/)+)?(?P<query>[0-9A-Za-z_\-.]*)$
   cmd-groups:
-    - tag: 📄file
-      stmt: fd -t f -d 5 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
-      after: awk '{print $0}'
-    - tag: 📂dir
-      stmt: fd -t d -d 5 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
-      after: awk '{print $0 "/"}'
-  fuzzy-finder-cmd: fzf -0 -1 --ansi --preview 'if [ -d {} ]; then ls -la {}; else head -20 {}; fi'
+    - stmt: fd -d 8 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
+      after: tr '\n' ' ' | sed -e 's/ *$//'
+  fuzzy-finder-cmd: fzf -0 -1 -m --ansi --preview 'if [ -d {2} ]; then ls -la {2}; else head -20 {2}; fi'
   buffer-left: "<body>"
   buffer-right: "[]"

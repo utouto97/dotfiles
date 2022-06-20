@@ -60,7 +60,7 @@ zplug load
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --ansi'
+export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o'
 
 # fuzzy file finder
 function fuzzy-file-finder() {
@@ -126,7 +126,7 @@ alias e="$EDITOR"
 # git
 alias g='git'
 alias ga='git add'
-alias gs='git status'
+alias gs='git status -s'
 alias gc='git commit'
 alias gd='git diff'
 alias gdc='git diff --cached'
