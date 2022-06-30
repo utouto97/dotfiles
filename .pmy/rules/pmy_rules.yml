@@ -1,4 +1,5 @@
 # git関連 (alias版)
+### git rebase | git merge
 - regexp-left: ^(?P<body>(grb|g(it)? merge)) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
@@ -6,13 +7,24 @@
   fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview='git log --oneline --graph --decorate --color -n20 {}'
   buffer-left: "<body> "
   buffer-right: "[]"
-- regexp-left: ^(?P<body>gsw) +(?P<query>.*)$
+
+### git switch (-a つけたらリモートも表示 (-all))
+- regexp-left: ^(?P<body>gsw) +-a
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
+      after: awk '{print $0}' | sed -e "s|^origin/||"
+  fuzzy-finder-cmd: fzf -0 -1 --ansi --preview='git log --oneline --graph --decorate --color -n20 {}'
+  buffer-left: "<body> "
+  buffer-right: "[]"
+- regexp-left: ^(?P<body>gsw) +(?P<query>.*)$
+  cmd-groups:
+    - stmt: git branch --format="%(refname:short)" 2>/dev/null
       after: awk '{print $0}' | sed -e "s|^origin/||"
   fuzzy-finder-cmd: fzf -0 -1 --ansi -q "<query>" --preview='git log --oneline --graph --decorate --color -n20 {}'
   buffer-left: "<body> "
   buffer-right: "[]"
+
+### git push | git branch -d
 - regexp-left: ^(?P<body>(g(it)? push [^ ]+|gp|gb -(d|D))) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" 2>/dev/null
