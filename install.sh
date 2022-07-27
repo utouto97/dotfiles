@@ -4,7 +4,7 @@
 # 共通
 #   pmy(with go) 
 # Linux
-#   vscode, fd, exa
+#   vscode, fd, exa, bat
 
 
 # デフォルトは ~/.dotfiles

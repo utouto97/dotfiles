@@ -38,6 +38,6 @@
   cmd-groups:
     - stmt: fd -d 8 -H -I -i -E ".git" -p "<query>" -c "always" <path> 2>/dev/null
       after: tr '\n' ' ' | sed -e 's/ *$//'
-  fuzzy-finder-cmd: fzf -0 -1 -m --ansi --preview 'if [ -d {2} ]; then ls -la {2}; else head -20 {2}; fi'
+  fuzzy-finder-cmd: fzf -0 -1 -m --ansi --preview 'if [ -d {1} ]; then ls -la --color="always" {1}; else bat --color="always" --line-range :100 {1}; fi'
   buffer-left: "<body>"
   buffer-right: "[]"
