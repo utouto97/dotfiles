@@ -46,7 +46,7 @@ elif [ "$(uname)" = "Linux" ]; then
   apt update -y
 
   # 必要なものをインストール
-  apt install -y zsh git zplug exa bat fd-find
+  apt install -y zsh git exa bat fd-find
 
   # fzf
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install
@@ -58,6 +58,11 @@ elif [ "$(uname)" = "Linux" ]; then
   do
     code --install-extension $line
   done
+fi
+
+# --- zshに切り替え
+if [ "$SHELL" != "zsh" ]; then
+  chsh -s /usr/bin/zsh
 fi
 
 # ドットから始まるファイルのシンボリックリンクをはる
