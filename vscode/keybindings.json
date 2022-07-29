@@ -39,7 +39,7 @@
     "when": "textInputFocus && !editorReadonly"
   },
   {
-    "key": "ctrl+tab",
+    "key": "ctrl+j",
     "command": "workbench.action.nextEditor",
     "when": "!activeEditorGroupEmpty"
   },
@@ -58,7 +58,7 @@
     "when": "!activeEditorGroupEmpty"
   },
   {
-    "key": "ctrl+shift+tab",
+    "key": "ctrl+k",
     "command": "workbench.action.previousEditor",
     "when": "!activeEditorGroupEmpty"
   },
@@ -69,5 +69,10 @@
   {
     "key": "ctrl+t",
     "command": "workbench.action.createTerminalEditor"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "-deleteAllRight",
+    "when": "textInputFocus && !editorReadonly"
   }
 ]
