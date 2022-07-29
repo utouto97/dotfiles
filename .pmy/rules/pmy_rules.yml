@@ -1,6 +1,6 @@
 # git関連 (alias版)
 ### git rebase | git merge
-- regexp-left: ^(?P<body>(grb|g(it)? merge)) +(?P<query>.*)$
+- regexp-left: ^(?P<body>(gr|g(it)? merge)) +(?P<query>.*)$
   cmd-groups:
     - stmt: git branch --format="%(refname:short)" --all 2>/dev/null
       after: awk '{print $0}'

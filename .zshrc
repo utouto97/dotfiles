@@ -132,13 +132,14 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
 alias gsw='git switch'
+alias gco='git restore'
 # alias grs="git restore"
 # alias gco='git checkout'
 alias gl='fzf-git-log'
 alias ggr='git log --oneline --graph --decorate --all'
 alias gp='git push origin'
 alias gf='git fetch'
-alias grb='git rebase'
+alias gr='git rebase'
 
 # docker & docker-compose
 alias d='docker'
