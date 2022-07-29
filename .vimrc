@@ -6,7 +6,6 @@ set expandtab
 set hls
 set clipboard+=unnamedplus
 set encoding=utf-8
-set ambiwidth=double
 
 nnoremap j gj
 nnoremap k gk
@@ -14,4 +13,5 @@ nnoremap k gk
 if exists('g:vscode')
 else
   inoremap <silent>jj <esc>
+  set ambiwidth=double
 endif

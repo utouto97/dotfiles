@@ -1,11 +1,7 @@
-#!/bin/zsh
+#!/bin/sh
 
 # apt等で次のツール類をインストールしておく
-# 共通
-#   pmy(with go) 
-# Linux
-#   vscode, fd, exa, bat
-
+# 共通: curl, zsh
 
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
@@ -18,9 +14,6 @@ if [ ! -d $DOTPATH ]; then
   if type "curl" > /dev/null 2>&1; then
     echo "curl"
     curl -L "$tarball" | tar zxv
-  # elif type "wget" > /dev/null 2>&1; then
-  #   echo "wget"
-  #   curl -O - "$tarball" | tar zxv
   else
     die "curl required"
   fi
@@ -31,31 +24,49 @@ fi
 
 # --- 環境ごとのセットアップ
 if [ "$(uname)" = "Darwin" ]; then
-# MacOS
+  # MacOS
 
-# VSCode
-ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+  # homebrew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+  # VSCode
+  ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+  ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+  cat vscode/extensions | while read line
+  do
+    code --install-extension $line
+  done
 
-# fd
-brew install fd
-brew install exa
+  # 必要なものをインストール
+  brew install fd exa bat
 
 elif [ "$(uname)" = "Linux" ]; then
-# Linux
+  # Linux
 
-ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
-ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
+  apt update -y
 
+  # 必要なものをインストール
+  apt install -y zsh git zplug exa bat fd-find
+
+  # fzf
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install
+
+  # VSCode
+  ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
+  ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
+  cat vscode/extensions | while read line
+  do
+    code --install-extension $line
+  done
 fi
 
-# vscode extensions
-cat vscode/extensions | while read line
+# ドットから始まるファイルのシンボリックリンクをはる
+cd "$DOTPATH"
+for f in .??*
 do
-  code --install-extension $line
-done
+  # 除外
+  [ "$f" = ".git" ] && continue
+  [ "$f" = ".gitignore" ] && continue
 
-DOTPATH=$DOTPATH ./deploy.sh
+  ln -snfv "$DOTPATH/$f" "$HOME"
+done
