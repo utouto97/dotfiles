@@ -20,6 +20,7 @@
   // others
   "files.insertFinalNewline": true,
   "terminal.integrated.enableMultiLinePasteWarning": false,
+  "terminal.integrated.defaultLocation": "editor",
   "redhat.telemetry.enabled": true,
   "go.toolsManagement.autoUpdate": true,
   "ruby.intellisense": "rubyLocate",
@@ -27,11 +28,13 @@
   // neovim
   "vscode-neovim.neovimExecutablePaths.darwin": "/usr/local/homebrew/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.darwin": "/Users/yutoakagi/.vimrc",
-  "terminal.integrated.defaultLocation": "editor",
+  //remote
   "remote.containers.defaultExtensions": [
     "mhutchie.git-graph",
-    "zhuangtongfa.material-theme",
     "asvetliakov.vscode-neovim",
     "MS-CEINTL.vscode-language-pack-ja"
-  ]
+  ],
+  "dotfiles.targetPath": "~/.dotfiles",
+  "dotfiles.repository": "https://github.com/utouto97/dotfiles.git",
+  "dotfiles.installCommand": "~/.dotfiles/install.sh"
 }
