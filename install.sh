@@ -48,9 +48,6 @@ elif [ "$(uname)" = "Linux" ]; then
   # 必要なものをインストール
   apt install -y zsh git exa bat fd-find
 
-  # fzf
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install
-
   # VSCode
   ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
   ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
@@ -59,6 +56,9 @@ elif [ "$(uname)" = "Linux" ]; then
     code --install-extension $line
   done
 fi
+
+# fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install
 
 # --- zshに切り替え
 if [ "$SHELL" != "zsh" ]; then
