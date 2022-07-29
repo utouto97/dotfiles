@@ -56,6 +56,7 @@ export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s"
 export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o'
 
 # fzf custom completions
+# https://github.com/junegunn/fzf/wiki/Examples-(completion)
 # git
 _fzf_complete_gsw() {
   local branches
