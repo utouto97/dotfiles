@@ -28,11 +28,8 @@ if [ "$(uname)" = "Darwin" ]; then
   export LSCOLORS=Cxfxcxdxbxegedabagacad
   alias ls='ls -G'
 
-  export ZPLUG_HOME=/opt/homebrew/opt/zplug
-
 elif [ "$(uname)" = "Linux" ]; then
   # Linux
-  export ZPLUG_HOME=$HOME/.zplug
 
   alias fd='fdfind'
 fi
@@ -52,17 +49,7 @@ GIT_PS1_SHOWUPSTREAM=auto
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
 '
 
-# --- Plugins (managed by zplug) ---
-source $ZPLUG_HOME/init.zsh
-
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-completions"
-
-if ! zplug check --verbose; then
-  zplug install
-fi
-
-zplug load
+# zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
