@@ -1,27 +1,40 @@
 export LANG=ja_JP.UTF-8
 setopt print_eight_bit
 
+# 色を使用出来るようにする
+autoload -Uz colors
+colors
+
+# 補完機能を有効にする
+autoload -Uz compinit
+compinit
+
+# デフォルトのエディタ
 EDITOR=code
+
+# ヒストリ
+HISTSIZE=1000000
+SAVEHIST=1000000
 
 # --- Settings for each OS ---
 if [ "$(uname)" = "Darwin" ]; then
-# MacOS
+  # MacOS
 
-# homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+  # homebrew
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# ls
-export CLICOLOR='1'
-export LSCOLORS=Cxfxcxdxbxegedabagacad
-alias ls='ls -G'
+  # ls
+  export CLICOLOR='1'
+  export LSCOLORS=Cxfxcxdxbxegedabagacad
+  alias ls='ls -G'
 
-export ZPLUG_HOME=/opt/homebrew/opt/zplug
+  export ZPLUG_HOME=/opt/homebrew/opt/zplug
 
 elif [ "$(uname)" = "Linux" ]; then
-# Linux
-    export ZPLUG_HOME=$HOME/.zplug
+  # Linux
+  export ZPLUG_HOME=$HOME/.zplug
 
-    alias fd='fdfind'
+  alias fd='fdfind'
 fi
 
 # load .zshrc.local
@@ -39,21 +52,14 @@ GIT_PS1_SHOWUPSTREAM=auto
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
 '
 
-export PMY_TRIGGER_KEY='^i'
-eval "$(pmy init)"
-
 # --- Plugins (managed by zplug) ---
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
-zplug "junegunn/fzf", from:gh-r, as:command
 
 if ! zplug check --verbose; then
-    printf "install?[y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
+  zplug install
 fi
 
 zplug load
@@ -61,35 +67,6 @@ zplug load
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o'
-
-# fuzzy file finder
-function fuzzy-file-finder() {
-  BASE=.
-  [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type f -maxdepth 6 2>/dev/null | fzf --no-sort +m)
-}
-
-# fuzzy directory finder
-function fuzzy-dir-finder() {
-  BASE=.
-  [ -n "$1" ] && BASE=$1
-  echo $(find $BASE -type d -maxdepth 6 2>/dev/null | fzf --no-sort +m)
-}
-
-# fuzzy系便利コマンド
-# fzh (fzf history)
-function fzh() {
-  hist=$(history -n -r 1 | fzf --no-sort +m)
-
-  if [ -n "$hist" ]; then
-    BUFFER=$hist
-    zle accept-line
-  fi
-
-  zle reset-prompt
-}
-zle -N fzh
-bindkey '^r' fzh
 
 # fgl (fzf git log, and echo its hash)
 function fzf-git-log() {
@@ -120,7 +97,6 @@ if type "exa" >/dev/null 2>&1; then
 fi
 alias la='ls -la'
 
-# e ($EDITOR)
 alias e="$EDITOR"
 
 # git
@@ -152,8 +128,3 @@ alias dcl="docker-compose logs"
 alias dcr="docker-compose run --rm"
 alias dcd="docker-compose down"
 alias dcrestart="docker-compose restart"
-
-# nvm
-if type "nvm" >/dev/null 2>&1; then
-  alias nv='nvm use $(cat .node-version)'
-fi

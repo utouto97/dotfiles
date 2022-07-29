@@ -27,5 +27,11 @@
   // neovim
   "vscode-neovim.neovimExecutablePaths.darwin": "/usr/local/homebrew/bin/nvim",
   "vscode-neovim.neovimInitVimPaths.darwin": "/Users/yutoakagi/.vimrc",
-  "terminal.integrated.defaultLocation": "editor"
+  "terminal.integrated.defaultLocation": "editor",
+  "remote.containers.defaultExtensions": [
+    "mhutchie.git-graph",
+    "zhuangtongfa.material-theme",
+    "asvetliakov.vscode-neovim",
+    "MS-CEINTL.vscode-language-pack-ja"
+  ]
 }
