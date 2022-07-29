@@ -55,6 +55,33 @@ export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o'
 
+# fzf custom completions
+# git
+_fzf_complete_gsw() {
+  local branches
+  branches=$(git branch -vv --all)
+  _fzf_complete --reverse +m -- "$@" < <(
+    echo $branches
+  )
+}
+
+_fzf_complete_gsw_post() {
+  awk '{print $1}'
+}
+
+_fzf_complete_gr() {
+  local logs
+  logs=$(git log --oneline --decorate --all -n 50 --color=always)
+  _fzf_complete --reverse +m --ansi -- "$@" < <(
+    echo $logs
+  )
+}
+
+_fzf_complete_gr_post() {
+  awk '{print $1}'
+}
+
+# fzf custom functions
 # fgl (fzf git log, and echo its hash)
 function fzf-git-log() {
   git log -n1000 --graph --color=always \
@@ -71,6 +98,7 @@ function fzf-git-log() {
     grep -o "[a-f0-9]\{7\}" |
     tr '\n' ' '
 }
+
 
 # --- Alias ---
 alias ..='cd ..'
