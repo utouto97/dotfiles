@@ -53,7 +53,9 @@ export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s"
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o'
+export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o --ansi'
+export FZF_COMPLETION_OPTS='-1 -0 -e --height 90% --reverse --border --preview-window right:50% --marker=o --ansi'
+export FZF_COMPLETION_TRIGGER=''
 
 # fzf custom completions
 # https://github.com/junegunn/fzf/wiki/Examples-(completion)
@@ -79,6 +81,17 @@ _fzf_complete_gr() {
 }
 
 _fzf_complete_gr_post() {
+  awk '{print $1}'
+}
+
+_fzf_complete_cd() {
+  dirs=$(fd . -t d)
+  _fzf_complete --reverse +m --ansi -- "$@" < <(
+    echo $dirs
+  )
+}
+
+_fzf_complete_cd_post() {
   awk '{print $1}'
 }
 
