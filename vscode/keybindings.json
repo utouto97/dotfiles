@@ -84,16 +84,4 @@
     "key": "ctrl+r",
     "command": "-workbench.action.openRecent"
   },
-  {
-    "key": "g c",
-    "command": "vscode-neovim.send",
-    "when": "editorTextFocus && neovim.init && neovim.mode == visual",
-    "args": "<C-/>"
-  },
-  {
-    "key": "g c",
-    "command": "vscode-neovim.send",
-    "when": "editorTextFocus && neovim.init && neovim.mode == normal",
-    "args": "<C-/>"
-  },
 ]
