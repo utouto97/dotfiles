@@ -114,6 +114,9 @@ function fzf-git-log() {
     tr '\n' ' '
 }
 
+# オリジナルのブックマークスクリプト
+source ~/.dotfiles/mark.sh
+
 
 # --- Alias ---
 alias ..='cd ..'
