@@ -62,21 +62,21 @@ export FZF_COMPLETION_TRIGGER=''
 # git
 _fzf_complete_gsw() {
   local branches
-  branches=$(git branch -vv --all)
+  branches=$(git branch -a -vv --color=always)
   _fzf_complete --reverse +m -- "$@" < <(
     echo $branches
   )
 }
 
 _fzf_complete_gsw_post() {
-  awk '{print $1}'
+  awk '{print $1}' | sed -e 's|^remotes/origin/||'
 }
 
 _fzf_complete_gr() {
   local logs
-  logs=$(git log --oneline --decorate --all -n 50 --color=always)
+  branches=$(git branch -a -vv --color=always)
   _fzf_complete --reverse +m --ansi -- "$@" < <(
-    echo $logs
+    echo $branches
   )
 }
 
@@ -85,7 +85,7 @@ _fzf_complete_gr_post() {
 }
 
 _fzf_complete_cd() {
-  dirs=$(fd . -t d)
+  dirs=$(fd -t d -d 1 -H -I)
   _fzf_complete --reverse +m --ansi -- "$@" < <(
     echo $dirs
   )
