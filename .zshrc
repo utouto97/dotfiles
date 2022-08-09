@@ -49,7 +49,8 @@ GIT_PS1_SHOWUPSTREAM=auto
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
 '
 
-# zplug "zsh-users/zsh-syntax-highlighting", defer:2
+# zsh-users/zsh-syntax-highlighting
+source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # --- fzf ---
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
