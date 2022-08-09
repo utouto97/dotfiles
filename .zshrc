@@ -74,7 +74,7 @@ _fzf_complete_gsw_post() {
 }
 
 _fzf_complete_gr() {
-  local logs
+  local branches
   branches=$(git branch -a -vv --color=always)
   _fzf_complete --reverse +m --ansi -- "$@" < <(
     echo $branches
