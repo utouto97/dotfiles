@@ -14,5 +14,7 @@ function mark() {
 
 function jm() {
   dir=$(cat $markpath | fzf +m --preview 'ls -la')
-  cd $dir
+  if [ -n "$dir" ]; then
+    cd $dir
+  fi
 }
