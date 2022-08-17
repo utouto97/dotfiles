@@ -65,20 +65,38 @@ augroup T
   autocmd TermOpen * setlocal norelativenumber
 augroup END
 
+function! OpenTerm() abort
+  let l:curr_buf = bufnr()
+  let l:term_buf = bufnr("terminal.buffer")
+  if l:term_buf == -1
+    execute ("terminal")
+    execute ("f terminal.buffer")
+  else
+    execute ("buffer ".l:term_buf)
+  endif
+endfunction
+command! OpenTerm call OpenTerm()
+
 " 起動時
 if has("vim_starting")
-  te
+  call OpenTerm()
   buffer 1
 endif
 
 " キーバイディング
 let mapleader = "\<Space>"
 
-nnoremap <C-j> :bp<CR>
-nnoremap <C-k> :bn<CR>
+
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+
+nnoremap <silent><C-t> :OpenTerm<CR>
+nnoremap <silent><C-j> :bp<CR>
+nnoremap <silent><C-k> :bn<CR>
 
 nnoremap j gj
 nnoremap k gk
+
 
 nnoremap <silent><Leader>l :Buffers<CR>
 nnoremap <silent><Leader>e :Files<CR>
@@ -106,3 +124,5 @@ let g:EasyMotion_smartcase = 1
 let g:lsp_signs_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
 
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'source': 'fd -t f -H -E .git'}), <bang>0)
