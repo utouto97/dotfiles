@@ -1,10 +1,11 @@
-
 " プラグイン関連
 source ~/.vim/autoload/plug.vim
 call plug#begin('~/.vim/plugged')
-  " fzf
+  " ファイル操作
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+
+  Plug 'lambdalisue/fern.vim'
 
   " lsp
   Plug 'prabirshrestha/vim-lsp'
@@ -22,10 +23,13 @@ call plug#begin('~/.vim/plugged')
 
   " 見た目系
   "Plug 'tomasr/molokai'
-  Plug 'sickill/vim-monokai'
+  " Plug 'sickill/vim-monokai'
+  Plug 'joshdick/onedark.vim'
 
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
+
+  Plug 'Yggdroot/indentLine'
 
   " markdown preview
   Plug 'previm/previm'
@@ -40,47 +44,65 @@ else
 endif
 
 " 基本設定
-colorscheme monokai
+colorscheme onedark
 
 set encoding=utf-8
 set relativenumber
 set autoindent
+set smartindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
 set hls
 set clipboard+=unnamedplus
 set updatetime=250
-
 set ignorecase
+
+augroup T
+  autocmd!
+"  autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
+  autocmd TermOpen * setlocal nonumber
+  autocmd TermOpen * setlocal norelativenumber
+augroup END
+
+" 起動時
+if has("vim_starting")
+  te
+  buffer 1
+endif
 
 " キーバイディング
 let mapleader = "\<Space>"
 
+nnoremap <C-j> :bp<CR>
+nnoremap <C-k> :bn<CR>
+
 nnoremap j gj
 nnoremap k gk
 
-nnoremap <silent><leader><leader> :noh<CR>
-nnoremap <silent><leader>l :Buffers<CR>
-nnoremap <silent><leader>f :Files<CR>
+nnoremap <silent><Leader>l :Buffers<CR>
+nnoremap <silent><Leader>e :Files<CR>
+
 nnoremap <silent><Leader>d :LspDefinition<CR>
-nnoremap <silent><Leader>p :LspHover<CR>
+nnoremap <silent><Leader>h :LspHover<CR>
 nnoremap <silent><Leader>r :LspReferences<CR>
-nnoremap <silent><Leader>ik :LspImplementation<CR>
+nnoremap <silent><Leader>i :LspImplementation<CR>
 nnoremap <silent>F <Plug>(easymotion-bd-f2)
 
-nnoremap [fugitive] <Nop>
-nmap <Leader>g [fugitive]
-nnoremap <silent>[fugitive]s :Gstatus<CR><C-w>T
-nnoremap <silent>[fugitive]a :Gwrite<CR>
-nnoremap <silent>[fugitive]c :Gcommit-v<CR>
-nnoremap <silent>[fugitive]b :Gblame<CR>
-nnoremap <silent>[fugitive]d :Gdiff<CR>
-nnoremap <silent>[fugitive]m :Gmerge<CR>
+nnoremap <silent>,gd :GitGutterLineHighlightsToggle<CR>
 
-tnoremap <silent>jj <C-\><C-n>
+" tnoremap <silent><Esc> <C-\><C-n>
+tnoremap <silent><C-j> <C-\><C-n>
+"tnoremap <silent><C-w>k <C-\><C-n><C-w>k
+"tnoremap <silent><C-w>j <C-\><C-n><C-w>j
+"tnoremap <silent><C-w>l <C-\><C-n><C-w>l
+"tnoremap <silent><C-w>h <C-\><C-n><C-w>h
 
 " previm ブラウザの設定
 let g:previm_open_cmd = 'open -a Google\ Chrome'
 " easymotion ignorecase
 let g:EasyMotion_smartcase = 1
+
+let g:lsp_signs_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+

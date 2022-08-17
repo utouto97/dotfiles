@@ -10,7 +10,7 @@ autoload -Uz compinit
 compinit
 
 # デフォルトのエディタ
-EDITOR=code
+EDITOR=nvim
 
 # ヒストリ
 HISTSIZE=1000000
@@ -56,7 +56,7 @@ source ~/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='-e --height 90% --reverse --border --preview-window right:50% --marker=o --ansi'
 export FZF_COMPLETION_OPTS='-1 -0 -e --height 90% --reverse --border --preview-window right:50% --marker=o --ansi'
-export FZF_COMPLETION_TRIGGER=''
+export FZF_COMPLETION_TRIGGER=','
 
 # fzf custom completions
 # https://github.com/junegunn/fzf/wiki/Examples-(completion)
@@ -161,3 +161,5 @@ alias dcl="docker-compose logs"
 alias dcr="docker-compose run --rm"
 alias dcd="docker-compose down"
 alias dcrestart="docker-compose restart"
+
+alias nv="nvr -l"
