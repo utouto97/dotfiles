@@ -85,17 +85,6 @@ _fzf_complete_gr_post() {
   awk '{print $1}'
 }
 
-_fzf_complete_cd() {
-  dirs=$(fd -t d -d 1 -H -I)
-  _fzf_complete --reverse +m --ansi -- "$@" < <(
-    echo $dirs
-  )
-}
-
-_fzf_complete_cd_post() {
-  awk '{print $1}'
-}
-
 # fzf custom functions
 # fgl (fzf git log, and echo its hash)
 function fzf-git-log() {

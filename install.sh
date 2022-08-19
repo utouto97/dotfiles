@@ -46,7 +46,7 @@ elif [ "$(uname)" = "Linux" ]; then
   apt update -y
 
   # 必要なものをインストール
-  apt install -y zsh git exa bat fd-find
+  apt install -y zsh git exa bat fd-find nvim
 
   # VSCode
   ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
@@ -70,11 +70,13 @@ fi
 
 # ドットから始まるファイルのシンボリックリンクをはる
 cd "$DOTPATH"
+mkdir -p $HOME/.config/nvim
 for f in .??*
 do
   # 除外
   [ "$f" = ".git" ] && continue
   [ "$f" = ".gitignore" ] && continue
+  [ "$f" = "init.lua" ] && ln -snfv "$DOTPATH/$f" "$HOME/.config/nvim/"
 
   ln -snfv "$DOTPATH/$f" "$HOME"
 done
