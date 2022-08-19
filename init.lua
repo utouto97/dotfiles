@@ -25,23 +25,7 @@ require('packer').startup(function(use)
           lualine_a = { 'mode' },
           lualine_b = { 'branch', 'diff' },
           lualine_c = { 'filename' },
-          lualine_x = {
-            {
-              'diagnostics',
-              sources = { 'nvim_diagnostic' },
-              sections = { 'error', 'warn', 'info', 'hint' },
-              diagnostics_color = {
-                error = 'DiagnosticError',
-                warn  = 'DiagnosticWarn',
-                info  = 'DiagnosticInfo',
-                hint  = 'DiagnosticHint',
-              },
-              symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
-              colored = true,
-              update_in_insert = false,
-              always_visible = false,
-            }
-          },
+          lualine_x = { 'diagnostics' },
           lualine_y = { 'filetype', 'encoding' },
           lualine_z = { 'location' }
         }
@@ -197,6 +181,12 @@ require('packer').startup(function(use)
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup()
+    end
+  }
+  use { 
+    'rcarriga/nvim-notify',
+    config = function()
+      vim.notify = require('nvim-notify')
     end
   }
 end)
