@@ -147,13 +147,13 @@ require('packer').startup(function(use)
       }
     end
   }
-  use{
-   'delphinus/telescope-memo.nvim',
+  use {
+   'utouto97/memo.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
     config = function()
-      require('telescope').load_extension('memo')
-      vim.keymap.set('n', '<Leader>m', '<cmd>Telescope memo list<cr>')
-    end,
+      require('memo').setup()
+      vim.keymap.set('n', '<Leader>m', '<cmd>MemoList<cr>')
+    end
   }
 
   -- その他
@@ -183,10 +183,17 @@ require('packer').startup(function(use)
       require('gitsigns').setup()
     end
   }
-  use { 
-    'rcarriga/nvim-notify',
+  -- use {
+  --   'rcarriga/nvim-notify',
+  --   config = function()
+  --     vim.notify = require('nvim-notify')
+  --   end
+  -- }
+  use {
+    'lambdalisue/fern.vim',
+    requires = { 'antoinemadec/FixCursorHold.nvim' },
     config = function()
-      vim.notify = require('nvim-notify')
+      vim.keymap.set('n', '<Leader>f', '<cmd>Fern .<cr>')
     end
   }
 end)
@@ -195,6 +202,7 @@ vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
 vim.opt.encoding='utf-8'
 vim.opt.relativenumber=true
+vim.opt.hidden=true
 --vim.opt.updatetime=250
 vim.opt.visualbell = true
 vim.opt.showmatch = true
@@ -218,3 +226,4 @@ vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('i', 'jj', '<Esc>')
 vim.keymap.set('t', '<C-j>', '<C-\\><C-n>')
+
