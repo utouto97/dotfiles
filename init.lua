@@ -23,8 +23,8 @@ require('packer').startup(function(use)
         },
         sections = {
           lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff' },
-          lualine_c = { 'filename' },
+          lualine_b = { 'filename' },
+          lualine_c = { 'branch', 'diff' },
           lualine_x = { 'diagnostics' },
           lualine_y = { 'filetype', 'encoding' },
           lualine_z = { 'location' }
@@ -32,10 +32,11 @@ require('packer').startup(function(use)
       }
     end
   }
+  use { "lukas-reineke/indent-blankline.nvim" }
 
   -- 操作
   use {
-    "akinsho/toggleterm.nvim", tag = 'v2.*', 
+    "akinsho/toggleterm.nvim", tag = 'v2.*',
     config = function()
       vim.keymap.set('n', '<C-t>', '<cmd>ToggleTerm<cr>')
       vim.keymap.set('t', '<C-t>', '<cmd>ToggleTerm<cr>')
@@ -59,7 +60,7 @@ require('packer').startup(function(use)
 		"williamboman/mason-lspconfig.nvim",
 		after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
 		config = function()
-      local on_attach = function(client, bufnr)
+      local on_attach = function(_, _)
         local set = vim.keymap.set
 --        set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
 --        set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
@@ -183,7 +184,7 @@ require('packer').startup(function(use)
   }
 
   -- その他
-  use { 
+  use {
     'tyru/open-browser.vim',
     config = function()
       vim.keymap.set('n', 'gu', '<Plug>(openbrowser-smart-search)')
