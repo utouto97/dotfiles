@@ -1,4 +1,4 @@
-vim.cmd[[packadd packer.nvim]]
+vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function(use)
   use { 'wbthomason/packer.nvim', opt = true }
@@ -18,7 +18,7 @@ require('packer').startup(function(use)
         options = {
           icons_enabled = true,
           theme = 'onedark',
-          component_separators = { left = '', right = ''},
+          component_separators = { left = '', right = '' },
           -- section_separators = { left = '', right = ''},
         },
         sections = {
@@ -33,6 +33,23 @@ require('packer').startup(function(use)
     end
   }
   use { "lukas-reineke/indent-blankline.nvim" }
+  -- use {
+  --   "yamatsum/nvim-cursorline",
+  --   config = function()
+  --     require('nvim-cursorline').setup {
+  --       cursorline = {
+  --         enable = true,
+  --         timeout = 1000,
+  --         number = false,
+  --       },
+  --       cursorword = {
+  --         enable = true,
+  --         min_length = 3,
+  --         hl = { underline = true },
+  --       }
+  --     }
+  --   end
+  -- }
 
   -- 操作
   use {
@@ -57,15 +74,15 @@ require('packer').startup(function(use)
     end
   }
   use {
-		"williamboman/mason-lspconfig.nvim",
-		after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
-		config = function()
+    "williamboman/mason-lspconfig.nvim",
+    after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
+    config = function()
       local on_attach = function(_, _)
         local set = vim.keymap.set
---        set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
---        set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
---        set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
---        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
+        --        set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
+        --        set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
+        --        set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
+        --        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
         set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
         set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
       end
@@ -75,12 +92,12 @@ require('packer').startup(function(use)
 
       require("mason-lspconfig").setup()
       require("mason-lspconfig").setup_handlers {
-        function (server_name) -- default handler (optional)
+        function(server_name) -- default handler (optional)
           require("lspconfig")[server_name].setup(opts)
         end
       }
-		end
-	}
+    end
+  }
 
   -- Treesitter
   use {
@@ -165,17 +182,17 @@ require('packer').startup(function(use)
       vim.keymap.set('n', 'gr', '<cmd>Telescope lsp_references<cr>')
       vim.keymap.set('n', 'gs', '<cmd>Telescope lsp_document_symbols<cr>')
 
-      require('telescope').setup{
+      require('telescope').setup {
         defaults = {
-         file_ignore_patterns = {
-           "node_modules", ".git"
-         },
+          file_ignore_patterns = {
+            "node_modules", ".git"
+          },
         }
       }
     end
   }
   use {
-   'utouto97/memo.nvim',
+    'utouto97/memo.nvim',
     requires = { 'nvim-telescope/telescope.nvim' },
     config = function()
       require('memo').setup()
@@ -194,6 +211,9 @@ require('packer').startup(function(use)
   use {
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
+    config = function()
+      vim.g.mkdp_auto_close = 0
+    end
   }
   use {
     "terrortylor/nvim-comment",
@@ -231,15 +251,15 @@ require('packer').startup(function(use)
         show_hidden_files = true,
         devicons_enable = true,
         mappings = {
-          ['l']     = actions.edit,
-          ['h']     = actions.up,
-          ['q']     = actions.quit,
-          ['K']     = actions.mkdir,
-          ['N']     = actions.newfile,
-          ['R']     = actions.rename,
-          ['@']     = actions.cd,
-          ['Y']     = actions.yank_path,
-          ['D']     = actions.delete,
+          ['l'] = actions.edit,
+          ['h'] = actions.up,
+          ['q'] = actions.quit,
+          ['K'] = actions.mkdir,
+          ['N'] = actions.newfile,
+          ['R'] = actions.rename,
+          ['@'] = actions.cd,
+          ['Y'] = actions.yank_path,
+          ['D'] = actions.delete,
         },
         float = {
           winblend = 0,
@@ -251,7 +271,7 @@ require('packer').startup(function(use)
             local width = math.floor(vim.o.columns * 0.6)
             local height = math.floor(vim.o.lines * 0.6)
             return {
-              border = { "┌", "─", "┐",  "│", "┘", "─", "└", "│" },
+              border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
               width = width,
               height = height,
             }
@@ -269,22 +289,22 @@ end)
 
 vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
-vim.opt.encoding='utf-8'
-vim.opt.relativenumber=true
-vim.opt.hidden=true
+vim.opt.encoding = 'utf-8'
+vim.opt.relativenumber = true
+vim.opt.hidden = true
 --vim.opt.updatetime=250
 vim.opt.visualbell = true
 vim.opt.showmatch = true
 vim.opt.matchtime = 1
-vim.opt.autoindent=true
-vim.opt.smartindent=true
-vim.opt.wrapscan=true
-vim.opt.tabstop=2
-vim.opt.shiftwidth=2
-vim.opt.expandtab=true
-vim.opt.ignorecase=true
-vim.opt.ambiwidth=single
-vim.opt.clipboard:append{'unnamedplus'}
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.wrapscan = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.ignorecase = true
+vim.opt.ambiwidth = single
+vim.opt.clipboard:append { 'unnamedplus' }
 
 vim.g.mapleader = ' '
 vim.keymap.set('n', 'ZZ', '<nop>')
@@ -295,4 +315,3 @@ vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 vim.keymap.set('i', 'jj', '<Esc>')
 vim.keymap.set('t', '<C-j>', '<C-\\><C-n>')
-
