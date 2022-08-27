@@ -58,9 +58,9 @@ alias gsw='git switch'
 alias gco='git restore'
 # alias grs="git restore"
 # alias gco='git checkout'
-alias gl='fzf-git-log'
+alias gl='git log'
 alias ggr='git log --oneline --graph --decorate --all'
-alias gp='git push origin'
+alias gp='git push'
 alias gf='git fetch'
 alias gr='git rebase'
 
