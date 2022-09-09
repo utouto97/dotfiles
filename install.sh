@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# apt等で次のツール類をインストールしておく
-# 共通: curl, zsh
-
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
 
@@ -29,16 +26,8 @@ if [ "$(uname)" = "Darwin" ]; then
   # homebrew
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
-  # VSCode
-  ln -snfv $DOTPATH/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-  ln -snfv $DOTPATH/vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-  cat vscode/extensions | while read line
-  do
-    code --install-extension $line
-  done
-
   # 必要なものをインストール
-  brew install fd exa bat
+  brew install fd exa bat neovim
 
 elif [ "$(uname)" = "Linux" ]; then
   # Linux
@@ -46,37 +35,19 @@ elif [ "$(uname)" = "Linux" ]; then
   apt update -y
 
   # 必要なものをインストール
-  apt install -y zsh git exa bat fd-find nvim
-
-  # VSCode
-  ln -snfv $DOTPATH/vscode/settings.json ~/.config/Code/User/settings.json
-  ln -snfv $DOTPATH/vscode/keybindings.json ~/.config/Code/User/keybindings.json
-  cat vscode/extensions | while read line
-  do
-    code --install-extension $line
-  done
+  apt install -y zsh git exa bat fd-find neovim
 fi
-
-# zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh-syntax-highlighting
-
-# fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && yes | ~/.fzf/install
 
 # --- zshに切り替え
 if [ "$SHELL" != "zsh" ]; then
   chsh -s /usr/bin/zsh
 fi
 
-# ドットから始まるファイルのシンボリックリンクをはる
-cd "$DOTPATH"
+# シンボリックリンク
 mkdir -p $HOME/.config/nvim
-for f in .??*
-do
-  # 除外
-  [ "$f" = ".git" ] && continue
-  [ "$f" = ".gitignore" ] && continue
-  [ "$f" = "init.lua" ] && ln -snfv "$DOTPATH/$f" "$HOME/.config/nvim/"
+ln -s "$DOTPATH/init.lua" "$HOME/.config/nvim/"
+ln -s "$DOTPATH/.git-prompt.sh" "$HOME/.git-prompt.sh"
 
-  ln -snfv "$DOTPATH/$f" "$HOME"
-done
+# packer.nvim
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
