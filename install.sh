@@ -44,9 +44,10 @@ if [ "$SHELL" != "zsh" ]; then
 fi
 
 # シンボリックリンク
+ln -s "$DOTPATH/.zshrc" "$HOME/.zshrc"
+ln -s "$DOTPATH/.git-prompt.sh" "$HOME/.git-prompt.sh"
 mkdir -p $HOME/.config/nvim
 ln -s "$DOTPATH/init.lua" "$HOME/.config/nvim/"
-ln -s "$DOTPATH/.git-prompt.sh" "$HOME/.git-prompt.sh"
 
 # packer.nvim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
