@@ -3,6 +3,8 @@ vim.cmd([[packadd packer.nvim]])
 require("packer").startup(function(use)
   use({ "wbthomason/packer.nvim", opt = true })
 
+  use({ "kyazdani42/nvim-web-devicons" })
+
   -- 外観
   use({
     "navarasu/onedark.nvim",
@@ -145,10 +147,13 @@ require("packer").startup(function(use)
   })
 
   -- 補完
-  use({ "hrsh7th/nvim-cmp" })
   use({
-    "hrsh7th/cmp-nvim-lsp",
-    requires = { "onsails/lspkind-nvim" },
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "onsails/lspkind-nvim",
+      "ray-x/cmp-treesitter",
+    },
     config = function()
       local cmp = require("cmp")
       local lspkind = require("lspkind")
@@ -158,6 +163,7 @@ require("packer").startup(function(use)
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
+          { name = "treesitter" },
         }),
         formatting = {
           format = lspkind.cmp_format({
@@ -185,17 +191,7 @@ require("packer").startup(function(use)
           }),
         },
       })
-    end,
-  })
-  use({
-    "ray-x/cmp-treesitter",
-    config = function()
-      require("cmp").setup({
-        sources = {
-          { name = "treesitter" },
-        },
-      })
-    end,
+    end
   })
 
   -- ファジーファインダー
