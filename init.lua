@@ -14,7 +14,7 @@ require("packer").startup(function(use)
 	})
 	use({
 		"nvim-lualine/lualine.nvim",
-		requires = { "kyazdani42/nvim-web-devicons", opt = true },
+		requires = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
 				options = {
@@ -205,7 +205,10 @@ require("packer").startup(function(use)
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
-		requires = { "nvim-lua/plenary.nvim" },
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope-file-browser.nvim",
+		},
 		config = function()
 			vim.keymap.set("n", "<Leader>e", "<cmd>Telescope find_files hidden=true<cr>")
 			vim.keymap.set("n", "<Leader>r", "<cmd>Telescope oldfiles<cr>")
@@ -224,9 +227,23 @@ require("packer").startup(function(use)
 						".git",
 					},
 				},
+				extensions = {
+					file_browser = {
+						theme = "ivy",
+						hijack_netrw = true,
+						mappings = {
+							["i"] = {
+								-- your custom insert mode mappings
+							},
+						},
+					},
+				},
 			})
+
+			require("telescope").load_extension("file_browser")
 		end,
 	})
+
 	use({
 		"~/work/pg/memo.nvim",
 		-- 'utouto97/memo.nvim',
