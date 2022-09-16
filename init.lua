@@ -60,8 +60,7 @@ require("packer").startup(function(use)
 		config = function()
 			vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<cr>")
-			vim.keymap.set("n", "<Leader>t", "<cmd>ToggleTermSendCurrentLine<cr>")
-			vim.keymap.set("v", "<Leader>t", "<cmd>ToggleTermSendVisualSelection<cr><esc>")
+			vim.keymap.set("v", "<C-t>", ":ToggleTermSendVisualLines<cr> <bar> <cmd>ToggleTerm<cr>")
 			require("toggleterm").setup({
 				direction = "float",
 			})
@@ -126,6 +125,19 @@ require("packer").startup(function(use)
 
 			null_ls.setup({
 				sources = null_sources,
+				-- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.formatting_sync()
+							end,
+						})
+					end
+				end,
 			})
 		end,
 	})
@@ -248,6 +260,8 @@ require("packer").startup(function(use)
 	})
 	use({
 		"iamcco/markdown-preview.nvim",
+		opt = true,
+		ft = "markdown",
 		run = function()
 			vim.fn["mkdp#util#install"]()
 		end,
