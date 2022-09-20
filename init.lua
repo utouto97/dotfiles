@@ -251,6 +251,37 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	-- テスト
+	use({
+		"nvim-neotest/neotest",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-neotest/neotest-go",
+		},
+		config = function()
+			vim.keymap.set("n", "<Leader>t", require("neotest").run.run)
+			vim.keymap.set("n", "<Leader>T", require("neotest").run.run_last)
+
+			local neotest_ns = vim.api.nvim_create_namespace("neotest")
+			vim.diagnostic.config({
+				virtual_text = {
+					format = function(diagnostic)
+						local message =
+							diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+						return message
+					end,
+				},
+			}, neotest_ns)
+			require("neotest").setup({
+				adapters = {
+					require("neotest-go"),
+				},
+			})
+		end,
+	})
+
 	-- その他
 	use({
 		"tyru/open-browser.vim",
@@ -285,12 +316,12 @@ require("packer").startup(function(use)
 			require("gitsigns").setup()
 		end,
 	})
-	-- use {
-	--   'rcarriga/nvim-notify',
-	--   config = function()
-	--     vim.notify = require('nvim-notify')
-	--   end
-	-- }
+	use({
+		"rcarriga/nvim-notify",
+		config = function()
+			-- vim.notify = require("notify")
+		end,
+	})
 	use({
 		"tamago324/lir.nvim",
 		requires = {
