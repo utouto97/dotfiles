@@ -9,9 +9,18 @@ require("packer").startup(function(use)
 	use({
 		"navarasu/onedark.nvim",
 		config = function()
+			require("onedark").setup({
+				style = "darker",
+			})
 			require("onedark").load()
 		end,
 	})
+	-- use({
+	-- 	"tanvirtin/monokai.nvim",
+	-- 	config = function()
+	-- 		require("monokai").setup({})
+	-- 	end,
+	-- })
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons" },
@@ -87,6 +96,7 @@ require("packer").startup(function(use)
 				--        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 				set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
+				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>")
 			end
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
@@ -123,21 +133,22 @@ require("packer").startup(function(use)
 				end
 			end
 
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 			null_ls.setup({
 				sources = null_sources,
 				-- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
-				on_attach = function(client, bufnr)
-					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = augroup,
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.formatting_sync()
-							end,
-						})
-					end
-				end,
+				-- on_attach = function(client, bufnr)
+				-- 	if client.supports_method("textDocument/formatting") then
+				-- 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+				-- 		vim.api.nvim_create_autocmd("BufWritePre", {
+				-- 			group = augroup,
+				-- 			buffer = bufnr,
+				-- 			callback = function()
+				-- 				vim.lsp.buf.formatting_sync()
+				-- 			end,
+				-- 		})
+				-- 	end
+				-- end,
 			})
 		end,
 	})
@@ -222,9 +233,9 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<Leader>e", "<cmd>Telescope find_files hidden=true<cr>")
 			vim.keymap.set("n", "<Leader>r", "<cmd>Telescope oldfiles<cr>")
 			vim.keymap.set("n", "<Leader>l", "<cmd>Telescope buffers<cr>")
-			vim.keymap.set("n", "<Leader>g", "<cmd>Telescope git_status<cr>")
+			-- vim.keymap.set("n", "<Leader>g", "<cmd>Telescope git_status<cr>")
 			vim.keymap.set("n", "<Leader>d", "<cmd>Telescope diagnostics<cr>")
-			vim.keymap.set("n", "<Leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+			vim.keymap.set("n", "g/", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
 			vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>")
 			vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>")
 			vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>")
@@ -247,7 +258,8 @@ require("packer").startup(function(use)
 		requires = { "nvim-telescope/telescope.nvim" },
 		config = function()
 			require("memo").setup()
-			vim.keymap.set("n", "<Leader>m", "<cmd>MemoList<cr>")
+			require("telescope").load_extension("memo")
+			vim.keymap.set("n", "<Leader>m", "<cmd>Telescope memo<cr>")
 		end,
 	})
 
@@ -261,9 +273,6 @@ require("packer").startup(function(use)
 			"nvim-neotest/neotest-go",
 		},
 		config = function()
-			vim.keymap.set("n", "<Leader>t", require("neotest").run.run)
-			vim.keymap.set("n", "<Leader>T", require("neotest").run.run_last)
-
 			local neotest_ns = vim.api.nvim_create_namespace("neotest")
 			vim.diagnostic.config({
 				virtual_text = {
@@ -279,6 +288,11 @@ require("packer").startup(function(use)
 					require("neotest-go"),
 				},
 			})
+
+			vim.keymap.set("n", "<Leader>tl", "<cmd>lua require('neotest').summary.toggle()<cr>")
+			vim.keymap.set("n", "<Leader>to", "<cmd>lua require('neotest').output.open()<cr>")
+			vim.keymap.set("n", "<Leader>tt", "<cmd>lua require('neotest').run.run()<cr>")
+			vim.keymap.set("n", "<Leader>tr", "<cmd>lua require('neotest').run.run_last()<cr>")
 		end,
 	})
 
@@ -319,7 +333,7 @@ require("packer").startup(function(use)
 	use({
 		"rcarriga/nvim-notify",
 		config = function()
-			-- vim.notify = require("notify")
+			vim.notify = require("notify")
 		end,
 	})
 	use({
@@ -331,7 +345,7 @@ require("packer").startup(function(use)
 		config = function()
 			local actions = require("lir.actions")
 
-			vim.keymap.set("n", "<Leader>f", require("lir.float").toggle)
+			vim.keymap.set("n", "<Leader>p", require("lir.float").toggle)
 
 			require("lir").setup({
 				show_hidden_files = true,
@@ -375,6 +389,16 @@ end)
 
 vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
+vim.cmd([[
+augroup MyColors
+autocmd!
+  autocmd ColorScheme * highlight FloatBorder guibg=none guifg=orange
+  autocmd ColorScheme * highlight NormalFloat guibg=none
+augroup end
+]])
+
+vim.cmd([[au BufWritePre * lua vim.lsp.buf.formatting_sync()]])
+
 vim.opt.encoding = "utf-8"
 vim.opt.relativenumber = true
 vim.opt.hidden = true
@@ -395,9 +419,10 @@ vim.opt.clipboard:append({ "unnamedplus" })
 vim.g.mapleader = " "
 vim.keymap.set("n", "ZZ", "<nop>")
 vim.keymap.set("n", "ZQ", "<nop>")
-vim.keymap.set("n", "<C-j>", "<cmd>bp<cr>")
-vim.keymap.set("n", "<C-k>", "<cmd>bn<cr>")
+-- vim.keymap.set("n", "<C-j>", "<cmd>bp<cr>")
+-- vim.keymap.set("n", "<C-k>", "<cmd>bn<cr>")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("i", "jj", "<Esc>")
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n>")
+-- vim.keymap.set("t", "<C-j>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
