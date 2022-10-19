@@ -96,10 +96,10 @@ require("packer").startup(function(use)
 				--        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 				set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
-				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>")
+				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
 			end
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local opts = { capabilities = capabilities, on_attach = on_attach }
 
 			require("mason-lspconfig").setup()
@@ -397,7 +397,7 @@ autocmd!
 augroup end
 ]])
 
-vim.cmd([[au BufWritePre * lua vim.lsp.buf.formatting_sync()]])
+vim.cmd([[au BufWritePre * lua vim.lsp.buf.format()]])
 
 vim.opt.encoding = "utf-8"
 vim.opt.relativenumber = true
