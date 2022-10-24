@@ -14,6 +14,7 @@ if [ "$(uname)" = "Darwin" ]; then
   # MacOS
   eval "$(/opt/homebrew/bin/brew shellenv)"
   alias ls='ls -G'
+  alias pbcopy="pbcopy;pbpaste"
 elif [ "$(uname)" = "Linux" ]; then
   # Linux
   alias fd='fdfind'
