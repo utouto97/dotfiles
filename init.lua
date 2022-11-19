@@ -105,6 +105,7 @@ require("packer").startup(function(use)
 				set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
 				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
+				vim.cmd([[au CursorHold * lua vim.diagnostic.open_float()]])
 			end
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -145,18 +146,18 @@ require("packer").startup(function(use)
 			null_ls.setup({
 				sources = null_sources,
 				-- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
-				-- on_attach = function(client, bufnr)
-				-- 	if client.supports_method("textDocument/formatting") then
-				-- 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-				-- 		vim.api.nvim_create_autocmd("BufWritePre", {
-				-- 			group = augroup,
-				-- 			buffer = bufnr,
-				-- 			callback = function()
-				-- 				vim.lsp.buf.formatting_sync()
-				-- 			end,
-				-- 		})
-				-- 	end
-				-- end,
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.formatting_sync()
+							end,
+						})
+					end
+				end,
 			})
 		end,
 	})
@@ -405,13 +406,9 @@ autocmd!
 augroup end
 ]])
 
-vim.cmd([[au BufWritePre * lua vim.lsp.buf.format()]])
-vim.cmd([[au CursorHold * lua vim.diagnostic.open_float()]])
-
 vim.opt.encoding = "utf-8"
 vim.opt.relativenumber = true
 vim.opt.hidden = true
---vim.opt.updatetime=250
 vim.opt.visualbell = true
 vim.opt.showmatch = true
 vim.opt.matchtime = 1
