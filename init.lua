@@ -104,7 +104,7 @@ require("packer").startup(function(use)
 				--        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 				set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
-				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
+				-- set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
 				vim.api.nvim_create_autocmd({ "CursorHold" }, {
 					callback = function()
 						vim.diagnostic.open_float(nil, { focusable = false })
@@ -157,7 +157,7 @@ require("packer").startup(function(use)
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								vim.lsp.buf.formatting_sync()
+								vim.lsp.buf.formatting()
 							end,
 						})
 					end
