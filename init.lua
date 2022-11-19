@@ -156,7 +156,7 @@ require("packer").startup(function(use)
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								vim.lsp.buf.formatting()
+								vim.lsp.buf.format({ async = true })
 							end,
 						})
 					end
