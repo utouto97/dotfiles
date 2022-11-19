@@ -15,6 +15,7 @@ if [ "$(uname)" = "Darwin" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
   alias ls='ls -G'
   alias pbcopy="pbcopy;pbpaste"
+  alias sed='gsed'
 elif [ "$(uname)" = "Linux" ]; then
   # Linux
   alias fd='fdfind'
@@ -36,6 +37,9 @@ export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s"
 '
 
 # --- Alias ---
+alias sudo='sudo '
+alias xargs='xargs '
+
 alias ..='cd ..'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
