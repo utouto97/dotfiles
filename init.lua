@@ -105,7 +105,11 @@ require("packer").startup(function(use)
 				set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
 				set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
-				vim.cmd([[au CursorHold * lua vim.diagnostic.open_float()]])
+				vim.api.nvim_create_autocmd({ "CursorHold" }, {
+					callback = function()
+						vim.diagnostic.open_float(nil, { focusable = false })
+					end,
+				})
 			end
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -396,7 +400,7 @@ require("packer").startup(function(use)
 	})
 end)
 
-vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
+-- vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
 vim.cmd([[
 augroup MyColors
