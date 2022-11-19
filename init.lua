@@ -133,7 +133,9 @@ require("packer").startup(function(use)
 
 			mason.setup({})
 
-			local null_sources = {}
+			local null_sources = {
+				null_ls.builtins.formatting.gofmt,
+			}
 
 			for _, package in ipairs(mason_registry.get_installed_packages()) do
 				local package_categories = package.spec.categories[1]
@@ -156,7 +158,12 @@ require("packer").startup(function(use)
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								vim.lsp.buf.format({ async = true })
+								vim.lsp.buf.format({
+									filter = function(c)
+										return c.name == "null-ls"
+									end,
+									bufnr = bufnr,
+								})
 							end,
 						})
 					end
