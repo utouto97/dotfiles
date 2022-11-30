@@ -43,7 +43,16 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
-	use({ "lukas-reineke/indent-blankline.nvim" })
+	use({
+		"lukas-reineke/indent-blankline.nvim",
+		config = function()
+			require("indent_blankline").setup({
+				space_char_blankline = " ",
+				show_current_context = true,
+				show_current_context_start = true,
+			})
+		end,
+	})
 	-- use {
 	--   "yamatsum/nvim-cursorline",
 	--   config = function()
@@ -80,7 +89,7 @@ require("packer").startup(function(use)
 		branch = "v2",
 		config = function()
 			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-			vim.keymap.set("n", "F", "<cmd>HopChar1<cr>")
+			vim.keymap.set("n", "F", "<cmd>HopChar2<cr>")
 		end,
 	})
 
