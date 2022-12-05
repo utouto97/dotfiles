@@ -370,7 +370,8 @@ require("packer").startup(function(use)
 	-- その他
 	use({
 		"tyru/open-browser.vim",
-		config = function()
+		keys = { "<Plug>(openbrowser-smart-search)" },
+		setup = function()
 			vim.keymap.set("n", "gu", "<Plug>(openbrowser-smart-search)")
 			vim.keymap.set("v", "gu", "<Plug>(openbrowser-smart-search)")
 		end,
