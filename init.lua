@@ -260,22 +260,47 @@ require("packer").startup(function(use)
 	})
 
 	-- ファジーファインダー
+	use({ "nvim-lua/plenary.nvim" })
+
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
-		requires = { "nvim-lua/plenary.nvim" },
-		config = function()
-			vim.keymap.set("n", "<Leader>e", "<cmd>Telescope find_files hidden=true<cr>")
-			vim.keymap.set("n", "<Leader>r", "<cmd>Telescope oldfiles<cr>")
-			vim.keymap.set("n", "<Leader>l", "<cmd>Telescope buffers<cr>")
-			-- vim.keymap.set("n", "<Leader>g", "<cmd>Telescope git_status<cr>")
-			vim.keymap.set("n", "<Leader>d", "<cmd>Telescope diagnostics<cr>")
-			vim.keymap.set("n", "g/", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-			vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<cr>")
-			vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>")
-			vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>")
-			vim.keymap.set("n", "gs", "<cmd>Telescope lsp_document_symbols<cr>")
+		module = { "telescope" },
+		requires = {
+			{ "nvim-lua/plenary.nvim", opt = true },
+			{ "~/work/pg/memo.nvim", opt = true },
+		},
+		wants = {
+			"plenary.nvim",
+			"memo.nvim",
+		},
+		setup = function()
+			local function builtin(name)
+				return function()
+					return require("telescope.builtin")[name]({})
+				end
+			end
 
+			local function extension(name, prop)
+				return function()
+					local telescope = require("telescope")
+					telescope.load_extension(name)
+					return telescope.extensions[name][prop]({})
+				end
+			end
+
+			vim.keymap.set("n", "<Leader>e", builtin("find_files"))
+			vim.keymap.set("n", "<Leader>r", builtin("oldfiles"))
+			vim.keymap.set("n", "<Leader>l", builtin("buffers"))
+			vim.keymap.set("n", "<Leader>d", builtin("diagnostics"))
+			vim.keymap.set("n", "gi", builtin("lsp_implementations"))
+			vim.keymap.set("n", "gi", builtin("lsp_implementations"))
+			vim.keymap.set("n", "gd", builtin("lsp_definitions"))
+			vim.keymap.set("n", "gr", builtin("lsp_references"))
+			vim.keymap.set("n", "gs", builtin("lsp_document_symbols"))
+			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
+		end,
+		config = function()
 			require("telescope").setup({
 				defaults = {
 					file_ignore_patterns = {
@@ -284,17 +309,6 @@ require("packer").startup(function(use)
 					},
 				},
 			})
-		end,
-	})
-
-	use({
-		"~/work/pg/memo.nvim",
-		-- 'utouto97/memo.nvim',
-		requires = { "nvim-telescope/telescope.nvim" },
-		config = function()
-			require("memo").setup()
-			require("telescope").load_extension("memo")
-			vim.keymap.set("n", "<Leader>m", "<cmd>Telescope memo<cr>")
 		end,
 	})
 
