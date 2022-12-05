@@ -394,6 +394,7 @@ require("packer").startup(function(use)
 	})
 	use({
 		"lewis6991/gitsigns.nvim",
+		event = { "FocusLost", "CursorHold" },
 		config = function()
 			require("gitsigns").setup()
 		end,
