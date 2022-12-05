@@ -383,10 +383,15 @@ require("packer").startup(function(use)
 	})
 	use({
 		"terrortylor/nvim-comment",
-		config = function()
+		keys = {
+			{ "n", "gc" },
+			{ "v", "gc" },
+		},
+		setup = function()
 			vim.keymap.set("n", "gc", "<cmd>CommentToggle<cr>")
 			vim.keymap.set("v", "gc", "<cmd>CommentToggle<cr>")
-
+		end,
+		config = function()
 			require("nvim_comment").setup()
 		end,
 	})
