@@ -84,9 +84,13 @@ require("packer").startup(function(use)
 	use({
 		"phaazon/hop.nvim",
 		branch = "v2",
+		cmd = { "HopChar2" },
+		setup = function()
+			vim.keymap.set("n", "F", "<cmd>HopChar2<cr>")
+			vim.keymap.set("v", "F", "<cmd>HopChar2<cr>")
+		end,
 		config = function()
 			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-			vim.keymap.set("n", "F", "<cmd>HopChar2<cr>")
 		end,
 	})
 	use({
