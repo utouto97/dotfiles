@@ -1,6 +1,9 @@
 export LANG=ja_JP.UTF-8
 # setopt print_eight_bit
 
+# 計測ツール
+# zmodload zsh/zprof
+
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
@@ -21,9 +24,12 @@ elif [ "$(uname)" = "Linux" ]; then
   alias fd='fdfind'
 fi
 
-# load .zshrc.local
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
-
+lazy-load() {
+  # load .zshrc.local
+  [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd lazy-load
 
 setopt PROMPT_SUBST
 source ~/.git-prompt.sh
@@ -81,3 +87,6 @@ alias dcl="docker-compose logs"
 alias dcr="docker-compose run --rm"
 alias dcd="docker-compose down"
 alias dcrestart="docker-compose restart"
+
+# 計測ツール
+# zprof
