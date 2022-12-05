@@ -19,6 +19,7 @@ require("packer").startup(function(use)
 	})
 	use({
 		"nvim-lualine/lualine.nvim",
+		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 		wants = { "nvim-web-devicons" },
 		config = function()
