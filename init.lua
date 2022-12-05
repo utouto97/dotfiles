@@ -404,6 +404,7 @@ require("packer").startup(function(use)
 	})
 	use({
 		"rcarriga/nvim-notify",
+		event = { "BufRead", "BufNewFile" },
 		config = function()
 			vim.notify = require("notify")
 		end,
