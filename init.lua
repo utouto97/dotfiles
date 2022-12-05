@@ -1,6 +1,7 @@
 vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
+	use({ "wbthomason/packer.nvim", opt = true })
 	-- 外観
 	-- use({
 	-- 	"navarasu/onedark.nvim",
@@ -289,11 +290,13 @@ require("packer").startup(function(use)
 			{ "nvim-lua/plenary.nvim", opt = true },
 			{ "~/work/pg/memo.nvim", opt = true },
 			{ "kyazdani42/nvim-web-devicons", opt = true },
+			{ "ahmedkhalf/project.nvim", opt = true },
 		},
 		wants = {
 			"plenary.nvim",
 			"memo.nvim",
 			"nvim-web-devicons",
+			"project.nvim",
 		},
 		setup = function()
 			local function builtin(name)
@@ -320,6 +323,7 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "gr", builtin("lsp_references"))
 			vim.keymap.set("n", "gs", builtin("lsp_document_symbols"))
 			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
+			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
 		end,
 		config = function()
 			require("telescope").setup({
@@ -329,6 +333,11 @@ require("packer").startup(function(use)
 						".git",
 					},
 				},
+			})
+
+			require("project_nvim").setup({
+				silent_chdir = false,
+				scope_chdir = "tab",
 			})
 		end,
 	})
