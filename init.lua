@@ -1,10 +1,6 @@
 vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
-	use({ "wbthomason/packer.nvim", opt = true })
-
-	use({ "kyazdani42/nvim-web-devicons" })
-
 	-- 外観
 	-- use({
 	-- 	"navarasu/onedark.nvim",
@@ -23,7 +19,8 @@ require("packer").startup(function(use)
 	})
 	use({
 		"nvim-lualine/lualine.nvim",
-		requires = { "kyazdani42/nvim-web-devicons" },
+		requires = { "kyazdani42/nvim-web-devicons", opt = true },
+		wants = { "nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
 				options = {
@@ -281,10 +278,12 @@ require("packer").startup(function(use)
 		requires = {
 			{ "nvim-lua/plenary.nvim", opt = true },
 			{ "~/work/pg/memo.nvim", opt = true },
+			{ "kyazdani42/nvim-web-devicons", opt = true },
 		},
 		wants = {
 			"plenary.nvim",
 			"memo.nvim",
+			"nvim-web-devicons",
 		},
 		setup = function()
 			local function builtin(name)
