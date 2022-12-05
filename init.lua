@@ -195,6 +195,7 @@ require("packer").startup(function(use)
 	-- Treesitter
 	use({
 		"nvim-treesitter/nvim-treesitter",
+		event = { "BufRead", "BufNewFile" },
 		run = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
