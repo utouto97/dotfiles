@@ -95,9 +95,12 @@ require("packer").startup(function(use)
 	})
 	use({
 		"drybalka/tree-climber.nvim",
-		config = function()
+		module = { "tree-climber" },
+		setup = function()
 			local keyopts = { noremap = true, silent = true }
-			vim.keymap.set({ "n", "v" }, "H", require("tree-climber").goto_parent, keyopts)
+			vim.keymap.set({ "n", "v" }, "H", function()
+				require("tree-climber").goto_parent()
+			end, keyopts)
 		end,
 	})
 
