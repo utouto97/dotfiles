@@ -71,11 +71,14 @@ require("packer").startup(function(use)
 	-- 操作
 	use({
 		"akinsho/toggleterm.nvim",
+		cmd = { "ToggleTerm", "ToggleTermSendVisualLines" },
 		tag = "v2.*",
-		config = function()
+		setup = function()
 			vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("v", "<C-t>", ":ToggleTermSendVisualLines<cr> <bar> <cmd>ToggleTerm<cr>")
+		end,
+		config = function()
 			require("toggleterm").setup({
 				direction = "float",
 			})
