@@ -397,55 +397,55 @@ require("packer").startup(function(use)
 			vim.notify = require("notify")
 		end,
 	})
-	use({
-		"tamago324/lir.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"kyazdani42/nvim-web-devicons",
-		},
-		config = function()
-			local actions = require("lir.actions")
-
-			vim.keymap.set("n", "<Leader>p", require("lir.float").toggle)
-
-			require("lir").setup({
-				show_hidden_files = true,
-				devicons_enable = true,
-				mappings = {
-					["l"] = actions.edit,
-					["h"] = actions.up,
-					["q"] = actions.quit,
-					["K"] = actions.mkdir,
-					["N"] = actions.newfile,
-					["R"] = actions.rename,
-					["@"] = actions.cd,
-					["Y"] = actions.yank_path,
-					["D"] = actions.delete,
-				},
-				float = {
-					winblend = 0,
-					curdir_window = {
-						enable = true,
-						highlight_dirname = true,
-					},
-					win_opts = function()
-						local width = math.floor(vim.o.columns * 0.6)
-						local height = math.floor(vim.o.lines * 0.6)
-						return {
-							border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
-							width = width,
-							height = height,
-						}
-					end,
-				},
-				hide_cursor = true,
-				on_init = function()
-					vim.api.nvim_echo({ { vim.fn.expand("%:p"), "Normal" } }, false, {})
-					vim.cmd([[hi link LirFloatBorder Normal]])
-				end,
-			})
-		end,
-	})
+	-- use({
+	-- 	"tamago324/lir.nvim",
+	-- 	requires = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"kyazdani42/nvim-web-devicons",
+	-- 	},
+	-- 	config = function()
+	-- 		local actions = require("lir.actions")
+	--
+	-- 		vim.keymap.set("n", "<Leader>p", require("lir.float").toggle)
+	--
+	-- 		require("lir").setup({
+	-- 			show_hidden_files = true,
+	-- 			devicons_enable = true,
+	-- 			mappings = {
+	-- 				["l"] = actions.edit,
+	-- 				["h"] = actions.up,
+	-- 				["q"] = actions.quit,
+	-- 				["K"] = actions.mkdir,
+	-- 				["N"] = actions.newfile,
+	-- 				["R"] = actions.rename,
+	-- 				["@"] = actions.cd,
+	-- 				["Y"] = actions.yank_path,
+	-- 				["D"] = actions.delete,
+	-- 			},
+	-- 			float = {
+	-- 				winblend = 0,
+	-- 				curdir_window = {
+	-- 					enable = true,
+	-- 					highlight_dirname = true,
+	-- 				},
+	-- 				win_opts = function()
+	-- 					local width = math.floor(vim.o.columns * 0.6)
+	-- 					local height = math.floor(vim.o.lines * 0.6)
+	-- 					return {
+	-- 						border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+	-- 						width = width,
+	-- 						height = height,
+	-- 					}
+	-- 				end,
+	-- 			},
+	-- 			hide_cursor = true,
+	-- 			on_init = function()
+	-- 				vim.api.nvim_echo({ { vim.fn.expand("%:p"), "Normal" } }, false, {})
+	-- 				vim.cmd([[hi link LirFloatBorder Normal]])
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- })
 end)
 
 -- vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
