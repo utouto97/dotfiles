@@ -325,13 +325,26 @@ require("packer").startup(function(use)
 
 	-- テスト
 	use({
+		module = { "neotest" },
 		"nvim-neotest/neotest",
 		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"antoinemadec/FixCursorHold.nvim",
-			"nvim-neotest/neotest-go",
+			{ "nvim-lua/plenary.nvim", opt = true },
+			{ "nvim-treesitter/nvim-treesitter", opt = true },
+			{ "antoinemadec/FixCursorHold.nvim", opt = true },
+			{ "nvim-neotest/neotest-go", opt = true },
 		},
+		wants = {
+			"plenary.nvim",
+			"nvim-treesitter",
+			"FixCursorHold.nvim",
+			"neotest-go",
+		},
+		setup = function()
+			vim.keymap.set("n", "<Leader>tl", "<cmd>lua require('neotest').summary.toggle()<cr>")
+			vim.keymap.set("n", "<Leader>to", "<cmd>lua require('neotest').output.open()<cr>")
+			vim.keymap.set("n", "<Leader>tt", "<cmd>lua require('neotest').run.run()<cr>")
+			vim.keymap.set("n", "<Leader>tr", "<cmd>lua require('neotest').run.run_last()<cr>")
+		end,
 		config = function()
 			local neotest_ns = vim.api.nvim_create_namespace("neotest")
 			vim.diagnostic.config({
@@ -348,11 +361,6 @@ require("packer").startup(function(use)
 					require("neotest-go"),
 				},
 			})
-
-			vim.keymap.set("n", "<Leader>tl", "<cmd>lua require('neotest').summary.toggle()<cr>")
-			vim.keymap.set("n", "<Leader>to", "<cmd>lua require('neotest').output.open()<cr>")
-			vim.keymap.set("n", "<Leader>tt", "<cmd>lua require('neotest').run.run()<cr>")
-			vim.keymap.set("n", "<Leader>tr", "<cmd>lua require('neotest').run.run_last()<cr>")
 		end,
 	})
 
