@@ -65,7 +65,7 @@ alias gco='git restore'
 # alias gco='git checkout'
 alias gl='git log'
 alias ggr='git log --oneline --graph --decorate --all'
-alias gp='git push'
+alias gp='git push -u'
 alias gf='git fetch -p'
 alias gr='git rebase'
 

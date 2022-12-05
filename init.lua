@@ -92,6 +92,13 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "F", "<cmd>HopChar2<cr>")
 		end,
 	})
+	use({
+		"drybalka/tree-climber.nvim",
+		config = function()
+			local keyopts = { noremap = true, silent = true }
+			vim.keymap.set({ "n", "v" }, "H", require("tree-climber").goto_parent, keyopts)
+		end,
+	})
 
 	-- LSP
 	use({ "neovim/nvim-lspconfig" })
