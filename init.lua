@@ -269,8 +269,6 @@ require("packer").startup(function(use)
 	})
 
 	-- ファジーファインダー
-	use({ "nvim-lua/plenary.nvim" })
-
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
