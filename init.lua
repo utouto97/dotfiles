@@ -101,16 +101,22 @@ require("packer").startup(function(use)
 	})
 
 	-- LSP
-	use({ "neovim/nvim-lspconfig" })
+	-- use({ "neovim/nvim-lspconfig", opt = true })
 	use({
 		"williamboman/mason.nvim",
+		cmd = { "Mason" },
 		config = function()
 			require("mason").setup()
 		end,
 	})
 	use({
 		"williamboman/mason-lspconfig.nvim",
-		after = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
+		event = { "BufRead", "BufNewFile" },
+		requires = {
+			{ "hrsh7th/cmp-nvim-lsp", opt = true },
+			{ "neovim/nvim-lspconfig", opt = true },
+		},
+		wants = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
 		config = function()
 			local on_attach = function(_, _)
 				local set = vim.keymap.set
@@ -140,7 +146,8 @@ require("packer").startup(function(use)
 	})
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
-		after = "mason.nvim",
+		event = { "BufRead", "BufNewFile" },
+		wants = { "mason.nvim" },
 		config = function()
 			local mason = require("mason")
 			local mason_package = require("mason-core.package")
