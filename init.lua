@@ -207,12 +207,17 @@ require("packer").startup(function(use)
 	-- 補完
 	use({
 		"hrsh7th/nvim-cmp",
+		module = { "cmp" },
 		requires = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-vsnip",
-			"hrsh7th/vim-vsnip",
-			"onsails/lspkind-nvim",
-			"ray-x/cmp-treesitter",
+			{ "hrsh7th/cmp-nvim-lsp", event = { "InsertEnter" } },
+			{ "ray-x/cmp-treesitter", event = { "InsertEnter" } },
+			{ "hrsh7th/cmp-vsnip", event = { "InsertEnter" } },
+			{ "hrsh7th/vim-vsnip", opt = true },
+			{ "onsails/lspkind-nvim", opt = true },
+		},
+		wants = {
+			"vim-vsnip",
+			"lspkind-nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
