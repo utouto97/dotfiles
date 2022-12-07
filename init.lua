@@ -340,7 +340,6 @@ require("packer").startup(function(use)
 
 			require("project_nvim").setup({
 				silent_chdir = false,
-				scope_chdir = "tab",
 			})
 		end,
 	})
@@ -350,6 +349,14 @@ require("packer").startup(function(use)
 		"stevearc/overseer.nvim",
 		config = function()
 			require("overseer").setup()
+		end,
+	})
+
+	-- local settings
+	use({
+		"klen/nvim-config-local",
+		config = function()
+			require("config-local").setup({})
 		end,
 	})
 
