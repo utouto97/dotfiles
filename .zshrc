@@ -24,12 +24,8 @@ elif [ "$(uname)" = "Linux" ]; then
   alias fd='fdfind'
 fi
 
-lazy-load() {
-  # load .zshrc.local
-  [ -f ~/.zshrc.local ] && source ~/.zshrc.local
-}
-autoload -Uz add-zsh-hook
-add-zsh-hook chpwd lazy-load
+# load .zshrc.local
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 setopt PROMPT_SUBST
 source ~/.git-prompt.sh
