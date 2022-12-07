@@ -306,7 +306,7 @@ require("packer").startup(function(use)
 		tag = "0.1.0",
 		module = { "telescope" },
 		requires = {
-			{ "~/work/pg/memo.nvim", opt = true },
+			{ "utouto97/memo.nvim", opt = true },
 			{ "ahmedkhalf/project.nvim", opt = true },
 		},
 		wants = {
