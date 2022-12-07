@@ -74,7 +74,7 @@ require("packer").startup(function(use)
 	use({
 		"akinsho/toggleterm.nvim",
 		cmd = { "ToggleTerm", "ToggleTermSendVisualLines" },
-		tag = "v2.*",
+		tag = "2.*",
 		setup = function()
 			vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<cr>")
@@ -83,6 +83,7 @@ require("packer").startup(function(use)
 		config = function()
 			require("toggleterm").setup({
 				direction = "float",
+				autochdir = true,
 			})
 		end,
 	})
@@ -324,6 +325,8 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "gs", builtin("lsp_document_symbols"))
 			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
 			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
+			vim.keymap.set("n", "<Leader>g", builtin("git_branches"))
+			-- vim.api.nvim_create_user_command("Gsw", builtin("git_branches"), {})
 		end,
 		config = function()
 			require("telescope").setup({
@@ -342,10 +345,18 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	-- task runner
+	use({
+		"stevearc/overseer.nvim",
+		config = function()
+			require("overseer").setup()
+		end,
+	})
+
 	-- テスト
 	use({
-		module = { "neotest" },
 		"nvim-neotest/neotest",
+		module = { "neotest" },
 		requires = {
 			{ "nvim-lua/plenary.nvim", opt = true },
 			{ "nvim-treesitter/nvim-treesitter", opt = true },
