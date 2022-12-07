@@ -340,6 +340,7 @@ require("packer").startup(function(use)
 
 			require("project_nvim").setup({
 				silent_chdir = false,
+				detection_methods = { "pattern" },
 			})
 		end,
 	})
