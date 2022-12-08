@@ -366,6 +366,7 @@ require("packer").startup(function(use)
 
 	use({
 		"stevearc/overseer.nvim",
+		module = { "overseer" },
 		config = function()
 			require("overseer").setup()
 		end,
