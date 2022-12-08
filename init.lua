@@ -3,17 +3,36 @@ vim.cmd([[packadd packer.nvim]])
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim", opt = true })
 
-	-- 外観
+	--------------------------------------------------
+	-- # requirements
+	--------------------------------------------------
+
+	-- nvim-web-devicons
+	-- required by lualine.nvim telescope.nvim
+	use({ "kyazdani42/nvim-web-devicons", opt = true })
+
+	-- plenary.nvim
+	-- required by null-ls.nvim telescope.nvim neotest
+	use({ "nvim-lua/plenary.nvim", opt = true })
+
+	-- nvim-lspconfig
+	-- required by mason-lspconfig.nvim
+	use({ "neovim/nvim-lspconfig", opt = true })
+
+	--------------------------------------------------
+	-- Appearance
+	--------------------------------------------------
+
 	use({
 		"tanvirtin/monokai.nvim",
 		config = function()
 			require("monokai").setup({})
 		end,
 	})
+
 	use({
 		"nvim-lualine/lualine.nvim",
 		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 		wants = { "nvim-web-devicons" },
 		config = function()
 			require("lualine").setup({
@@ -34,6 +53,7 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
 	use({
 		"lukas-reineke/indent-blankline.nvim",
 		event = { "BufRead", "BufNewFile" },
@@ -47,7 +67,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- 操作
+	--------------------------------------------------
+	-- Terminal
+	--------------------------------------------------
+
 	use({
 		"akinsho/toggleterm.nvim",
 		cmd = { "ToggleTerm", "ToggleTermSendVisualLines" },
@@ -64,6 +87,11 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
+	--------------------------------------------------
+	-- Motion
+	--------------------------------------------------
+
 	use({
 		"phaazon/hop.nvim",
 		branch = "v2",
@@ -76,6 +104,7 @@ require("packer").startup(function(use)
 			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 		end,
 	})
+
 	use({
 		"drybalka/tree-climber.nvim",
 		module = { "tree-climber" },
@@ -87,7 +116,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	--------------------------------------------------
 	-- LSP
+	--------------------------------------------------
+
 	use({
 		"williamboman/mason.nvim",
 		cmd = { "Mason" },
@@ -95,12 +127,12 @@ require("packer").startup(function(use)
 			require("mason").setup()
 		end,
 	})
+
 	use({
 		"williamboman/mason-lspconfig.nvim",
 		event = { "BufRead", "BufNewFile" },
 		requires = {
 			{ "hrsh7th/cmp-nvim-lsp", opt = true },
-			{ "neovim/nvim-lspconfig", opt = true },
 		},
 		wants = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
 		config = function()
@@ -130,6 +162,7 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		event = { "BufRead", "BufNewFile" },
@@ -181,7 +214,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	--------------------------------------------------
 	-- Treesitter
+	--------------------------------------------------
+
 	use({
 		"nvim-treesitter/nvim-treesitter",
 		event = { "BufRead", "BufNewFile" },
@@ -198,7 +234,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- 補完
+	--------------------------------------------------
+	-- Completion
+	--------------------------------------------------
+
 	use({
 		"hrsh7th/nvim-cmp",
 		module = { "cmp" },
@@ -258,14 +297,15 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- ファジーファインダー
+	--------------------------------------------------
+	-- Fuzzy finder
+	--------------------------------------------------
+
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
 		module = { "telescope" },
 		requires = {
-			{ "nvim-lua/plenary.nvim", opt = true },
-			{ "kyazdani42/nvim-web-devicons", opt = true },
 			{ "~/work/pg/memo.nvim", opt = true },
 			{ "ahmedkhalf/project.nvim", opt = true },
 		},
@@ -320,7 +360,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- task runner
+	--------------------------------------------------
+	-- Task runner
+	--------------------------------------------------
+
 	use({
 		"stevearc/overseer.nvim",
 		config = function()
@@ -328,7 +371,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- local settings
+	--------------------------------------------------
+	-- Project local settings
+	--------------------------------------------------
+
 	use({
 		"klen/nvim-config-local",
 		config = function()
@@ -336,13 +382,14 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- テスト
+	--------------------------------------------------
+	-- Testing
+	--------------------------------------------------
+
 	use({
 		"nvim-neotest/neotest",
 		module = { "neotest" },
 		requires = {
-			{ "nvim-lua/plenary.nvim", opt = true },
-			{ "nvim-treesitter/nvim-treesitter", opt = true },
 			{ "antoinemadec/FixCursorHold.nvim", opt = true },
 			{ "nvim-neotest/neotest-go", opt = true },
 		},
@@ -377,7 +424,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	--------------------------------------------------
 	-- Github
+	--------------------------------------------------
+
 	use({
 		"pwntester/octo.nvim",
 		cmd = { "Octo" },
@@ -390,7 +440,10 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- その他
+	--------------------------------------------------
+	-- Others
+	--------------------------------------------------
+
 	use({
 		"tyru/open-browser.vim",
 		keys = { "<Plug>(openbrowser-smart-search)" },
@@ -399,6 +452,7 @@ require("packer").startup(function(use)
 			vim.keymap.set("v", "gu", "<Plug>(openbrowser-smart-search)")
 		end,
 	})
+
 	use({
 		"iamcco/markdown-preview.nvim",
 		opt = true,
@@ -410,6 +464,7 @@ require("packer").startup(function(use)
 			vim.g.mkdp_auto_close = 0
 		end,
 	})
+
 	use({
 		"terrortylor/nvim-comment",
 		keys = {
@@ -424,6 +479,7 @@ require("packer").startup(function(use)
 			require("nvim_comment").setup()
 		end,
 	})
+
 	use({
 		"lewis6991/gitsigns.nvim",
 		event = { "FocusLost", "CursorHold" },
@@ -431,6 +487,7 @@ require("packer").startup(function(use)
 			require("gitsigns").setup()
 		end,
 	})
+
 	use({
 		"rcarriga/nvim-notify",
 		event = { "BufRead", "BufNewFile" },
