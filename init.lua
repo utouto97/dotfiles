@@ -2,6 +2,19 @@ vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim", opt = true })
+	use({
+		"pwntester/octo.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"kyazdani42/nvim-web-devicons",
+		},
+		config = function()
+			require("octo").setup()
+			vim.keymap.set("n", "gh", "<cmd>Octo actions<cr>")
+			-- vim.keymap.set("n", "ghcr", ":Octo review ")
+		end,
+	})
 	-- 外観
 	-- use({
 	-- 	"navarasu/onedark.nvim",
