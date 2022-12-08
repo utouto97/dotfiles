@@ -44,6 +44,8 @@ require("packer").startup(function(use)
 	})
 	use({
 		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufRead", "BufNewFile" },
+		wants = { "nvim-treesitter" },
 		config = function()
 			require("indent_blankline").setup({
 				space_char_blankline = " ",
@@ -157,7 +159,7 @@ require("packer").startup(function(use)
 	use({
 		"jose-elias-alvarez/null-ls.nvim",
 		event = { "BufRead", "BufNewFile" },
-		wants = { "mason.nvim" },
+		wants = { "mason.nvim", "plenary.nvim" },
 		config = function()
 			local mason = require("mason")
 			local mason_package = require("mason-core.package")
