@@ -2,19 +2,7 @@ vim.cmd([[packadd packer.nvim]])
 
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim", opt = true })
-	use({
-		"pwntester/octo.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-			"kyazdani42/nvim-web-devicons",
-		},
-		config = function()
-			require("octo").setup()
-			vim.keymap.set("n", "gh", "<cmd>Octo actions<cr>")
-			-- vim.keymap.set("n", "ghcr", ":Octo review ")
-		end,
-	})
+
 	-- 外観
 	-- use({
 	-- 	"navarasu/onedark.nvim",
@@ -304,14 +292,14 @@ require("packer").startup(function(use)
 		module = { "telescope" },
 		requires = {
 			{ "nvim-lua/plenary.nvim", opt = true },
-			{ "~/work/pg/memo.nvim", opt = true },
 			{ "kyazdani42/nvim-web-devicons", opt = true },
+			{ "~/work/pg/memo.nvim", opt = true },
 			{ "ahmedkhalf/project.nvim", opt = true },
 		},
 		wants = {
 			"plenary.nvim",
-			"memo.nvim",
 			"nvim-web-devicons",
+			"memo.nvim",
 			"project.nvim",
 		},
 		setup = function()
@@ -341,7 +329,6 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
 			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
 			vim.keymap.set("n", "<Leader>g", builtin("git_branches"))
-			-- vim.api.nvim_create_user_command("Gsw", builtin("git_branches"), {})
 		end,
 		config = function()
 			require("telescope").setup({
@@ -414,6 +401,19 @@ require("packer").startup(function(use)
 					require("neotest-go"),
 				},
 			})
+		end,
+	})
+
+	-- Github
+	use({
+		"pwntester/octo.nvim",
+		cmd = { "Octo" },
+		wants = { "telescope.nvim" },
+		setup = function()
+			vim.keymap.set("n", "gh", "<cmd>Octo actions<cr>")
+		end,
+		config = function()
+			require("octo").setup({})
 		end,
 	})
 
