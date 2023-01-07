@@ -308,12 +308,14 @@ require("packer").startup(function(use)
 		requires = {
 			{ "~/work/pg/memo.nvim", opt = true },
 			{ "ahmedkhalf/project.nvim", opt = true },
+			{ "sakuemon/telescope-overseer.nvim", opt = true },
 		},
 		wants = {
 			"plenary.nvim",
 			"nvim-web-devicons",
 			"memo.nvim",
 			"project.nvim",
+			"telescope-overseer.nvim",
 		},
 		setup = function()
 			local function builtin(name)
@@ -341,7 +343,9 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "gs", builtin("lsp_document_symbols"))
 			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
 			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
-			vim.keymap.set("n", "<Leader>g", builtin("git_branches"))
+			vim.keymap.set("n", "<Leader>gb", builtin("git_branches"))
+			vim.keymap.set("n", "<Leader>gs", builtin("git_status"))
+			vim.keymap.set("n", "<Leader>a", extension("overseer", "overseer"))
 		end,
 		config = function()
 			require("telescope").setup({
@@ -490,10 +494,64 @@ require("packer").startup(function(use)
 	})
 
 	use({
+		"akinsho/git-conflict.nvim",
+		tag = "*",
+		event = { "BufRead" },
+		config = function()
+			require("git-conflict").setup({
+				default_mappings = false,
+				default_commands = true,
+				disable_diagnostics = true,
+			})
+
+			vim.keymap.set("n", "<Leader>go", "<cmd>GitConflictChooseOurs<cr>")
+			vim.keymap.set("n", "<Leader>gt", "<cmd>GitConflictChooseTheirs<cr>")
+			-- vim.keymap.set("n", "<Leader>gb", "<cmd>GitConflictChooseBoth<cr>")
+			vim.keymap.set("n", "<Leader>g0", "<cmd>GitConflictChooseNone<cr>")
+		end,
+	})
+
+	use({
 		"rcarriga/nvim-notify",
 		event = { "BufRead", "BufNewFile" },
 		config = function()
 			vim.notify = require("notify")
+		end,
+	})
+
+	-- http client (curl wrapper)
+	use({
+		"rest-nvim/rest.nvim",
+		ft = { "http" },
+		wants = { "plenary.nvim" },
+		setup = function()
+			vim.keymap.set("n", "<Leader>q", "<Plug>RestNvim")
+		end,
+		config = function()
+			require("rest-nvim").setup({
+				result_split_in_place = true,
+				skip_ssl_verification = false,
+				encode_url = true,
+				highlight = {
+					enabled = true,
+					timeout = 150,
+				},
+				result = {
+					show_url = true,
+					show_http_info = true,
+					show_headers = true,
+					formatters = {
+						json = "jq",
+						html = function(body)
+							return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
+						end,
+					},
+				},
+				jump_to_request = false,
+				env_file = ".env",
+				custom_dynamic_variables = {},
+				yank_dry_run = true,
+			})
 		end,
 	})
 end)
@@ -521,6 +579,7 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.ignorecase = true
+vim.opt.wrap = true
 vim.opt.ambiwidth = single
 vim.opt.updatetime = 1000
 vim.opt.clipboard:append({ "unnamedplus" })
