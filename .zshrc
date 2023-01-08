@@ -49,7 +49,7 @@ alias ..3='cd ../../..'
 # ls (exaに置き換え)
 alias ls='ls -l'
 if type "exa" >/dev/null 2>&1; then
-  alias ls='exa -l --git'
+  alias ls='exa -l'
 fi
 alias la='ls -la'
 
