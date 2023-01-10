@@ -548,10 +548,53 @@ require("packer").startup(function(use)
 					},
 				},
 				jump_to_request = false,
-				env_file = ".env",
+				env_file = ".nvim/.env",
 				custom_dynamic_variables = {},
 				yank_dry_run = true,
 			})
+
+			local httpfile = ".nvim/.http"
+			vim.keymap.set("n", "<leader>qq", function()
+				local pickers = require("telescope.pickers")
+				local finders = require("telescope.finders")
+				local conf = require("telescope.config").values
+				local opts = {
+					entry_maker = function(entry)
+						local line, req = "", ""
+						for l, r in string.gmatch(entry, "(%w+):(.+)") do
+							line, req = l, r
+						end
+						return {
+							value = { line, req },
+							display = req,
+							ordinal = req,
+							path = httpfile,
+							lnum = tonumber(line),
+						}
+					end,
+				}
+				pickers
+					.new(opts, {
+						prompt_title = "rest-nvim",
+						finder = finders.new_oneshot_job({
+							"grep",
+							"-n",
+							"-e",
+							"GET",
+							"-e",
+							"POST",
+							"-e",
+							"PUT",
+							"-e",
+							"PATCH",
+							"-e",
+							"DELETE",
+							httpfile,
+						}, opts),
+						sorter = conf.generic_sorter(opts),
+					})
+					:find()
+			end)
 		end,
 	})
 end)
