@@ -84,6 +84,9 @@ require("packer").startup(function(use)
 			require("toggleterm").setup({
 				direction = "float",
 				autochdir = true,
+				float_opts = {
+					winblend = 15,
+				},
 			})
 		end,
 	})
@@ -626,6 +629,7 @@ vim.opt.wrap = true
 vim.opt.ambiwidth = single
 vim.opt.updatetime = 1000
 vim.opt.clipboard:append({ "unnamedplus" })
+vim.opt.equalalways = false
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "ZZ", "<nop>")
@@ -637,3 +641,4 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("i", "jj", "<Esc>")
 -- vim.keymap.set("t", "<C-j>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-w>", "<C-\\><C-n>")
