@@ -120,17 +120,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"drybalka/tree-climber.nvim",
-		module = { "tree-climber" },
-		setup = function()
-			local keyopts = { noremap = true, silent = true }
-			vim.keymap.set({ "n", "v" }, "H", function()
-				require("tree-climber").goto_parent()
-			end, keyopts)
-		end,
-	})
-
 	--------------------------------------------------
 	-- LSP
 	--------------------------------------------------
@@ -360,7 +349,6 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
 			vim.keymap.set("n", "<Leader>gb", builtin("git_branches"))
 			vim.keymap.set("n", "<Leader>gs", builtin("git_status"))
-			vim.keymap.set("n", "<Leader>o", "<cmd>OverseerToggle right<cr>")
 		end,
 		config = function()
 			require("telescope").setup({
@@ -388,24 +376,24 @@ require("packer").startup(function(use)
 	-- Task runner
 	--------------------------------------------------
 
-	use({
-		"stevearc/overseer.nvim",
-		module = { "overseer" },
-		config = function()
-			require("overseer").setup({})
-		end,
-	})
+	-- use({
+	-- 	"stevearc/overseer.nvim",
+	-- 	module = { "overseer" },
+	-- 	config = function()
+	-- 		require("overseer").setup({})
+	-- 	end,
+	-- })
 
 	--------------------------------------------------
 	-- Project local settings
 	--------------------------------------------------
 
-	use({
-		"klen/nvim-config-local",
-		config = function()
-			require("config-local").setup({})
-		end,
-	})
+	-- use({
+	-- 	"klen/nvim-config-local",
+	-- 	config = function()
+	-- 		require("config-local").setup({})
+	-- 	end,
+	-- })
 
 	--------------------------------------------------
 	-- Testing
@@ -450,7 +438,7 @@ require("packer").startup(function(use)
 	})
 
 	--------------------------------------------------
-	-- Github
+	-- Git, Github
 	--------------------------------------------------
 
 	use({
@@ -462,6 +450,32 @@ require("packer").startup(function(use)
 		end,
 		config = function()
 			require("octo").setup({})
+		end,
+	})
+
+	use({
+		"lewis6991/gitsigns.nvim",
+		event = { "FocusLost", "CursorHold" },
+		config = function()
+			require("gitsigns").setup()
+		end,
+	})
+
+	use({
+		"akinsho/git-conflict.nvim",
+		tag = "*",
+		event = { "BufRead" },
+		config = function()
+			require("git-conflict").setup({
+				default_mappings = false,
+				default_commands = true,
+				disable_diagnostics = true,
+			})
+
+			vim.keymap.set("n", "<Leader>go", "<cmd>GitConflictChooseOurs<cr>")
+			vim.keymap.set("n", "<Leader>gt", "<cmd>GitConflictChooseTheirs<cr>")
+			-- vim.keymap.set("n", "<Leader>gb", "<cmd>GitConflictChooseBoth<cr>")
+			vim.keymap.set("n", "<Leader>g0", "<cmd>GitConflictChooseNone<cr>")
 		end,
 	})
 
@@ -502,32 +516,6 @@ require("packer").startup(function(use)
 		end,
 		config = function()
 			require("nvim_comment").setup()
-		end,
-	})
-
-	use({
-		"lewis6991/gitsigns.nvim",
-		event = { "FocusLost", "CursorHold" },
-		config = function()
-			require("gitsigns").setup()
-		end,
-	})
-
-	use({
-		"akinsho/git-conflict.nvim",
-		tag = "*",
-		event = { "BufRead" },
-		config = function()
-			require("git-conflict").setup({
-				default_mappings = false,
-				default_commands = true,
-				disable_diagnostics = true,
-			})
-
-			vim.keymap.set("n", "<Leader>go", "<cmd>GitConflictChooseOurs<cr>")
-			vim.keymap.set("n", "<Leader>gt", "<cmd>GitConflictChooseTheirs<cr>")
-			-- vim.keymap.set("n", "<Leader>gb", "<cmd>GitConflictChooseBoth<cr>")
-			vim.keymap.set("n", "<Leader>g0", "<cmd>GitConflictChooseNone<cr>")
 		end,
 	})
 
@@ -621,14 +609,6 @@ end)
 
 -- vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
--- vim.cmd([[
--- augroup MyColors
--- autocmd!
---   autocmd ColorScheme * highlight FloatBorder guibg=none guifg=orange
---   autocmd ColorScheme * highlight NormalFloat guibg=none
--- augroup end
--- ]])
-
 vim.opt.encoding = "utf-8"
 vim.opt.relativenumber = true
 vim.opt.hidden = true
@@ -651,11 +631,8 @@ vim.opt.equalalways = false
 vim.g.mapleader = " "
 vim.keymap.set("n", "ZZ", "<nop>")
 vim.keymap.set("n", "ZQ", "<nop>")
--- vim.keymap.set("n", "<C-j>", "<cmd>bp<cr>")
--- vim.keymap.set("n", "<C-k>", "<cmd>bn<cr>")
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 vim.keymap.set("i", "jj", "<Esc>")
--- vim.keymap.set("t", "<C-j>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-w>", "<C-\\><C-n>")
