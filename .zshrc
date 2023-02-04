@@ -66,10 +66,11 @@ alias gco='git restore'
 # alias grs="git restore"
 # alias gco='git checkout'
 alias gl='git log'
-alias ggr='git log --oneline --graph --decorate --all'
+alias glg='git log --oneline --graph --decorate -20'
 alias gp='git push -u'
 alias gf='git fetch -p'
 alias gr='git rebase'
+alias gg='git grep'
 
 # docker & docker-compose
 alias d='docker'
