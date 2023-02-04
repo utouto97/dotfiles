@@ -23,12 +23,24 @@ require("packer").startup(function(use)
 	-- Appearance
 	--------------------------------------------------
 
+	-- use({
+	-- 	"tanvirtin/monokai.nvim",
+	-- 	config = function()
+	-- 		require("monokai").setup({})
+	-- 	end,
+	-- })
 	use({
-		"tanvirtin/monokai.nvim",
+		"folke/tokyonight.nvim",
 		config = function()
-			require("monokai").setup({})
+			vim.cmd([[colorscheme tokyonight-night]])
 		end,
 	})
+	-- use({
+	-- 	"EdenEast/nightfox.nvim",
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme tokyonight]])
+	-- 	end,
+	-- })
 
 	use({
 		"nvim-lualine/lualine.nvim",
@@ -38,7 +50,7 @@ require("packer").startup(function(use)
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
-					theme = "onedark",
+					theme = "tokyonight",
 					component_separators = { left = "", right = "" },
 					-- section_separators = { left = '', right = ''},
 				},
@@ -85,7 +97,7 @@ require("packer").startup(function(use)
 				direction = "float",
 				autochdir = true,
 				float_opts = {
-					winblend = 15,
+					-- winblend = 15,
 				},
 			})
 		end,
@@ -179,7 +191,7 @@ require("packer").startup(function(use)
 			mason.setup({})
 
 			local null_sources = {
-				null_ls.builtins.formatting.gofmt,
+				null_ls.builtins.formatting.goimports,
 			}
 
 			for _, package in ipairs(mason_registry.get_installed_packages()) do
@@ -348,7 +360,7 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
 			vim.keymap.set("n", "<Leader>gb", builtin("git_branches"))
 			vim.keymap.set("n", "<Leader>gs", builtin("git_status"))
-			vim.keymap.set("n", "<Leader>a", extension("overseer", "overseer"))
+			vim.keymap.set("n", "<Leader>o", "<cmd>OverseerToggle right<cr>")
 		end,
 		config = function()
 			require("telescope").setup({
@@ -356,6 +368,11 @@ require("packer").startup(function(use)
 					file_ignore_patterns = {
 						"node_modules",
 						".git",
+					},
+				},
+				pickers = {
+					find_files = {
+						hidden = true,
 					},
 				},
 			})
@@ -375,7 +392,7 @@ require("packer").startup(function(use)
 		"stevearc/overseer.nvim",
 		module = { "overseer" },
 		config = function()
-			require("overseer").setup()
+			require("overseer").setup({})
 		end,
 	})
 
@@ -604,13 +621,13 @@ end)
 
 -- vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
 
-vim.cmd([[
-augroup MyColors
-autocmd!
-  autocmd ColorScheme * highlight FloatBorder guibg=none guifg=orange
-  autocmd ColorScheme * highlight NormalFloat guibg=none
-augroup end
-]])
+-- vim.cmd([[
+-- augroup MyColors
+-- autocmd!
+--   autocmd ColorScheme * highlight FloatBorder guibg=none guifg=orange
+--   autocmd ColorScheme * highlight NormalFloat guibg=none
+-- augroup end
+-- ]])
 
 vim.opt.encoding = "utf-8"
 vim.opt.relativenumber = true
