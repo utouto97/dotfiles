@@ -23,18 +23,18 @@ require("packer").startup(function(use)
 	-- Appearance
 	--------------------------------------------------
 
-	-- use({
-	-- 	"tanvirtin/monokai.nvim",
-	-- 	config = function()
-	-- 		require("monokai").setup({})
-	-- 	end,
-	-- })
 	use({
-		"folke/tokyonight.nvim",
+		"tanvirtin/monokai.nvim",
 		config = function()
-			vim.cmd([[colorscheme tokyonight-night]])
+			require("monokai").setup({})
 		end,
 	})
+	-- use({
+	-- 	"folke/tokyonight.nvim",
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme tokyonight-night]])
+	-- 	end,
+	-- })
 	-- use({
 	-- 	"EdenEast/nightfox.nvim",
 	-- 	config = function()
@@ -50,7 +50,7 @@ require("packer").startup(function(use)
 			require("lualine").setup({
 				options = {
 					icons_enabled = true,
-					theme = "tokyonight",
+					theme = "onedark",
 					component_separators = { left = "", right = "" },
 					-- section_separators = { left = '', right = ''},
 				},
@@ -181,6 +181,7 @@ require("packer").startup(function(use)
 
 			local null_sources = {
 				null_ls.builtins.formatting.goimports,
+				null_ls.builtins.diagnostics.cfn_lint,
 			}
 
 			for _, package in ipairs(mason_registry.get_installed_packages()) do
@@ -627,6 +628,8 @@ vim.opt.ambiwidth = single
 vim.opt.updatetime = 1000
 vim.opt.clipboard:append({ "unnamedplus" })
 vim.opt.equalalways = false
+
+vim.o.shell = "zsh"
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "ZZ", "<nop>")

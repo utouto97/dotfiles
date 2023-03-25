@@ -7,6 +7,7 @@ export LANG=ja_JP.UTF-8
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
+export TERM=xterm-256color
 
 # 補完機能を有効にする
 autoload -Uz compinit
@@ -37,6 +38,10 @@ GIT_PS1_SHOWUPSTREAM=auto
 
 export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
 '
+
+# --- Docker Default Platform ---
+
+# export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # --- Alias ---
 alias sudo='sudo '
@@ -70,6 +75,7 @@ alias glg='git log --oneline --graph --decorate -20'
 alias gp='git push -u'
 alias gf='git fetch -p'
 alias gr='git rebase'
+alias gm='git merge'
 alias gg='git grep'
 
 # docker & docker-compose
