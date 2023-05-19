@@ -21,8 +21,12 @@ if [ "$(uname)" = "Darwin" ]; then
   alias pbcopy="pbcopy;pbpaste"
   alias sed='gsed'
 elif [ "$(uname)" = "Linux" ]; then
-  # Linux
-  alias fd='fdfind'
+  if [ "$(uname -r)" = "*microsoft*" ]; then
+    echo "WSL"
+  else
+    # Linux
+    alias fd='fdfind'
+  fi
 fi
 
 # load .zshrc.local
@@ -80,16 +84,16 @@ alias gg='git grep'
 
 # docker & docker-compose
 alias d='docker'
-alias dc='docker-compose'
-alias dce='docker-compose exec'
-alias dcp="docker-compose ps"
-alias dcb="docker-compose build"
-alias dcu="docker-compose up -d"
-alias dcub="docker-compose up -d --build"
-alias dcl="docker-compose logs"
-alias dcr="docker-compose run --rm"
-alias dcd="docker-compose down"
-alias dcrestart="docker-compose restart"
+alias dc='docker compose'
+alias dce='docker compose exec'
+alias dcp="docker compose ps"
+alias dcb="docker compose build"
+alias dcu="docker compose up -d"
+alias dcub="docker compose up -d --build"
+alias dcl="docker compose logs"
+alias dcr="docker compose run --rm"
+alias dcd="docker compose down"
+alias dcrestart="docker compose restart"
 
 # 計測ツール
 # zprof

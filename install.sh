@@ -14,17 +14,28 @@ if [ "$(uname)" = "Darwin" ]; then
   brew install fd exa bat neovim
 
 elif [ "$(uname)" = "Linux" ]; then
-  # Linux
+  if [ "$(uname -r)" = "*microsoft*" ]; then
+    echo "WSL"
 
-  apt update -y
+    # 必要なものをインストール
+    # sudo apt install -y zsh git exa bat fd-find wget
+    #
+    # Cica font をインストール
+    # https://github.com/miiton/Cica
 
-  # 必要なものをインストール
-  apt install -y zsh git exa bat fd-find wget
+  else
+    # Linux
 
-  # install neovim
-  wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-  tar zxf nvim-linux64.tar.gz
-  cp -R nvim-linux64/* /usr/local/
+    apt update -y
+
+    # 必要なものをインストール
+    apt install -y zsh git exa bat fd-find wget
+
+    # install neovim
+    wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+    tar zxf nvim-linux64.tar.gz
+    cp -R nvim-linux64/* /usr/local/
+  fi
 fi
 
 # --- zshに切り替え
