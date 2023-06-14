@@ -123,6 +123,7 @@ require("packer").startup(function(use)
 	use({
 		"kylechui/nvim-surround",
 		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = { "BufRead", "BufNewFile" },
 		config = function()
 			require("nvim-surround").setup({
 				-- Configuration here, or leave empty to use defaults
@@ -189,10 +190,7 @@ require("packer").startup(function(use)
 
 			mason.setup({})
 
-			local null_sources = {
-				null_ls.builtins.formatting.goimports,
-				null_ls.builtins.diagnostics.cfn_lint,
-			}
+			local null_sources = {}
 
 			for _, package in ipairs(mason_registry.get_installed_packages()) do
 				local package_categories = package.spec.categories[1]
@@ -401,6 +399,8 @@ require("packer").startup(function(use)
 
 	use({
 		"klen/nvim-config-local",
+		event = { "BufRead", "BufNewFile" },
+		wants = { "nvim-lspconfig", "null-ls.nvim" },
 		config = function()
 			require("config-local").setup({})
 		end,
