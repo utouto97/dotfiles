@@ -362,14 +362,12 @@ require("packer").startup(function(use)
 		module = { "telescope" },
 		requires = {
 			{ "~/work/pg/memo.nvim", opt = true },
-			{ "ahmedkhalf/project.nvim", opt = true },
 			{ "sakuemon/telescope-overseer.nvim", opt = true },
 		},
 		wants = {
 			"plenary.nvim",
 			"nvim-web-devicons",
 			"memo.nvim",
-			"project.nvim",
 			"telescope-overseer.nvim",
 		},
 		setup = function()
@@ -397,7 +395,6 @@ require("packer").startup(function(use)
 			vim.keymap.set("n", "gr", builtin("lsp_references"))
 			vim.keymap.set("n", "gs", builtin("lsp_document_symbols"))
 			vim.keymap.set("n", "<Leader>m", extension("memo", "memo"))
-			vim.keymap.set("n", "<Leader>p", extension("projects", "projects"))
 			vim.keymap.set("n", "<Leader>gb", builtin("git_branches"))
 			vim.keymap.set("n", "<Leader>gs", builtin("git_status"))
 		end,
@@ -414,11 +411,6 @@ require("packer").startup(function(use)
 						hidden = true,
 					},
 				},
-			})
-
-			require("project_nvim").setup({
-				silent_chdir = false,
-				detection_methods = { "pattern" },
 			})
 		end,
 	})
