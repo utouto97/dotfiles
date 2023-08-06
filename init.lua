@@ -44,10 +44,11 @@ require("packer").startup(function(use)
 
 	use({
 		"folke/noice.nvim",
+		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
 		requires = {
-			{ "MunifTanjim/nui.nvim" },
+			{ "MunifTanjim/nui.nvim", opt = true },
 		},
-		wants = { "nivm-notify" },
+		wants = { "nui.nvim", "nvim-notify" },
 		config = function()
 			require("noice").setup({
 				lsp = {
@@ -65,6 +66,28 @@ require("packer").startup(function(use)
 					long_message_to_split = true, -- long messages will be sent to a split
 					inc_rename = false, -- enables an input dialog for inc-rename.nvim
 					lsp_doc_border = false, -- add a border to hover docs and signature help
+				},
+			})
+		end,
+	})
+
+	use({
+		"rcarriga/nvim-notify",
+		event = { "BufRead", "BufNewFile" },
+		module = { "notify" },
+		config = function()
+			vim.notify = require("notify")
+		end,
+	})
+
+	use({
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
+		config = function()
+			require("fidget").setup({
+				text = {
+					spinner = "moon",
 				},
 			})
 		end,
@@ -589,27 +612,6 @@ require("packer").startup(function(use)
 		end,
 		config = function()
 			require("nvim_comment").setup()
-		end,
-	})
-
-	use({
-		"rcarriga/nvim-notify",
-		event = { "BufRead", "BufNewFile" },
-		module = { "notify" },
-		config = function()
-			vim.notify = require("notify")
-		end,
-	})
-
-	use({
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		config = function()
-			require("fidget").setup({
-				text = {
-					spinner = "moon",
-				},
-			})
 		end,
 	})
 
