@@ -22,8 +22,20 @@ require("packer").startup(function(use)
 	--------------------------------------------------
 	-- Appearance
 	--------------------------------------------------
+
+	-- use({
+	-- 	"norcalli/nvim-colorizer.lua",
+	-- })
+
+	use({
+		"echasnovski/mini.indentscope",
+		branch = "stable",
+		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
+	})
+
 	use({
 		"lewis6991/hover.nvim",
+		module = { "hover" },
 		config = function()
 			require("hover").setup({
 				init = function()
@@ -71,6 +83,7 @@ require("packer").startup(function(use)
 	use({
 		"mvllow/modes.nvim",
 		tag = "v0.2.0",
+		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
 		config = function()
 			require("modes").setup()
 		end,
