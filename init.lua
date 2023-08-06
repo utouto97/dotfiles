@@ -572,6 +572,18 @@ require("packer").startup(function(use)
 		end,
 	})
 
+	use({
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		config = function()
+			require("fidget").setup({
+				text = {
+					spinner = "moon",
+				},
+			})
+		end,
+	})
+
 	-- http client (curl wrapper)
 	use({
 		"rest-nvim/rest.nvim",
