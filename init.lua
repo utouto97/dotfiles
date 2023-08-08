@@ -28,6 +28,15 @@ require("packer").startup(function(use)
 	-- })
 
 	use({
+		"akinsho/bufferline.nvim",
+		tag = "*",
+		wants = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("bufferline").setup({})
+		end,
+	})
+
+	use({
 		"gen740/SmoothCursor.nvim",
 		config = function()
 			require("smoothcursor").setup({
@@ -783,6 +792,7 @@ vim.opt.ambiwidth = single
 vim.opt.updatetime = 1000
 vim.opt.clipboard:append({ "unnamedplus" })
 vim.opt.equalalways = false
+vim.opt.termguicolors = true
 
 vim.o.shell = "zsh"
 
