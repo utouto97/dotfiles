@@ -28,6 +28,27 @@ require("packer").startup(function(use)
 	-- })
 
 	use({
+		"gen740/SmoothCursor.nvim",
+		config = function()
+			require("smoothcursor").setup({
+				type = "exp",
+				fancy = {
+					enable = true,
+					body = {
+						{ cursor = "●", texthl = "SmoothCursorRed" },
+						{ cursor = "●", texthl = "SmoothCursorOrange" },
+						{ cursor = "●", texthl = "SmoothCursorYellow" },
+						{ cursor = "●", texthl = "SmoothCursorGreen" },
+						{ cursor = "•", texthl = "SmoothCursorAqua" },
+						{ cursor = ".", texthl = "SmoothCursorBlue" },
+						{ cursor = ".", texthl = "SmoothCursorPurple" },
+					},
+				},
+			})
+		end,
+	})
+
+	use({
 		"echasnovski/mini.indentscope",
 		branch = "stable",
 		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
