@@ -804,9 +804,3 @@ vim.keymap.set("n", "k", "gk")
 vim.keymap.set("i", "jj", "<Esc>")
 vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
 vim.keymap.set("t", "<C-w>", "<C-\\><C-n>")
-
-local signs = { Error = "😱", Warn = "🙄", Hint = " ", Info = "🫥" }
-for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-end
