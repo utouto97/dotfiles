@@ -85,7 +85,8 @@ require("packer").startup(function(use)
 				preview_window = false,
 				title = true,
 			})
-
+		end,
+		setup = function()
 			-- Setup keymaps
 			vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
 		end,
