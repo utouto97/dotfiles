@@ -55,7 +55,7 @@ require("lazy").setup({
 	},
 	{
 		"mvllow/modes.nvim",
-		tag = "v0.2.0",
+		version = "v0.2.0",
 		event = "VeryLazy",
 		config = function()
 			require("modes").setup()
@@ -90,7 +90,7 @@ require("lazy").setup({
 	},
 	{
 		"j-hui/fidget.nvim",
-		tag = "legacy",
+		version = "legacy",
 		event = "VeryLazy",
 		config = function()
 			require("fidget").setup({})
@@ -158,7 +158,6 @@ require("lazy").setup({
 	},
 	{
 		"lewis6991/hover.nvim",
-		module = { "hover" },
 		config = function()
 			require("hover").setup({
 				init = function()
@@ -192,7 +191,7 @@ require("lazy").setup({
 	{
 		"akinsho/toggleterm.nvim",
 		cmd = { "ToggleTerm", "ToggleTermSendVisualLines" },
-		tag = "2.*",
+		version = "2.*",
 		init = function()
 			vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<cr>")
@@ -229,7 +228,6 @@ require("lazy").setup({
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
 		},
-		wants = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
 		config = function()
 			local on_attach = function(_, _)
 				local set = vim.keymap.set
@@ -310,7 +308,6 @@ require("lazy").setup({
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		module = { "cmp" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"ray-x/cmp-treesitter",
@@ -386,8 +383,7 @@ require("lazy").setup({
 
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.0",
-		module = { "telescope" },
+		version = "0.1.0",
 		dependencies = {
 			"utouto97/memo.nvim",
 		},
@@ -443,7 +439,7 @@ require("lazy").setup({
 	{
 		"nvim-treesitter/nvim-treesitter",
 		event = { "BufRead", "BufNewFile" },
-		run = function()
+		build = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 		config = function()
@@ -495,7 +491,7 @@ require("lazy").setup({
 
 	{
 		"tyru/open-browser.vim",
-		-- keys = { "<Plug>(openbrowser-smart-search)" },
+		keys = { "<Plug>(openbrowser-smart-search)" },
 		init = function()
 			vim.keymap.set("n", "gu", "<Plug>(openbrowser-smart-search)")
 			vim.keymap.set("v", "gu", "<Plug>(openbrowser-smart-search)")
@@ -503,9 +499,9 @@ require("lazy").setup({
 	},
 	{
 		"iamcco/markdown-preview.nvim",
-		opt = true,
+		lazy = true,
 		ft = "markdown",
-		run = function()
+		build = function()
 			vim.fn["mkdp#util#install"]()
 		end,
 		config = function()
@@ -514,14 +510,10 @@ require("lazy").setup({
 	},
 	{
 		"terrortylor/nvim-comment",
-		-- keys = {
-		-- 	{ "n", "gc" },
-		-- 	{ "v", "gc" },
-		-- },
-		init = function()
-			vim.keymap.set("n", "gc", "<cmd>CommentToggle<cr>")
-			vim.keymap.set("v", "gc", "<cmd>CommentToggle<cr>")
-		end,
+		keys = {
+			{ "gc", "<cmd>CommentToggle<cr>", mode = "n" },
+			{ "gc", "<cmd>CommentToggle<cr>", mode = "v" },
+		},
 		config = function()
 			require("nvim_comment").setup()
 		end,
