@@ -42,6 +42,17 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local opts = {
+	defaults = {
+		lazy = true,
+	},
+	performance = {
+		cache = {
+			enabled = true,
+		},
+	},
+}
+
 require("lazy").setup({
 
 	-- 	--------------------------------------------------
@@ -49,6 +60,7 @@ require("lazy").setup({
 	-- 	--------------------------------------------------
 	{
 		"tanvirtin/monokai.nvim",
+		lazy = false,
 		config = function()
 			require("monokai").setup({})
 		end,
@@ -158,6 +170,9 @@ require("lazy").setup({
 	},
 	{
 		"lewis6991/hover.nvim",
+		keys = {
+			{ "K", function() require("hover").hover() end, desc = "hover.nvim" },
+		},
 		config = function()
 			require("hover").setup({
 				init = function()
@@ -177,10 +192,6 @@ require("lazy").setup({
 				preview_window = false,
 				title = true,
 			})
-		end,
-		init = function()
-			-- Setup keymaps
-			vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
 		end,
 	},
 
@@ -499,7 +510,6 @@ require("lazy").setup({
 	},
 	{
 		"iamcco/markdown-preview.nvim",
-		lazy = true,
 		ft = "markdown",
 		build = function()
 			vim.fn["mkdp#util#install"]()
@@ -525,4 +535,4 @@ require("lazy").setup({
 	-- 			require("config-local").setup({})
 	-- 		end,
 	-- 	},
-})
+}, opts)
