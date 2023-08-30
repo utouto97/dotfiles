@@ -1,42 +1,137 @@
-vim.cmd([[packadd packer.nvim]])
+vim.opt.encoding = "utf-8"
+vim.opt.relativenumber = true
+vim.opt.hidden = true
+vim.opt.visualbell = true
+vim.opt.showmatch = true
+vim.opt.matchtime = 1
+vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.opt.wrapscan = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+vim.opt.ignorecase = true
+vim.opt.wrap = true
+vim.opt.ambiwidth = single
+vim.opt.updatetime = 1000
+vim.opt.clipboard:append({ "unnamedplus" })
+vim.opt.equalalways = false
+vim.opt.termguicolors = true
 
-require("packer").startup(function(use)
-	use({ "wbthomason/packer.nvim", opt = true })
+vim.o.shell = "zsh"
 
-	--------------------------------------------------
-	-- # requirements
-	--------------------------------------------------
+vim.g.mapleader = " "
+vim.keymap.set("n", "ZZ", "<nop>")
+vim.keymap.set("n", "ZQ", "<nop>")
+vim.keymap.set("n", "j", "gj")
+vim.keymap.set("n", "k", "gk")
+vim.keymap.set("i", "jj", "<Esc>")
+vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
+vim.keymap.set("t", "<C-w>", "<C-\\><C-n>")
 
-	-- nvim-web-devicons
-	-- required by lualine.nvim telescope.nvim
-	use({ "kyazdani42/nvim-web-devicons", opt = true })
-
-	-- plenary.nvim
-	-- required by null-ls.nvim telescope.nvim neotest
-	use({ "nvim-lua/plenary.nvim", opt = true })
-
-	-- nvim-lspconfig
-	-- required by mason-lspconfig.nvim
-	use({ "neovim/nvim-lspconfig", opt = true })
-
-	--------------------------------------------------
-	-- Appearance
-	--------------------------------------------------
-
-	-- use({
-	-- 	"norcalli/nvim-colorizer.lua",
-	-- })
-
-	use({
-		"akinsho/bufferline.nvim",
-		tag = "*",
-		wants = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("bufferline").setup({})
-		end,
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
 	})
+end
+vim.opt.rtp:prepend(lazypath)
 
-	use({
+require("lazy").setup({
+
+	-- 	--------------------------------------------------
+	-- 	-- Appearance
+	-- 	--------------------------------------------------
+	{
+		"tanvirtin/monokai.nvim",
+		config = function()
+			require("monokai").setup({})
+		end,
+	},
+	{
+		"mvllow/modes.nvim",
+		tag = "v0.2.0",
+		event = "VeryLazy",
+		config = function()
+			require("modes").setup()
+		end,
+	},
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+		config = function()
+			require("noice").setup({
+				lsp = {
+					override = {
+						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+						["vim.lsp.util.stylize_markdown"] = true,
+						["cmp.entry.get_documentation"] = true,
+					},
+				},
+				-- you can enable a preset for easier configuration
+				presets = {
+					bottom_search = false, -- use a classic bottom cmdline for search
+					command_palette = true, -- position the cmdline and popupmenu together
+					long_message_to_split = true, -- long messages will be sent to a split
+					inc_rename = false, -- enables an input dialog for inc-rename.nvim
+					lsp_doc_border = false, -- add a border to hover docs and signature help
+				},
+			})
+		end,
+	},
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		event = "VeryLazy",
+		config = function()
+			require("fidget").setup({})
+		end,
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
+		dependencies = { "nvim-web-devicons" },
+		config = function()
+			require("lualine").setup({
+				options = {
+					icons_enabled = true,
+					theme = "onedark",
+					component_separators = { left = "", right = "" },
+					-- section_separators = { left = '', right = ''},
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "filename" },
+					lualine_c = { "branch", "diff" },
+					lualine_x = { "diagnostics" },
+					lualine_y = { "filetype", "encoding" },
+					lualine_z = { "location" },
+				},
+			})
+		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufRead", "BufNewFile" },
+		dependencies = { "nvim-treesitter" },
+		config = function()
+			require("indent_blankline").setup({
+				space_char_blankline = " ",
+				show_current_context = true,
+				show_current_context_start = true,
+			})
+		end,
+	},
+	{
 		"gen740/SmoothCursor.nvim",
 		config = function()
 			require("smoothcursor").setup({
@@ -55,15 +150,13 @@ require("packer").startup(function(use)
 				},
 			})
 		end,
-	})
-
-	use({
+	},
+	{
 		"echasnovski/mini.indentscope",
 		branch = "stable",
-		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-	})
-
-	use({
+		event = "VeryLazy",
+	},
+	{
 		"lewis6991/hover.nvim",
 		module = { "hover" },
 		config = function()
@@ -86,137 +179,21 @@ require("packer").startup(function(use)
 				title = true,
 			})
 		end,
-		setup = function()
+		init = function()
 			-- Setup keymaps
 			vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
 		end,
-	})
+	},
 
-	use({
-		"tanvirtin/monokai.nvim",
-		config = function()
-			require("monokai").setup({})
-		end,
-	})
-	-- use({
-	-- 	"folke/tokyonight.nvim",
-	-- 	config = function()
-	-- 		vim.cmd([[colorscheme tokyonight-night]])
-	-- 	end,
-	-- })
-	-- use({
-	-- 	"EdenEast/nightfox.nvim",
-	-- 	config = function()
-	-- 		vim.cmd([[colorscheme tokyonight]])
-	-- 	end,
-	-- })
+	-- 	--------------------------------------------------
+	-- 	-- Terminal
+	-- 	--------------------------------------------------
 
-	use({
-		"mvllow/modes.nvim",
-		tag = "v0.2.0",
-		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-		config = function()
-			require("modes").setup()
-		end,
-	})
-
-	use({
-		"folke/noice.nvim",
-		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-		requires = {
-			{ "MunifTanjim/nui.nvim", opt = true },
-		},
-		wants = { "nui.nvim", "nvim-notify" },
-		config = function()
-			require("noice").setup({
-				lsp = {
-					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				-- you can enable a preset for easier configuration
-				presets = {
-					bottom_search = false, -- use a classic bottom cmdline for search
-					command_palette = true, -- position the cmdline and popupmenu together
-					long_message_to_split = true, -- long messages will be sent to a split
-					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
-				},
-			})
-		end,
-	})
-
-	use({
-		"rcarriga/nvim-notify",
-		event = { "BufRead", "BufNewFile" },
-		module = { "notify" },
-		config = function()
-			vim.notify = require("notify")
-		end,
-	})
-
-	use({
-		"j-hui/fidget.nvim",
-		tag = "legacy",
-		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-		config = function()
-			require("fidget").setup({
-				text = {
-					spinner = "moon",
-				},
-			})
-		end,
-	})
-
-	use({
-		"nvim-lualine/lualine.nvim",
-		event = { "InsertEnter", "CursorHold", "FocusLost", "BufRead", "BufNewFile" },
-		wants = { "nvim-web-devicons" },
-		config = function()
-			require("lualine").setup({
-				options = {
-					icons_enabled = true,
-					theme = "onedark",
-					component_separators = { left = "", right = "" },
-					-- section_separators = { left = '', right = ''},
-				},
-				sections = {
-					lualine_a = { "mode" },
-					lualine_b = { "filename" },
-					lualine_c = { "branch", "diff" },
-					lualine_x = { "diagnostics" },
-					lualine_y = { "filetype", "encoding" },
-					lualine_z = { "location" },
-				},
-			})
-		end,
-	})
-
-	use({
-		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufRead", "BufNewFile" },
-		wants = { "nvim-treesitter" },
-		config = function()
-			require("indent_blankline").setup({
-				space_char_blankline = " ",
-				show_current_context = true,
-				show_current_context_start = true,
-			})
-		end,
-	})
-
-	--------------------------------------------------
-	-- Terminal
-	--------------------------------------------------
-
-	use({
+	{
 		"akinsho/toggleterm.nvim",
 		cmd = { "ToggleTerm", "ToggleTermSendVisualLines" },
 		tag = "2.*",
-		setup = function()
+		init = function()
 			vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<cr>")
 			vim.keymap.set("v", "<C-t>", ":ToggleTermSendVisualLines<cr> <bar> <cmd>ToggleTerm<cr>")
@@ -230,53 +207,27 @@ require("packer").startup(function(use)
 				},
 			})
 		end,
-	})
+	},
 
-	--------------------------------------------------
-	-- Motion
-	--------------------------------------------------
+	-- 	--------------------------------------------------
+	-- 	-- LSP
+	-- 	--------------------------------------------------
 
-	use({
-		"phaazon/hop.nvim",
-		branch = "v2",
-		cmd = { "HopChar2" },
-		setup = function()
-			vim.keymap.set("n", "<leader>f", "<cmd>HopChar2<cr>")
-			vim.keymap.set("v", "<leader>f", "<cmd>HopChar2<cr>")
-		end,
-		config = function()
-			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-		end,
-	})
-
-	use({
-		"kylechui/nvim-surround",
-		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = { "BufRead", "BufNewFile" },
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
-	})
-
-	--------------------------------------------------
-	-- LSP
-	--------------------------------------------------
-
-	use({
+	{
 		"williamboman/mason.nvim",
 		cmd = { "Mason" },
 		config = function()
 			require("mason").setup()
 		end,
-	})
+	},
 
-	use({
+	{
 		"williamboman/mason-lspconfig.nvim",
 		event = { "BufRead", "BufNewFile" },
-		requires = {
-			{ "hrsh7th/cmp-nvim-lsp", opt = true },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+			"hrsh7th/cmp-nvim-lsp",
 		},
 		wants = { "mason.nvim", "nvim-lspconfig", "cmp-nvim-lsp" },
 		config = function()
@@ -305,12 +256,14 @@ require("packer").startup(function(use)
 				end,
 			})
 		end,
-	})
-
-	use({
+	},
+	{
 		"jose-elias-alvarez/null-ls.nvim",
 		event = { "BufRead", "BufNewFile" },
-		wants = { "mason.nvim", "plenary.nvim" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"nvim-lua/plenary.nvim",
+		},
 		config = function()
 			local mason = require("mason")
 			local mason_package = require("mason-core.package")
@@ -354,70 +307,16 @@ require("packer").startup(function(use)
 				end,
 			})
 		end,
-	})
-
-	--------------------------------------------------
-	-- Treesitter
-	--------------------------------------------------
-
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		event = { "BufRead", "BufNewFile" },
-		run = function()
-			require("nvim-treesitter.install").update({ with_sync = true })
-		end,
-		config = function()
-			require("nvim-treesitter.configs").setup({
-				ensure_installed = { "lua" },
-				highlight = {
-					enable = true,
-				},
-			})
-		end,
-	})
-
-	--------------------------------------------------
-	-- Copilot
-	--------------------------------------------------
-	use({
-		"zbirenbaum/copilot.lua",
-		cmd = "Copilot",
-		config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-			})
-		end,
-	})
-
-	use({
-		"zbirenbaum/copilot-cmp",
-		event = "InsertEnter",
-		wants = { "copilot.lua" },
-		fix_pairs = true,
-		config = function()
-			require("copilot_cmp").setup()
-		end,
-	})
-
-	--------------------------------------------------
-	-- Completion
-	--------------------------------------------------
-
-	use({
+	},
+	{
 		"hrsh7th/nvim-cmp",
 		module = { "cmp" },
-		requires = {
-			{ "hrsh7th/cmp-nvim-lsp", event = { "InsertEnter" } },
-			{ "ray-x/cmp-treesitter", event = { "InsertEnter" } },
-			{ "hrsh7th/cmp-vsnip", event = { "InsertEnter" } },
-			{ "hrsh7th/vim-vsnip", opt = true },
-			{ "onsails/lspkind-nvim", opt = true },
-		},
-		wants = {
-			"vim-vsnip",
-			"lspkind-nvim",
-			"copilot-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"ray-x/cmp-treesitter",
+			"hrsh7th/cmp-vsnip",
+			"hrsh7th/vim-vsnip",
+			"onsails/lspkind-nvim",
 		},
 		config = function()
 			local has_words_before = function()
@@ -479,27 +378,20 @@ require("packer").startup(function(use)
 				},
 			})
 		end,
-	})
+	},
 
-	--------------------------------------------------
-	-- Fuzzy finder
-	--------------------------------------------------
+	-- 	--------------------------------------------------
+	-- 	-- Fuzzy finder
+	-- 	--------------------------------------------------
 
-	use({
+	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.0",
 		module = { "telescope" },
-		requires = {
-			{ "~/work/pg/memo.nvim", opt = true },
-			{ "sakuemon/telescope-overseer.nvim", opt = true },
+		dependencies = {
+			"utouto97/memo.nvim",
 		},
-		wants = {
-			"plenary.nvim",
-			"nvim-web-devicons",
-			"memo.nvim",
-			"telescope-overseer.nvim",
-		},
-		setup = function()
+		init = function()
 			local function builtin(name)
 				return function()
 					return require("telescope.builtin")[name]({})
@@ -542,131 +434,74 @@ require("packer").startup(function(use)
 				},
 			})
 		end,
-	})
+	},
 
-	--------------------------------------------------
-	-- Task runner
-	--------------------------------------------------
+	-- 	--------------------------------------------------
+	-- 	-- Treesitter
+	-- 	--------------------------------------------------
 
-	-- use({
-	-- 	"stevearc/overseer.nvim",
-	-- 	module = { "overseer" },
-	-- 	config = function()
-	-- 		require("overseer").setup({})
-	-- 	end,
-	-- })
-
-	--------------------------------------------------
-	-- Project local settings
-	--------------------------------------------------
-
-	use({
-		"klen/nvim-config-local",
+	{
+		"nvim-treesitter/nvim-treesitter",
 		event = { "BufRead", "BufNewFile" },
-		wants = { "nvim-lspconfig", "null-ls.nvim" },
-		config = function()
-			require("config-local").setup({})
-		end,
-	})
-
-	--------------------------------------------------
-	-- Testing
-	--------------------------------------------------
-
-	use({
-		"nvim-neotest/neotest",
-		module = { "neotest" },
-		requires = {
-			{ "antoinemadec/FixCursorHold.nvim", opt = true },
-			{ "nvim-neotest/neotest-go", opt = true },
-		},
-		wants = {
-			"plenary.nvim",
-			"nvim-treesitter",
-			"FixCursorHold.nvim",
-			"neotest-go",
-		},
-		setup = function()
-			vim.keymap.set("n", "<Leader>tl", "<cmd>lua require('neotest').summary.toggle()<cr>")
-			vim.keymap.set("n", "<Leader>to", "<cmd>lua require('neotest').output.open()<cr>")
-			vim.keymap.set("n", "<Leader>tt", "<cmd>lua require('neotest').run.run()<cr>")
-			vim.keymap.set("n", "<Leader>tr", "<cmd>lua require('neotest').run.run_last()<cr>")
+		run = function()
+			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 		config = function()
-			local neotest_ns = vim.api.nvim_create_namespace("neotest")
-			vim.diagnostic.config({
-				virtual_text = {
-					format = function(diagnostic)
-						local message =
-							diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-						return message
-					end,
-				},
-			}, neotest_ns)
-			require("neotest").setup({
-				adapters = {
-					require("neotest-go"),
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "lua" },
+				highlight = {
+					enable = true,
 				},
 			})
 		end,
-	})
+	},
 
-	--------------------------------------------------
-	-- Git, Github
-	--------------------------------------------------
-
-	use({
-		"pwntester/octo.nvim",
-		cmd = { "Octo" },
-		wants = { "telescope.nvim" },
-		setup = function()
-			vim.keymap.set("n", "gh", "<cmd>Octo actions<cr>")
-		end,
+	-- 	--------------------------------------------------
+	-- 	-- Copilot
+	-- 	--------------------------------------------------
+	{
+		"zbirenbaum/copilot-cmp",
+		event = "InsertEnter",
+		dependencies = {
+			{
+				"zbirenbaum/copilot.lua",
+				cmd = "Copilot",
+				config = function()
+					require("copilot").setup({
+						suggestion = { enabled = false },
+						panel = { enabled = false },
+					})
+				end,
+			},
+		},
+		fix_pairs = true,
 		config = function()
-			require("octo").setup({})
+			require("copilot_cmp").setup()
 		end,
-	})
+	},
 
-	use({
+	{
 		"lewis6991/gitsigns.nvim",
-		event = { "FocusLost", "CursorHold" },
+		event = "VeryLazy",
+		dependencies = { "kyazdani42/nvim-web-devicons" },
 		config = function()
 			require("gitsigns").setup()
 		end,
-	})
+	},
 
-	use({
-		"akinsho/git-conflict.nvim",
-		tag = "*",
-		event = { "BufRead" },
-		config = function()
-			require("git-conflict").setup({
-				default_mappings = false,
-				default_commands = true,
-				disable_diagnostics = true,
-			})
+	-- 	--------------------------------------------------
+	-- 	-- Others
+	-- 	--------------------------------------------------
 
-			vim.keymap.set("n", "<Leader>go", "<cmd>GitConflictChooseOurs<cr>")
-			vim.keymap.set("n", "<Leader>gt", "<cmd>GitConflictChooseTheirs<cr>")
-			-- vim.keymap.set("n", "<Leader>gb", "<cmd>GitConflictChooseBoth<cr>")
-			vim.keymap.set("n", "<Leader>g0", "<cmd>GitConflictChooseNone<cr>")
-		end,
-	})
-
-	--------------------------------------------------
-	-- Others
-	--------------------------------------------------
-
-	use({
+	{
 		"tyru/open-browser.vim",
-		keys = { "<Plug>(openbrowser-smart-search)" },
-		setup = function()
+		-- keys = { "<Plug>(openbrowser-smart-search)" },
+		init = function()
 			vim.keymap.set("n", "gu", "<Plug>(openbrowser-smart-search)")
 			vim.keymap.set("v", "gu", "<Plug>(openbrowser-smart-search)")
 		end,
-	})
-
-	use({
+	},
+	{
 		"iamcco/markdown-preview.nvim",
 		opt = true,
 		ft = "markdown",
@@ -676,132 +511,26 @@ require("packer").startup(function(use)
 		config = function()
 			vim.g.mkdp_auto_close = 0
 		end,
-	})
-
-	use({
+	},
+	{
 		"terrortylor/nvim-comment",
-		keys = {
-			{ "n", "gc" },
-			{ "v", "gc" },
-		},
-		setup = function()
+		-- keys = {
+		-- 	{ "n", "gc" },
+		-- 	{ "v", "gc" },
+		-- },
+		init = function()
 			vim.keymap.set("n", "gc", "<cmd>CommentToggle<cr>")
 			vim.keymap.set("v", "gc", "<cmd>CommentToggle<cr>")
 		end,
 		config = function()
 			require("nvim_comment").setup()
 		end,
-	})
-
-	-- http client (curl wrapper)
-	use({
-		"rest-nvim/rest.nvim",
-		ft = { "http" },
-		wants = { "plenary.nvim" },
-		setup = function()
-			vim.keymap.set("n", "<Leader>q", "<Plug>RestNvim")
-		end,
-		config = function()
-			require("rest-nvim").setup({
-				result_split_in_place = true,
-				skip_ssl_verification = false,
-				encode_url = true,
-				highlight = {
-					enabled = true,
-					timeout = 150,
-				},
-				result = {
-					show_url = true,
-					show_http_info = true,
-					show_headers = true,
-					formatters = {
-						json = "jq",
-						html = function(body)
-							return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
-						end,
-					},
-				},
-				jump_to_request = false,
-				env_file = ".nvim/.env",
-				custom_dynamic_variables = {},
-				yank_dry_run = true,
-			})
-
-			local httpfile = ".nvim/.http"
-			vim.keymap.set("n", "<leader>qq", function()
-				local pickers = require("telescope.pickers")
-				local finders = require("telescope.finders")
-				local conf = require("telescope.config").values
-				local opts = {
-					entry_maker = function(entry)
-						local line, req = "", ""
-						for l, r in string.gmatch(entry, "(%w+):(.+)") do
-							line, req = l, r
-						end
-						return {
-							value = { line, req },
-							display = req,
-							ordinal = req,
-							path = httpfile,
-							lnum = tonumber(line),
-						}
-					end,
-				}
-				pickers
-					.new(opts, {
-						prompt_title = "rest-nvim",
-						finder = finders.new_oneshot_job({
-							"grep",
-							"-n",
-							"-e",
-							"GET",
-							"-e",
-							"POST",
-							"-e",
-							"PUT",
-							"-e",
-							"PATCH",
-							"-e",
-							"DELETE",
-							httpfile,
-						}, opts),
-						sorter = conf.generic_sorter(opts),
-					})
-					:find()
-			end)
-		end,
-	})
-end)
-
--- vim.cmd([[autocmd BufWritePost init.lua source <afile> | PackerCompile]])
-
-vim.opt.encoding = "utf-8"
-vim.opt.relativenumber = true
-vim.opt.hidden = true
-vim.opt.visualbell = true
-vim.opt.showmatch = true
-vim.opt.matchtime = 1
-vim.opt.autoindent = true
-vim.opt.smartindent = true
-vim.opt.wrapscan = true
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-vim.opt.ignorecase = true
-vim.opt.wrap = true
-vim.opt.ambiwidth = single
-vim.opt.updatetime = 1000
-vim.opt.clipboard:append({ "unnamedplus" })
-vim.opt.equalalways = false
-vim.opt.termguicolors = true
-
-vim.o.shell = "zsh"
-
-vim.g.mapleader = " "
-vim.keymap.set("n", "ZZ", "<nop>")
-vim.keymap.set("n", "ZQ", "<nop>")
-vim.keymap.set("n", "j", "gj")
-vim.keymap.set("n", "k", "gk")
-vim.keymap.set("i", "jj", "<Esc>")
-vim.keymap.set("t", "<C-x>", "<C-\\><C-n>")
-vim.keymap.set("t", "<C-w>", "<C-\\><C-n>")
+	},
+	-- 	{
+	-- 		"klen/nvim-config-local",
+	-- 		event = { "BufRead", "BufNewFile" },
+	-- 		config = function()
+	-- 			require("config-local").setup({})
+	-- 		end,
+	-- 	},
+})
