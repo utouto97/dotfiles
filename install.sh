@@ -47,8 +47,5 @@ fi
 ln -s "$DOTPATH/.zshrc" "$HOME/.zshrc"
 ln -s "$DOTPATH/.git-prompt.sh" "$HOME/.git-prompt.sh"
 mkdir -p $HOME/.config/nvim
-ln -s "$DOTPATH/init.lua" "$HOME/.config/nvim/"
-
-# packer.nvim
-git clone --depth 1 https://github.com/wbthomason/packer.nvim\
- ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+ln -s "$DOTPATH/nvim/init.lua" "$HOME/.config/nvim/"
+ln -s "$DOTPATH/nvim/lua" "$HOME/.config/nvim/"
