@@ -1,5 +1,5 @@
 #!/bin/sh
-#
+
 # デフォルトは ~/.dotfiles
 : ${DOTPATH:=~/.dotfiles}
 
@@ -11,7 +11,7 @@ if [ "$(uname)" = "Darwin" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # 必要なものをインストール
-  brew install fd exa bat neovim
+  brew install fd eza bat neovim sheldon
 
 elif [ "$(uname)" = "Linux" ]; then
   if [ "$(uname -r)" = "*microsoft*" ]; then
@@ -26,15 +26,12 @@ elif [ "$(uname)" = "Linux" ]; then
   else
     # Linux
 
-    apt update -y
-
     # 必要なものをインストール
-    apt install -y zsh git exa bat fd-find wget
+    apt update -y
+    apt install -y zsh git exa bat fd-find curl
 
     # install neovim
-    wget https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
-    tar zxf nvim-linux64.tar.gz
-    cp -R nvim-linux64/* /usr/local/
+    curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar zx --strip-components 1 -C ~/.local/
   fi
 fi
 
@@ -44,8 +41,9 @@ if [ "$SHELL" != "zsh" ]; then
 fi
 
 # シンボリックリンク
-ln -s "$DOTPATH/.zshrc" "$HOME/.zshrc"
-ln -s "$DOTPATH/.git-prompt.sh" "$HOME/.git-prompt.sh"
+ln -snf "$DOTPATH/.zshrc" "$HOME/.zshrc"
 mkdir -p $HOME/.config/nvim
-ln -s "$DOTPATH/nvim/init.lua" "$HOME/.config/nvim/"
-ln -s "$DOTPATH/nvim/lua" "$HOME/.config/nvim/"
+ln -snf "$DOTPATH/nvim/init.lua" "$HOME/.config/nvim/"
+ln -snf "$DOTPATH/nvim/lua" "$HOME/.config/nvim/"
+ln -snf "$DOTPATH/sheldon/" "$HOME/.config/sheldon"
+ln -snf "$DOTPATH/starship.toml" "$HOME/.config/"
