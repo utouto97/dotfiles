@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # デフォルトは ~/.dotfiles
-: ${DOTPATH:=~/.dotfiles}
+: "${DOTPATH:=~/.dotfiles}"
 
 # --- 環境ごとのセットアップ
 if [ "$(uname)" = "Darwin" ]; then
@@ -31,7 +31,7 @@ elif [ "$(uname)" = "Linux" ]; then
     apt install -y zsh git exa bat fd-find curl
 
     # install neovim
-    curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar zx --strip-components 1 -C ~/.local/
+    curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar zx --strip-components 1 -C /usr/local/
   fi
 fi
 
@@ -42,8 +42,9 @@ fi
 
 # シンボリックリンク
 ln -snf "$DOTPATH/.zshrc" "$HOME/.zshrc"
-mkdir -p $HOME/.config/nvim
+mkdir -p "$HOME/.config/nvim"
 ln -snf "$DOTPATH/nvim/init.lua" "$HOME/.config/nvim/"
 ln -snf "$DOTPATH/nvim/lua" "$HOME/.config/nvim/"
 ln -snf "$DOTPATH/sheldon/" "$HOME/.config/sheldon"
 ln -snf "$DOTPATH/starship.toml" "$HOME/.config/"
+
