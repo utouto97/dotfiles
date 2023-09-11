@@ -4,6 +4,8 @@ export LANG=ja_JP.UTF-8
 # 計測ツール
 # zmodload zsh/zprof
 
+eval "$(sheldon source)"
+
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
@@ -34,19 +36,7 @@ fi
 # load .zshrc.local
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
-setopt PROMPT_SUBST
-source ~/.git-prompt.sh
-
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-GIT_PS1_SHOWSTASHSTATE=true
-GIT_PS1_SHOWUPSTREAM=auto
-
-export PS1='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f %F{red}($(__git_ps1 "%s" ))%f
-'
-
 # --- Docker Default Platform ---
-
 # export DOCKER_DEFAULT_PLATFORM=linux/amd64
 
 # --- Alias ---
@@ -57,10 +47,10 @@ alias ..='cd ..'
 alias ..2='cd ../..'
 alias ..3='cd ../../..'
 
-# ls (exaに置き換え)
+# ls (ezaに置き換え)
 alias ls='ls -l'
-if type "exa" >/dev/null 2>&1; then
-  alias ls='exa -l'
+if type "eza" >/dev/null 2>&1; then
+  alias ls='eza -l'
 fi
 alias la='ls -la'
 
