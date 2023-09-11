@@ -8,7 +8,7 @@ jobs:
     container: ubuntu:latest
     steps:
       - uses: actions/checkout@v4
-      - name: install
+      - name: install dotfiles
         run: ./install.sh
       - name: check neovim
         run: nvim --version
@@ -25,3 +25,28 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check .
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: install dotfiles
+        run: sudo ./install.sh
+      - name: install time
+        run: sudo apt install -y time
+      - name: install vim-startuptime
+        run: mkdir -p vim-startuptime && curl -L https://github.com/rhysd/vim-startuptime/releases/download/v1.3.1/vim-startuptime_1.3.1_linux_amd64.tar.gz | tar xvzv -C ./vim-startuptime
+      - name: run vim-startuptime
+        run: T=$(./vim-startuptime/vim-startuptime -vimpath nvim | grep 'Total Average:' | awk '{print $3}'); echo "{\"name\":\"vim startup time\",\"unit\":\"msec\",\"value\":$T}" > vim-startuptime.json
+      - name: run zsh-startuptime
+        run: ./bench.sh > zsh-startuptime.json
+      - name: create result.json
+        run: echo "[$(cat vim-startuptime.json), $(cat zsh-startuptime.json)]" > result.json
+      - name: print result
+        run: cat result.json | jq
+      - name: upload benchmark
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: customSmallerIsBetter
+          output-file-path: result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
