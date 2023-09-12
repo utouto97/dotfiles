@@ -4,7 +4,11 @@ export LANG=ja_JP.UTF-8
 # 計測ツール
 # zmodload zsh/zprof
 
+# sheldon
 eval "$(sheldon source)"
+
+# cargo
+source "$HOME/.cargo/env"
 
 # 色を使用出来るようにする
 autoload -Uz colors

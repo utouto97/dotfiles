@@ -1,24 +1,48 @@
-#!/bin/sh
+#!/bin/zsh
 
-os=$(uname -s | tr '[:upper:]' '[:lower:]')
+function zsh-startuptime() {
+  local total_msec=0
+  local msec
+  local i
+  for i in $(seq 1 10); do
+    msec=$((TIMEFMT='%mE'; time zsh -i -c exit) 2>/dev/stdout >/dev/null)
+    msec=$(echo $msec | tr -d "ms")
+    total_msec=$(( $total_msec + $msec ))
+  done
+  local average_msec
+  average_msec=$(( ${total_msec} / 10 ))
+  echo $average_msec
+}
 
-case $os in
-    darwin)
-        TIME_COMMAND=gtime
-    ;;
-    linux)
-        TIME_COMMAND="time"
-    ;;
-esac
+function nvim-startuptime() {
+  local file=$1
+  local total_msec=0
+  local msec
+  local i
+  for i in $(seq 1 10); do
+    msec=$({(TIMEFMT='%mE'; time nvim --headless -c q $file ) 2>&3;} 3>/dev/stdout >/dev/null)
+    msec=$(echo $msec | tr -d "ms")
+    total_msec=$(( $total_msec + $msec ))
+  done
+  local average_msec
+  average_msec=$(( ${total_msec} / 10 ))
+  echo $average_msec
+}
 
-$TIME_COMMAND --format="%e" zsh -i -c exit > /dev/null 2>&1
-
-ZSH_STARTUPTIME=$({ for _ in $(seq 1 10); do $TIME_COMMAND --format="%e" zsh -i -c exit; done } 2>&1 | awk '{ total += $1 } END { print total/NR*1000 }')
+zsh -i -c exit
+nvim --headless "+Lazy! update" +qa
 
 cat<<EOJ
-{
-    "name": "zsh startup time",
-    "unit": "msec",
-    "value": ${ZSH_STARTUPTIME}
-}
+[
+  {
+      "name": "zsh startup time",
+      "unit": "msec",
+      "value": $(zsh-startuptime)
+  },
+  {
+      "name": "zsh startup time",
+      "unit": "msec",
+      "value": $(nvim-startuptime README.md)
+  }
+]
 EOJ
