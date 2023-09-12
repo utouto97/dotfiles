@@ -4,16 +4,16 @@ export LANG=ja_JP.UTF-8
 # 計測ツール
 # zmodload zsh/zprof
 
+# sheldon
 eval "$(sheldon source)"
+
+# cargo
+source "$HOME/.cargo/env"
 
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
 export TERM=xterm-256color
-
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
 
 # --- Settings for each OS ---
 if [ "$(uname)" = "Darwin" ]; then

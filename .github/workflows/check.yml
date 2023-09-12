@@ -2,16 +2,21 @@ name: check
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
     container: ubuntu:latest
     steps:
       - uses: actions/checkout@v4
-      - name: install
+      - name: install dotfiles
         run: ./install.sh
       - name: check neovim
-        run: nvim --version
+        run: nvim --headless "+Lazy! update" +qa
+      - name: check zsh
+        run: zsh -i -c exit
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -19,9 +24,30 @@ jobs:
       - name: run shellcheck
         uses: ludeeus/action-shellcheck@master
         env:
-          SHELLCHECK_OPTS: -e SC1090 -e 2148
+          SHELLCHECK_OPTS: -e SC1090 -e SC2148 -e SC1071 -e SC1091
       - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --check .
+  bench:
+    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    steps:
+      - run: apt-get update -y && apt-get install git -y
+      - uses: actions/checkout@v4
+      - run: git config --global --add safe.directory $PWD
+      - name: install dotfiles
+        run: ./install.sh
+      - name: run bench
+        run: ./bench.sh > result.json
+        shell: zsh {0}
+      - name: print result
+        run: cat result.json
+      - name: upload benchmark
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: customSmallerIsBetter
+          output-file-path: result.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true

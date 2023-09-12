@@ -28,17 +28,26 @@ elif [ "$(uname)" = "Linux" ]; then
 
     # 必要なものをインストール
     apt update -y
-    apt install -y zsh git exa bat fd-find curl
+    apt install -y zsh git curl
+
+    # install cargo
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    . "$HOME/.cargo/env"
+    # install cargo-binstall
+    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+    # install tools
+    cargo binstall --no-confirm eza bat fd-find sheldon starship
 
     # install neovim
     curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar zx --strip-components 1 -C /usr/local/
   fi
+
+  # --- zshに切り替え
+  if [ "$SHELL" != "zsh" ]; then
+    chsh -s /usr/bin/zsh
+  fi
 fi
 
-# --- zshに切り替え
-if [ "$SHELL" != "zsh" ]; then
-  chsh -s /usr/bin/zsh
-fi
 
 # シンボリックリンク
 ln -snf "$DOTPATH/.zshrc" "$HOME/.zshrc"
