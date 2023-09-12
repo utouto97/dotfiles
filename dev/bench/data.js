@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1694510949884,
+  "lastUpdate": 1694511912147,
   "repoUrl": "https://github.com/utouto97/dotfiles",
   "entries": {
     "Benchmark": [
@@ -135,6 +135,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "zsh startup time",
             "value": 24,
+            "unit": "msec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "39439017+utouto97@users.noreply.github.com",
+            "name": "Yuto",
+            "username": "utouto97"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "51dda1698404f9f00306be65883426a75f18b6b6",
+          "message": "Merge pull request #5 from utouto97/feature/bench\n\nFeature/bench",
+          "timestamp": "2023-09-12T18:44:19+09:00",
+          "tree_id": "45ba5772f03507b6334a5289c9b8e7d7e9ac9f6f",
+          "url": "https://github.com/utouto97/dotfiles/commit/51dda1698404f9f00306be65883426a75f18b6b6"
+        },
+        "date": 1694511911772,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup time",
+            "value": 27,
+            "unit": "msec"
+          },
+          {
+            "name": "zsh startup time",
+            "value": 26,
             "unit": "msec"
           }
         ]
