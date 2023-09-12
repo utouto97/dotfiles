@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1694425385936,
+  "lastUpdate": 1694510791890,
   "repoUrl": "https://github.com/utouto97/dotfiles",
   "entries": {
     "Benchmark": [
@@ -67,6 +67,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "zsh startup time",
             "value": 2.5,
+            "unit": "msec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "utouto97@gmail.com",
+            "name": "utouto97",
+            "username": "utouto97"
+          },
+          "committer": {
+            "email": "utouto97@gmail.com",
+            "name": "utouto97",
+            "username": "utouto97"
+          },
+          "distinct": true,
+          "id": "61c56c5675fb39257a43c773559d73000cd3284d",
+          "message": "update",
+          "timestamp": "2023-09-12T18:25:29+09:00",
+          "tree_id": "bdb7c9f5234aced84435f5a03270c327a7c42978",
+          "url": "https://github.com/utouto97/dotfiles/commit/61c56c5675fb39257a43c773559d73000cd3284d"
+        },
+        "date": 1694510791229,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup time",
+            "value": 27,
+            "unit": "msec"
+          },
+          {
+            "name": "zsh startup time",
+            "value": 25,
             "unit": "msec"
           }
         ]
