@@ -40,7 +40,7 @@ cat<<EOJ
       "value": $(zsh-startuptime)
   },
   {
-      "name": "zsh startup time",
+      "name": "vim startup time",
       "unit": "msec",
       "value": $(nvim-startuptime README.md)
   }
