@@ -15,10 +15,6 @@ autoload -Uz colors
 colors
 export TERM=xterm-256color
 
-# 補完機能を有効にする
-autoload -Uz compinit
-compinit
-
 # --- Settings for each OS ---
 if [ "$(uname)" = "Darwin" ]; then
   # MacOS

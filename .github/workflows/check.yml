@@ -2,6 +2,9 @@ name: check
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
@@ -11,7 +14,9 @@ jobs:
       - name: install dotfiles
         run: ./install.sh
       - name: check neovim
-        run: nvim --version
+        run: nvim --headless "+Lazy! update" +qa
+      - name: check zsh
+        run: zsh -i -c exit
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -27,14 +32,16 @@ jobs:
           args: --check .
   bench:
     runs-on: ubuntu-latest
+    container: ubuntu:latest
     steps:
+      - run: apt-get update -y && apt-get install git -y
       - uses: actions/checkout@v4
+      - run: git config --global --add safe.directory $PWD
       - name: install dotfiles
-        run: sudo ./install.sh
-      # - name: install time
-      #   run: sudo apt install -y time
+        run: ./install.sh
       - name: run bench
         run: ./bench.sh > result.json
+        shell: zsh {0}
       - name: print result
         run: cat result.json
       - name: upload benchmark
