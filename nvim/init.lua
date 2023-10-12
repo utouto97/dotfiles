@@ -17,6 +17,7 @@ vim.opt.updatetime = 1000
 vim.opt.clipboard:append({ "unnamedplus" })
 vim.opt.equalalways = false
 vim.opt.termguicolors = true
+vim.opt.swapfile = false
 
 vim.o.shell = "zsh"
 
