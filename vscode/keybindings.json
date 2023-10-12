@@ -1,0 +1,58 @@
+// Place your key bindings in this file to override the defaults
+[
+    /* ターミナル */
+    {
+        "key": "ctrl+f",
+        "command": "-workbench.action.terminal.focusFind",
+        "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "ctrl+t",
+        "command": "workbench.action.terminal.toggleTerminal",
+    },
+    {
+        "key": "ctrl+shift+n",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus",
+    },
+    {
+        "key": "ctrl+shift+p",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus",
+    },
+    {
+        "key": "ctrl+shift+m",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalFocus",
+    },
+
+    /* ctrl+c でquickOpenを閉じる */
+    {
+        "key": "ctrl+c",
+        "command": "workbench.action.closeQuickOpen",
+        "when": "inQuickOpen"
+    },
+
+    /* quickOpen はvimの <leader>e で開くのでデフォ削除 */
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+
+    /* git graph のキーバインド設定 */
+    {
+        "key": "q",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "activeWebviewPanelId == 'git-graph'",
+    },
+
+    /* 以下、自動追加されたもの */
+    {
+        "key": "ctrl+t",
+        "command": "-workbench.action.showAllSymbols"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "-workbench.action.quickOpen"
+    },
+]

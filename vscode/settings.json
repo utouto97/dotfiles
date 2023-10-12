@@ -1,0 +1,78 @@
+{
+    "editor": {
+        "fontSize": 15,
+        "fontFamily": "Cica, monospace",
+        "fontWeight": 800,
+        "lineHeight": 1.03,
+        "wordWrap": "on",
+        "renderLineHighlight": "all",
+        "insertSpace": true,
+        "tabSize": 2,
+        "autoIndent": "full",
+        "renderWhitespace": "boundary",
+        "renderControlCharacters": true,
+        "cursorBlinking": "smooth",
+        "autoClosingBrackets": "beforeWhitespace",
+        "autoClosingQuotes": "beforeWhitespace",
+        "minimap": {
+            "enabled": false,
+        },
+        "acceptSuggestionOnCommitCharacter": false,
+    },
+    "workbench": {
+        "colorTheme": "One Dark Pro Darker",
+        "editor": {
+            "showTabs": true,
+            "revealIfOpen": true,
+        },
+        "iconTheme": "vscode-icons",
+    },
+    "files": {
+        "autoGuessEncoding": true,
+        "autoSave": "off",
+        "eol": "auto",
+    },
+    "terminal": {
+        "integrated": {
+            "fontSize": 15,
+            "fontFamily": "Cica, monospace",
+            "fontWeight": 800,
+            "lineHeight": 1.03,
+        },
+    },
+    "vim": {
+        "leader": "<space>",
+        "easymotion": true,
+        "surround": true,
+        "normalModeKeyBindingsNonRecursive": [
+            { "before": ["<leader>", "e"], "commands": ["workbench.action.quickOpen"] },
+            { "before": ["<leader>", "g"], "commands": ["git-graph.view"] },
+            { "before": ["K"], "commands": ["editor.action.showHover"] },
+            { "before": ["g", "d"], "commands": ["editor.action.revealDefinition"] },
+            { "before": ["g", "r"], "commands": ["editor.action.goToReferences"] },
+            { "before": ["g", "e"], "commands": ["editor.action.marker.nextInFiles"] },
+            { "before": ["g", "i"], "commands": ["editor.action.goToImplementation"] },
+        ],
+        "insertModeKeyBindingsNonRecursive": [
+            { "before": ["j", "j"], "after": ["<esc>"]}
+        ],
+        "autoindent": true,
+        "useSystemClipboard": true,
+        "hlsearch": true,
+        "visualstar": true,
+        "useCtrlKeys": true,
+        "statusBarColorControl": false,
+        "highlightedyank": {
+            "enable": true,
+            "color": "rgba(255, 255, 255, 0.3)",
+            "duration": 120,
+        },
+        "debug.silent": true,
+    },
+    "vsnotes.defaultNotePath": ".vsnotes",
+    "terminal.integrated.fontSize": 15,
+    "markdown-pdf.headerTemplate": "",
+    "markdown-pdf.displayHeaderFooter": false,
+    "markdown-pdf.includeDefaultStyles": false,
+    "vim.searchHighlightTextColor": "rgba(0, 200, 200, 0.8)",
+}
