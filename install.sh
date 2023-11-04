@@ -31,7 +31,7 @@ elif [ "$(uname)" = "Linux" ]; then
 
     # 必要なものをインストール
     $SUDO apt update -y
-    $SUDO apt install -y zsh git curl
+    $SUDO apt install -y zsh git curl nodejs
 
     # install cargo
     curl https://sh.rustup.rs -sSf | sh -s -- -y
