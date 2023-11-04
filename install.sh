@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# デフォルトは ~/.dotfiles
-: "${DOTPATH:=~/.dotfiles}"
-
 # --- 環境ごとのセットアップ
 if [ "$(uname)" = "Darwin" ]; then
   # MacOS
@@ -26,9 +23,15 @@ elif [ "$(uname)" = "Linux" ]; then
   else
     # Linux
 
+    # sudo があれば sudo で実行
+    SUDO=
+    if [ -x "$(command -v sudo)" ]; then
+      SUDO=sudo
+    fi
+
     # 必要なものをインストール
-    apt update -y
-    apt install -y zsh git curl
+    $SUDO apt update -y
+    $SUDO apt install -y zsh git curl
 
     # install cargo
     curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -39,21 +42,21 @@ elif [ "$(uname)" = "Linux" ]; then
     cargo binstall --no-confirm eza bat fd-find sheldon starship
 
     # install neovim
-    curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | tar zx --strip-components 1 -C /usr/local/
+    curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz | $SUDO tar zx --strip-components 1 -C /usr/local/
   fi
 
   # --- zshに切り替え
   if [ "$SHELL" != "zsh" ]; then
-    chsh -s /usr/bin/zsh
+    $SUDO chsh -s /usr/bin/zsh
   fi
 fi
 
 
 # シンボリックリンク
-ln -snf "$DOTPATH/.zshrc" "$HOME/.zshrc"
+ln -snf "$HOME/dotfiles/.zshrc" "$HOME/.zshrc"
 mkdir -p "$HOME/.config/nvim"
-ln -snf "$DOTPATH/nvim/init.lua" "$HOME/.config/nvim/"
-ln -snf "$DOTPATH/nvim/lua" "$HOME/.config/nvim/"
-ln -snf "$DOTPATH/sheldon/" "$HOME/.config/sheldon"
-ln -snf "$DOTPATH/starship.toml" "$HOME/.config/"
+ln -snf "$HOME/dotfiles/nvim/init.lua" "$HOME/.config/nvim/"
+ln -snf "$HOME/dotfiles/nvim/lua/" "$HOME/.config/nvim/"
+ln -snf "$HOME/dotfiles/sheldon/" "$HOME/.config/sheldon"
+ln -snf "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml"
 
