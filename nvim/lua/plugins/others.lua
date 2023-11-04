@@ -29,7 +29,7 @@ local M = {
 
 	{
 		"nvim-telescope/telescope.nvim",
-		version = "0.1.0",
+		tag = "0.1.4",
 		dependencies = {
 			"utouto97/memo.nvim",
 		},
