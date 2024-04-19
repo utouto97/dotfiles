@@ -1,0 +1,12 @@
+[user]
+  name = utouto97
+  email = utouto97@gmail.com
+
+[core]
+	editor = nvim
+
+[ghq]
+  root = ~/work
+
+[push]
+  default = current
