@@ -63,6 +63,7 @@ alias gd='git diff'
 alias gdc='git diff --cached'
 alias gb='git branch'
 alias gsw='git switch'
+alias gsw2="git branch --list | cut -c 3- | fzf --preview \"git log --pretty=format:'%h %cd %s' --date=format:'%Y-%m-%d %H:%M' {}\" | xargs git switch"
 alias gco='git restore'
 # alias grs="git restore"
 # alias gco='git checkout'
@@ -73,6 +74,7 @@ alias gr='git rebase'
 alias gm='git merge'
 alias gg='git grep'
 alias gpush='git push -u'
+alias gpushf='git push -u --force-with-lease'
 alias gpull='git pull'
 alias gcp='git cherry-pick'
 
@@ -88,6 +90,18 @@ alias dcl="docker compose logs"
 alias dcr="docker compose run --rm"
 alias dcd="docker compose down"
 alias dcrestart="docker compose restart"
+alias lzd="lazydocker"
+
+function ghq-fzf() {
+  local src=$(ghq list | fzf --preview "ls -laTp $(ghq root)/{} | tail -n+4 | awk '{print \$9\"/\"\$6\"/\"\$7 \" \" \$10}'")
+  if [ -n "$src" ]; then
+    BUFFER="cd $(ghq root)/$src"
+    zle accept-line
+  fi
+  zle -R -c
+}
+zle -N ghq-fzf
+bindkey '^]' ghq-fzf
 
 # 計測ツール
 # zprof

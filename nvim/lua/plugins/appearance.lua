@@ -2,13 +2,35 @@ local M = {
 	-- 	--------------------------------------------------
 	-- 	-- Appearance
 	-- 	--------------------------------------------------
-	{
-		"tanvirtin/monokai.nvim",
-		lazy = false,
-		config = function()
-			require("monokai").setup({})
-		end,
-	},
+	-- {
+	-- 	"tanvirtin/monokai.nvim",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		require("monokai").setup({})
+	-- 	end,
+	-- },
+  -- {
+  --   'navarasu/onedark.nvim',
+  --   lazy = false,
+  -- 		config = function()
+  --     require('onedark').setup {
+  --         style = 'darker'
+  --     }
+  --     -- require('onedark').load()
+  -- 		end,
+  -- },
+  {
+    'projekt0n/github-nvim-theme',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      require('github-theme').setup({
+        -- ...
+      })
+  
+      vim.cmd('colorscheme github_dark')
+    end,
+  },
 	{
 		"mvllow/modes.nvim",
 		version = "v0.2.0",
@@ -79,26 +101,6 @@ local M = {
 		"lukas-reineke/indent-blankline.nvim",
 		main = "ibl",
 		opts = {},
-	},
-	{
-		"gen740/SmoothCursor.nvim",
-		config = function()
-			require("smoothcursor").setup({
-				type = "exp",
-				fancy = {
-					enable = true,
-					body = {
-						{ cursor = "●", texthl = "SmoothCursorRed" },
-						{ cursor = "●", texthl = "SmoothCursorOrange" },
-						{ cursor = "●", texthl = "SmoothCursorYellow" },
-						{ cursor = "●", texthl = "SmoothCursorGreen" },
-						{ cursor = "•", texthl = "SmoothCursorAqua" },
-						{ cursor = ".", texthl = "SmoothCursorBlue" },
-						{ cursor = ".", texthl = "SmoothCursorPurple" },
-					},
-				},
-			})
-		end,
 	},
 	{
 		"echasnovski/mini.indentscope",

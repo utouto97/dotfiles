@@ -1,5 +1,7 @@
 #!/bin/sh
 
+## 初回セットアップ
+
 # --- 環境ごとのセットアップ
 if [ "$(uname)" = "Darwin" ]; then
   # MacOS
@@ -8,7 +10,7 @@ if [ "$(uname)" = "Darwin" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
   # 必要なものをインストール
-  brew install fd eza bat neovim sheldon
+  brew install fd eza bat neovim sheldon rg
 
 elif [ "$(uname)" = "Linux" ]; then
   if [ "$(uname -r)" = "*microsoft*" ]; then
@@ -51,12 +53,4 @@ elif [ "$(uname)" = "Linux" ]; then
   fi
 fi
 
-
-# シンボリックリンク
-ln -snf "$HOME/dotfiles/.zshrc" "$HOME/.zshrc"
-mkdir -p "$HOME/.config/nvim"
-ln -snf "$HOME/dotfiles/nvim/init.lua" "$HOME/.config/nvim/"
-ln -snf "$HOME/dotfiles/nvim/lua/" "$HOME/.config/nvim/"
-ln -snf "$HOME/dotfiles/sheldon/" "$HOME/.config/sheldon"
-ln -snf "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml"
-
+./deploy.sh
