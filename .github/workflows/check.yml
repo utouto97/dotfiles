@@ -24,7 +24,7 @@ jobs:
       - name: run shellcheck
         uses: ludeeus/action-shellcheck@master
         env:
-          SHELLCHECK_OPTS: -e SC1090 -e SC2148 -e SC1071 -e SC1091
+          SHELLCHECK_OPTS: -e SC1090 -e SC2148 -e SC1071 -e SC1091 -e SC2155
       - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

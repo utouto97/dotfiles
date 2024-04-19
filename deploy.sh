@@ -10,5 +10,5 @@ ln -snf "$HOME/dotfiles/sheldon/" "$HOME/.config/sheldon"
 ln -snf "$HOME/dotfiles/starship.toml" "$HOME/.config/starship.toml"
 ln -snf "$HOME/dotfiles/.tmux.conf" "$HOME/.tmux.conf"
 ln -snf "$HOME/dotfiles/.wezterm.lua" "$HOME/.wezterm.lua"
-ln -snf "$HOME/dotfiles/.gitconfig" "$HOME/.gitconfig"
+# ln -snf "$HOME/dotfiles/.gitconfig" "$HOME/.gitconfig"
 
