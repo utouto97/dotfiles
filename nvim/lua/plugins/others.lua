@@ -64,7 +64,7 @@ local M = {
 		config = function()
 			require("telescope").setup({
 				defaults = {
-          wrap_results = true,
+					wrap_results = true,
 					file_ignore_patterns = {
 						"node_modules",
 						".git",
@@ -185,40 +185,40 @@ local M = {
 			require("octo").setup()
 		end,
 	},
-  {
-    'phaazon/hop.nvim',
-    keys = {
-        { "//", "<cmd>HopChar2<cr>", mode = "n", desc = "easy-motion" },
-    },
-    branch = 'v2',
-    config = function()
-      require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-    end,
-  },
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    lazy = false,
-    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").load_extension "file_browser"
-      vim.api.nvim_set_keymap(
-        "n",
-        "<leader>ek",
-        ":Telescope file_browser path=%:p:h select_buffer=true<CR>",
-        { noremap = true }
-      )
-    end,
-  },
-  {
-      "kylechui/nvim-surround",
-      version = "*", -- Use for stability; omit to use `main` branch for the latest features
-      event = "VeryLazy",
-      config = function()
-          require("nvim-surround").setup({
-              -- Configuration here, or leave empty to use defaults
-          })
-      end
-  }
+	{
+		"phaazon/hop.nvim",
+		keys = {
+			{ "//", "<cmd>HopChar2<cr>", mode = "n", desc = "easy-motion" },
+		},
+		branch = "v2",
+		config = function()
+			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+		end,
+	},
+	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		lazy = false,
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").load_extension("file_browser")
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>ek",
+				":Telescope file_browser path=%:p:h select_buffer=true<CR>",
+				{ noremap = true }
+			)
+		end,
+	},
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
 }
 
 return M
