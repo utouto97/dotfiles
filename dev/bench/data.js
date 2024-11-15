@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1713531307430,
+  "lastUpdate": 1731715015545,
   "repoUrl": "https://github.com/utouto97/dotfiles",
   "entries": {
     "Benchmark": [
@@ -509,6 +509,40 @@ window.BENCHMARK_DATA = {
           {
             "name": "vim startup time",
             "value": 22,
+            "unit": "msec"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "utouto97@gmail.com",
+            "name": "utouto97",
+            "username": "utouto97"
+          },
+          "committer": {
+            "email": "utouto97@gmail.com",
+            "name": "utouto97",
+            "username": "utouto97"
+          },
+          "distinct": true,
+          "id": "de044120d8a7229a79b22da69cf82816ab6fad83",
+          "message": "update",
+          "timestamp": "2024-11-16T08:55:03+09:00",
+          "tree_id": "cabb1e04fbf149e6ce204282fbe64917e501c1fb",
+          "url": "https://github.com/utouto97/dotfiles/commit/de044120d8a7229a79b22da69cf82816ab6fad83"
+        },
+        "date": 1731715015283,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "zsh startup time",
+            "value": 26,
+            "unit": "msec"
+          },
+          {
+            "name": "vim startup time",
+            "value": 143,
             "unit": "msec"
           }
         ]
