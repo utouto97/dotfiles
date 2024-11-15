@@ -20,12 +20,8 @@ local M = {
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
-			local on_attach = function(_, _)
+			local on_attach = function(client, bufnr)
 				local set = vim.keymap.set
-				--        set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
-				--        set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
-				--        set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
-				--        set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
 				-- set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
 				set("n", "<Leader>n", "<cmd>lua vim.lsp.buf.rename()<CR>")
 				-- set("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<cr>")
@@ -34,6 +30,17 @@ local M = {
 						vim.diagnostic.open_float(nil, { focusable = false })
 					end,
 				})
+
+				if client.supports_method("textDocument/formatting") then
+					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = augroup,
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({ bufnr = bufnr })
+						end,
+					})
+				end
 			end
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local opts = { capabilities = capabilities, on_attach = on_attach }
@@ -73,27 +80,8 @@ local M = {
 				end
 			end
 
-			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 			null_ls.setup({
 				sources = null_sources,
-				-- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
-				on_attach = function(client, bufnr)
-					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = augroup,
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.format({
-									filter = function(c)
-										return c.name == "null-ls"
-									end,
-									bufnr = bufnr,
-								})
-							end,
-						})
-					end
-				end,
 			})
 		end,
 	},

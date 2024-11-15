@@ -57,4 +57,8 @@ local opts = {
 	},
 }
 
+if vim.g.neovide then
+	vim.o.guifont = "HackGen Console NF:h11"
+end
+
 require("lazy").setup("plugins", opts)

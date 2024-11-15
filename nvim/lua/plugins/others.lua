@@ -49,6 +49,7 @@ local M = {
 			end
 
 			vim.keymap.set("n", "<Leader>ej", builtin("find_files"))
+			vim.keymap.set("n", "<Leader>el", builtin("live_grep"))
 			vim.keymap.set("n", "<Leader>r", builtin("oldfiles"))
 			vim.keymap.set("n", "<Leader>l", builtin("buffers"))
 			vim.keymap.set("n", "<Leader>d", builtin("diagnostics"))
